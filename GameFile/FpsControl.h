@@ -1,7 +1,7 @@
 #pragma once
 
 /// <summary>
-/// シングルトンパターンのFPS制御クラス
+/// FPS制御クラス
 /// </summary>
 class FpsControl
 {
@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// インスタンス取得
 	/// </summary>
-	/// <returns>クラス変数</returns>
+	/// <returns>クラスのインスタンス</returns>
 	static FpsControl* GetInstance() { return fpsControl; }
 
 	/// <summary>
@@ -48,7 +48,7 @@ public:
 	void Control();
 
 private:
-	static FpsControl* fpsControl;	//クラス変数
+	static FpsControl* fpsControl;	//クラスのインスタンス
 	int startTime;					//測定開始時刻
 	int count;						//カウンタ
 	float nowFps;					//現在のFps

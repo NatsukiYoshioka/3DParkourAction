@@ -19,13 +19,28 @@
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{6583ebb4-2432-477b-bed3-129212190627}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\FpsControl">
+      <UniqueIdentifier>{611fce95-8633-4c96-b869-b01a2f915785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject">
+      <UniqueIdentifier>{6396928c-b54a-41f7-99b7-0ac52dd06ab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject\GameObjectManager">
+      <UniqueIdentifier>{05ab89be-9e68-476d-ab04-e52e624deef1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="FpsControl.cpp">
-      <Filter>ソース ファイル\System</Filter>
+      <Filter>ソース ファイル\System\FpsControl</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>ソース ファイル\Game\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectManager.cpp">
+      <Filter>ソース ファイル\Game\GameObject\GameObjectManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -33,7 +48,16 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="FpsControl.h">
-      <Filter>ソース ファイル\System</Filter>
+      <Filter>ソース ファイル\System\FpsControl</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObejctTag.h">
+      <Filter>ソース ファイル\Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>ソース ファイル\Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectManager.h">
+      <Filter>ソース ファイル\Game\GameObject\GameObjectManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
