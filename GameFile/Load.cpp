@@ -94,27 +94,27 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 			else if (this->isHeader)
 			{
 				//ヘッダー情報の格納
-				if (i == 0)header.push_back(commaBuf);
+				if (i == initializeNum)header.push_back(commaBuf);
 				//インデックス情報の格納
-				if (i != 0 && j == 0)index.push_back(string());
+				if (i != initializeNum && j == initializeNum)index.push_back(string());
 				//要素の格納
-				if (i != 0)cell.at(i - 1).push_back(commaBuf);
+				if (i != initializeNum)cell.at(i - 1).push_back(commaBuf);
 			}
 			else if (this->isIndex)
 			{
 				//ヘッダー情報の格納
-				if (i == 0 && j != 0)header.push_back(string());
+				if (i == initializeNum && j != initializeNum)header.push_back(string());
 				//インデックス情報の格納
-				if (j == 0)index.push_back(commaBuf);
+				if (j == initializeNum)index.push_back(commaBuf);
 				//要素の格納
-				if (j != 0)cell.at(i - 1).push_back(commaBuf);
+				if (j != initializeNum)cell.at(i - 1).push_back(commaBuf);
 			}
 			else
 			{
 				//ヘッダー情報の格納
-				if (i == 0)header.push_back(string());
+				if (i == initializeNum)header.push_back(string());
 				//インデックス情報の格納
-				if (j == 0)index.push_back(string());
+				if (j == initializeNum)index.push_back(string());
 				//要素の格納
 				cell.at(i).push_back(commaBuf);
 			}
@@ -125,24 +125,50 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 //データのロード
 void Load::LoadData()
 {
-	for (int i = 0; i < index.size(); i++)
+	for (int i = initializeNum; i < index.size(); i++)
 	{
-		for (int j=0; header.size(); j++)
+		for (int j = initializeNum; header.size(); j++)
 		{
 			//プレイヤーモデルのロード
-			if (header.at(j) == "PLAYER" && cell.at(i).at(j) != "")
+			if (header.at(j) == playerHeader)
 			{
 				playerModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
 			}
 			//フィールドモデルのロード
-			if (header.at(j) == "FIELD" && cell.at(i).at(j) != "")
+			if (header.at(j) == fieldHeader)
 			{
 				fieldModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
 			//障害物モデルのロード
-			if (header.at(j) == "OBSTACLE" && cell.at(i).at(j) != "")
+			if (header.at(j) == obstacleHeader)
 			{
 				obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+			}
+			//フィールドの座標取得
+			if (header.at(j) == fieldPosXHeader)
+			{
+				fieldPosX.push_back(stof(cell.at(i).at(j)));
+			}
+			if (header.at(j) == fieldPosYHeader)
+			{
+				fieldPosY.push_back(stof(cell.at(i).at(j)));
+			}
+			if (header.at(j) == fieldPosZHeader)
+			{
+				fieldPosZ.push_back(stof(cell.at(i).at(j)));
+			}
+			//障害物の座標取得
+			if (header.at(j) == obstaclePosXHeader)
+			{
+				obstaclePosX.push_back(stof(cell.at(i).at(j)));
+			}
+			if (header.at(j) == obstaclePosYHeader)
+			{
+				obstaclePosY.push_back(stof(cell.at(i).at(j)));
+			}
+			if (header.at(j) == obstaclePosZHeader)
+			{
+				obstaclePosZ.push_back(stof(cell.at(i).at(j)));
 			}
 		}
 	}

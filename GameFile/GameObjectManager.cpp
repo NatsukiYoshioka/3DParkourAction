@@ -3,6 +3,7 @@
 #include"Load.h"
 #include"GameObject.h"
 #include"Player.h"
+#include"common.h"
 #include "GameObjectManager.h"
 using namespace std;
 
@@ -12,12 +13,7 @@ const string GameObjectManager::dataFilePath = "data/pathfile/data.csv";
 //データのロードとオブジェクトの生成
 GameObjectManager::GameObjectManager()
 {
-	Load::CreateInstance();
-	load = Load::GetInstance();
-	load->ReadFile(dataFilePath, true, true);
-
-	objectInstance.push_back(new Player(load->GetPlayerModelHandle()));
-
+	
 }
 
 //データの解放
@@ -42,6 +38,16 @@ void GameObjectManager::DestroyInstance()
 	{
 		delete(gameObjectManager);
 	}
+}
+
+//データのロードとインスタンスの追加
+void GameObjectManager::AddObject()
+{
+	Load::CreateInstance();
+	load = Load::GetInstance();
+	load->ReadFile(dataFilePath, true, true);
+
+	objectInstance.push_back(new Player(load->GetPlayerModelHandle()));
 }
 
 //オブジェクト全体の更新

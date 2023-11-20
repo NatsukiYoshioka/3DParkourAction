@@ -1,4 +1,6 @@
 #pragma once
+#include<string>
+#include<vector>
 
 using namespace std;
 
@@ -12,7 +14,7 @@ class GameObjectManager
 {
 private:
 	/// <summary>
-	/// データのロードとオブジェクトの生成
+	/// コンストラクタ
 	/// </summary>
 	GameObjectManager();
 
@@ -21,15 +23,6 @@ private:
 	/// </summary>
 	~GameObjectManager();
 	
-	/// <summary>
-	/// オブジェクト全体の更新
-	/// </summary>
-	void Update();
-
-	/// <summary>
-	/// オブジェクト全体の描画
-	/// </summary>
-	void Draw();
 public:
 	/// <summary>
 	/// インスタンスが一度も生成されていなかったらインスタンスを生成する
@@ -45,7 +38,22 @@ public:
 	/// インスタンスの取得
 	/// </summary>
 	/// <returns>クラスのインスタンス</returns>
-	static GameObjectManager* GetInstance() { gameObjectManager; }
+	static GameObjectManager* GetInstance() { return gameObjectManager; }
+
+	/// <summary>
+	/// オブジェクトの追加
+	/// </summary>
+	void AddObject();
+
+	/// <summary>
+	/// オブジェクト全体の更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	/// オブジェクト全体の描画
+	/// </summary>
+	void Draw();
 
 private:
 	static GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラスのインスタンス

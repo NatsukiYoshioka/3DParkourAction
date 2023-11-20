@@ -1,4 +1,6 @@
 #pragma once
+#include<string>
+#include<vector>
 
 using namespace std;
 
@@ -67,7 +69,7 @@ public:
 	vector<int> GetObstacleModelHandle() { return obstacleModelHandle; }
 
 private:
-	static Load* load;					//ロードクラスのインスタンス
+	static Load* load;				//ロードクラスのインスタンス
 
 	string filePath;					//ゲームに必要なデータのパスが入ったファイルのパス
 	bool isHeader;						//ヘッダーがあるかどうか
@@ -76,10 +78,26 @@ private:
 
 	vector<string> header;				//ヘッダー名保管
 	vector<string> index;				//インデックス名保管
-	vector<vector<string>> cell;		//要素保管
+	vector<vector<string>> cell;				//要素保管
 
 	int playerModelHandle;				//プレイヤーのモデルハンドル
 	vector<int> fieldModelHandle;		//フィールドのモデルハンドル
+	vector<float> fieldPosX;			//フィールドモデルの各座標
+	vector<float> fieldPosY;
+	vector<float> fieldPosZ;
 	vector<int> obstacleModelHandle;	//障害物のモデルハンドル
+	vector<float> obstaclePosX;			//障害物の各座標
+	vector<float> obstaclePosY;
+	vector<float> obstaclePosZ;
+
+	static constexpr const char* playerHeader = "PLAYER";
+	static constexpr const char* fieldHeader = "FIELD";
+	static constexpr const char* fieldPosXHeader = "FieldPosX";
+	static constexpr const char* fieldPosYHeader = "FieldPosY";
+	static constexpr const char* fieldPosZHeader = "FieldPosZ";
+	static constexpr const char* obstacleHeader = "OBSTACLE";
+	static constexpr const char* obstaclePosXHeader = "ObstaclePosX";
+	static constexpr const char* obstaclePosYHeader = "ObstaclePosY";
+	static constexpr const char* obstaclePosZHeader = "ObstaclePosZ";
 };
 

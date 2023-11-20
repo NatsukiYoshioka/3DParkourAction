@@ -57,6 +57,9 @@
     <ClCompile Include="Load.cpp">
       <Filter>ソース ファイル\System\Load</Filter>
     </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>ソース ファイル\Game\Field</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Load.h">
       <Filter>ソース ファイル\System\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>ソース ファイル\Game\Field</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

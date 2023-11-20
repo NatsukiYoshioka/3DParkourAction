@@ -1,4 +1,6 @@
 #include"FpsControl.h"
+#include"Load.h"
+#include"GameObjectManager.h"
 #include"common.h"
 #include"DxLib.h"
 
