@@ -4,7 +4,7 @@ class GameObject;
 class Player :public GameObject
 {
 public:
-	Player();
+	Player(int modelHandle);
 	~Player();
 
 	void Update();

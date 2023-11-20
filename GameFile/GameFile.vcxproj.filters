@@ -34,6 +34,9 @@
     <Filter Include="ソース ファイル\System\Load">
       <UniqueIdentifier>{fad84212-2518-4315-ae4d-c9a9237d920c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Field">
+      <UniqueIdentifier>{ffb59747-d2c7-4de0-8385-258cabd3ecf0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

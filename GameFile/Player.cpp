@@ -1,9 +1,9 @@
 #include"GameObject.h"
 #include "Player.h"
 
-Player::Player()
+Player::Player(int modelHandle)
 {
-
+	this->modelHandle = modelHandle;
 }
 
 Player::~Player()

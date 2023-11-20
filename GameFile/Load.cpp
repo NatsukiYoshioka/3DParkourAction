@@ -2,16 +2,63 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include"DxLib.h"
 #include"common.h"
 #include "Load.h"
 
+Load* Load::load = nullptr;
+
+//コンストラクタ
 Load::Load():
 	isHeader(false),
-	isIndex(false)
+	isIndex(false),
+	playerModelHandle(-1)
 {
 
 }
 
+//データの解放
+Load::~Load()
+{
+	if (playerModelHandle != -1)
+	{
+		MV1DeleteModel(playerModelHandle);
+	}
+	for (int i = 0; fieldModelHandle.size(); i++)
+	{
+		if (fieldModelHandle.at(i) != -1)
+		{
+			MV1DeleteModel(fieldModelHandle.at(i));
+		}
+	}
+	for (int i = 0; obstacleModelHandle.size(); i++)
+	{
+		if (obstacleModelHandle.at(i) != -1)
+		{
+			MV1DeleteModel(obstacleModelHandle.at(i));
+		}
+	}
+}
+
+//インスタンス生成
+void Load::CreateInstance()
+{
+	if (!load)
+	{
+		load = new Load();
+	}
+}
+
+//インスタンス破棄
+void Load::DestroyInstance()
+{
+	if (load)
+	{
+		delete(load);
+	}
+}
+
+//ファイルからデータ取得
 void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 {
 	this->filePath = filePath;
@@ -42,7 +89,7 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (i != initializeNum && j == initializeNum)index.push_back(commaBuf);
 				//要素の格納
-				if (i != initializeNum && j != initializeNum)cell.at(i - 1).push_back(CastCell(commaBuf));
+				if (i != initializeNum && j != initializeNum)cell.at(i - 1).push_back(commaBuf);
 			}
 			else if (this->isHeader)
 			{
@@ -51,7 +98,7 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (i != 0 && j == 0)index.push_back(string());
 				//要素の格納
-				if (i != 0)cell.at(i - 1).push_back(CastCell(commaBuf));
+				if (i != 0)cell.at(i - 1).push_back(commaBuf);
 			}
 			else if (this->isIndex)
 			{
@@ -60,7 +107,7 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (j == 0)index.push_back(commaBuf);
 				//要素の格納
-				if (j != 0)cell.at(i - 1).push_back(CastCell(commaBuf));
+				if (j != 0)cell.at(i - 1).push_back(commaBuf);
 			}
 			else
 			{
@@ -69,21 +116,33 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (j == 0)index.push_back(string());
 				//要素の格納
-				cell.at(i).push_back(CastCell(commaBuf));
+				cell.at(i).push_back(commaBuf);
 			}
 		}
 	}
 }
 
-void Load::LoadModel()
+//データのロード
+void Load::LoadData()
 {
 	for (int i = 0; i < index.size(); i++)
 	{
 		for (int j=0; header.size(); j++)
 		{
-			if (header.at(j) == "PLAYER")
+			//プレイヤーモデルのロード
+			if (header.at(j) == "PLAYER" && cell.at(i).at(j) != "")
 			{
-
+				playerModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
+			}
+			//フィールドモデルのロード
+			if (header.at(j) == "FIELD" && cell.at(i).at(j) != "")
+			{
+				fieldModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+			}
+			//障害物モデルのロード
+			if (header.at(j) == "OBSTACLE" && cell.at(i).at(j) != "")
+			{
+				obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
 		}
 	}
