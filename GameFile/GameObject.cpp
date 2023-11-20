@@ -1,4 +1,3 @@
-#include"GameObejctTag.h"
 #include"DxLib.h"
 #include "GameObject.h"
 

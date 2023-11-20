@@ -28,6 +28,12 @@
     <Filter Include="ソース ファイル\Game\GameObject\GameObjectManager">
       <UniqueIdentifier>{05ab89be-9e68-476d-ab04-e52e624deef1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Player">
+      <UniqueIdentifier>{addf971e-0f19-428a-af41-d1fb47bdaccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System\Load">
+      <UniqueIdentifier>{fad84212-2518-4315-ae4d-c9a9237d920c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,12 @@
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>ソース ファイル\Game\GameObject\GameObjectManager</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Load.cpp">
+      <Filter>ソース ファイル\System\Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -50,14 +62,17 @@
     <ClInclude Include="FpsControl.h">
       <Filter>ソース ファイル\System\FpsControl</Filter>
     </ClInclude>
-    <ClInclude Include="GameObejctTag.h">
-      <Filter>ソース ファイル\Game\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>ソース ファイル\Game\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectManager.h">
       <Filter>ソース ファイル\Game\GameObject\GameObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ソース ファイル\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Load.h">
+      <Filter>ソース ファイル\System\Load</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
