@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include<vector>
+#include<DxLib.h>
 
 using namespace std;
 
@@ -57,16 +58,34 @@ public:
 	int GetPlayerModelHandle() { return playerModelHandle; }
 
 	/// <summary>
+	/// プレイヤーのアニメーション取得
+	/// </summary>
+	/// <returns>アニメーションのvector配列</returns>
+	vector<int> GetPlayerAnimationHandle() { return playerAnimationHandle; }
+
+	/// <summary>
 	/// フィールドのモデルハンドル取得
 	/// </summary>
-	/// <returns>フィールドモデルハンドル</returns>
+	/// <returns>フィールドモデルハンドルのvector配列</returns>
 	vector<int> GetFieldModelHandle() { return fieldModelHandle; }
+
+	/// <summary>
+	/// フィールドの座標取得
+	/// </summary>
+	/// <returns>フィールド座標のvector配列</returns>
+	vector<VECTOR> GetFieldPos() { return fieldPos; }
 
 	/// <summary>
 	/// 障害物のモデルハンドル取得
 	/// </summary>
-	/// <returns>障害物のモデルハンドル</returns>
+	/// <returns>障害物のモデルハンドルのvector配列</returns>
 	vector<int> GetObstacleModelHandle() { return obstacleModelHandle; }
+
+	/// <summary>
+	/// 障害物の座標取得
+	/// </summary>
+	/// <returns>障害物の座標のvector配列</returns>
+	vector<VECTOR> GetObstaclePos() { return obstaclePos; }
 
 private:
 	static Load* load;				//ロードクラスのインスタンス
@@ -78,26 +97,22 @@ private:
 
 	vector<string> header;				//ヘッダー名保管
 	vector<string> index;				//インデックス名保管
-	vector<vector<string>> cell;				//要素保管
+	vector<vector<string>> cell;		//要素保管
 
 	int playerModelHandle;				//プレイヤーのモデルハンドル
+	vector<int> playerAnimationHandle;	//プレイヤーのアニメーションハンドル
+
 	vector<int> fieldModelHandle;		//フィールドのモデルハンドル
-	vector<float> fieldPosX;			//フィールドモデルの各座標
-	vector<float> fieldPosY;
-	vector<float> fieldPosZ;
+	vector<VECTOR> fieldPos;			//フィールドモデルの各座標
+
 	vector<int> obstacleModelHandle;	//障害物のモデルハンドル
-	vector<float> obstaclePosX;			//障害物の各座標
-	vector<float> obstaclePosY;
-	vector<float> obstaclePosZ;
+	vector<VECTOR> obstaclePos;			//障害物の各座標
 
 	static constexpr const char* playerHeader = "PLAYER";
+	static constexpr const char* animationHeader = "ANIMATION";
 	static constexpr const char* fieldHeader = "FIELD";
 	static constexpr const char* fieldPosXHeader = "FieldPosX";
-	static constexpr const char* fieldPosYHeader = "FieldPosY";
-	static constexpr const char* fieldPosZHeader = "FieldPosZ";
 	static constexpr const char* obstacleHeader = "OBSTACLE";
 	static constexpr const char* obstaclePosXHeader = "ObstaclePosX";
-	static constexpr const char* obstaclePosYHeader = "ObstaclePosY";
-	static constexpr const char* obstaclePosZHeader = "ObstaclePosZ";
 };
 

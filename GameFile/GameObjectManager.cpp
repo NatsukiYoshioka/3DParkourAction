@@ -3,6 +3,8 @@
 #include"Load.h"
 #include"GameObject.h"
 #include"Player.h"
+#include"Field.h"
+#include"Obstacle.h"
 #include"common.h"
 #include "GameObjectManager.h"
 using namespace std;
@@ -47,7 +49,20 @@ void GameObjectManager::AddObject()
 	load = Load::GetInstance();
 	load->ReadFile(dataFilePath, true, true);
 
-	objectInstance.push_back(new Player(load->GetPlayerModelHandle()));
+	//プレイヤーオブジェクトの追加
+	objectInstance.push_back(new Player(load->GetPlayerModelHandle(),load->GetPlayerAnimationHandle()));
+
+	//フィールドオブジェクトの追加
+	for (int i = initializeNum; i < load->GetFieldModelHandle().size(); i++)
+	{
+		objectInstance.push_back(new Field(load->GetFieldModelHandle().at(i), load->GetFieldPos().at(i)));
+	}
+
+	//障害物オブジェクトの追加
+	for (int i = initializeNum; i < load->GetObstacleModelHandle().size(); i++)
+	{
+		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i)));
+	}
 }
 
 //オブジェクト全体の更新

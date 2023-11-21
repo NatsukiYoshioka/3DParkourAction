@@ -2,14 +2,14 @@
 #include"GameObject.h"
 #include "Field.h"
 
-Field::Field(int modelHandle, float posX, float posY, float posZ)
+//モデルの取得と座標の初期化
+Field::Field(int modelHandle, VECTOR pos)
 {
 	this->modelHandle = MV1DuplicateModel(modelHandle);
-	pos.x = posX;
-	pos.y = posY;
-	pos.z = posZ;
+	this->pos = pos;
 }
 
+//データの解放
 Field::~Field()
 {
 	if (modelHandle != -1)
@@ -18,11 +18,13 @@ Field::~Field()
 	}
 }
 
+//オブジェクトの更新
 void Field::Update()
 {
 
 }
 
+//オブジェクトの描画
 void Field::Draw()
 {
 

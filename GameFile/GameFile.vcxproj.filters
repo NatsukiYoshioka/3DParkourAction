@@ -28,14 +28,20 @@
     <Filter Include="ソース ファイル\Game\GameObject\GameObjectManager">
       <UniqueIdentifier>{05ab89be-9e68-476d-ab04-e52e624deef1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Player">
-      <UniqueIdentifier>{addf971e-0f19-428a-af41-d1fb47bdaccd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\System\Load">
       <UniqueIdentifier>{fad84212-2518-4315-ae4d-c9a9237d920c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\Field">
+    <Filter Include="ソース ファイル\Game\GameObject\Field">
       <UniqueIdentifier>{ffb59747-d2c7-4de0-8385-258cabd3ecf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject\Obstacle">
+      <UniqueIdentifier>{8135eb0c-a29a-4d19-a64d-588d66a19d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject\Player">
+      <UniqueIdentifier>{addf971e-0f19-428a-af41-d1fb47bdaccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameManager">
+      <UniqueIdentifier>{88701045-6d60-442c-8534-d92b9e308b6a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,13 +58,19 @@
       <Filter>ソース ファイル\Game\GameObject\GameObjectManager</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル\Game\Player</Filter>
+      <Filter>ソース ファイル\Game\GameObject\Player</Filter>
     </ClCompile>
     <ClCompile Include="Load.cpp">
       <Filter>ソース ファイル\System\Load</Filter>
     </ClCompile>
     <ClCompile Include="Field.cpp">
-      <Filter>ソース ファイル\Game\Field</Filter>
+      <Filter>ソース ファイル\Game\GameObject\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>ソース ファイル\Game\GameObject\Obstacle</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>ソース ファイル\Game\GameManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,13 +87,22 @@
       <Filter>ソース ファイル\Game\GameObject\GameObjectManager</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>ソース ファイル\Game\Player</Filter>
+      <Filter>ソース ファイル\Game\GameObject\Player</Filter>
     </ClInclude>
     <ClInclude Include="Load.h">
       <Filter>ソース ファイル\System\Load</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>ソース ファイル\Game\Field</Filter>
+      <Filter>ソース ファイル\Game\GameObject\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>ソース ファイル\Game\GameObject\Obstacle</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>ソース ファイル\Game\GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>ソース ファイル\Game\GameManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

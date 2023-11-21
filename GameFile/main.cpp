@@ -1,6 +1,6 @@
 #include"FpsControl.h"
 #include"Load.h"
-#include"GameObjectManager.h"
+#include"GameManager.h"
 #include"common.h"
 #include"DxLib.h"
 
@@ -25,6 +25,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	FpsControl::CreateInstance();
 	auto fpsControl = FpsControl::GetInstance();
 
+	GameManager::CreateInstance();
+	auto gameManager = GameManager::GetInstance();
+
 	//--------------------------------------//
 	//メインループ
 	//--------------------------------------//
@@ -35,7 +38,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//フレームレート計算
 		fpsControl->Update();
 
+		//ゲームの更新
+		gameManager->Update();
 
+		//ゲームの描画
+		gameManager->Draw();
 
 		//フレームレート表示
 		fpsControl->Draw();
@@ -46,7 +53,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ScreenFlip();
 	}
 
+	//クラスの後処理
 	FpsControl::DestroyInstance();
+	GameManager::DestroyInstance();
 
 	//DXライブラリの後始末
 	DxLib_End();

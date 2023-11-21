@@ -134,6 +134,11 @@ void Load::LoadData()
 			{
 				playerModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
 			}
+			//プレイヤーのアニメーションをロード
+			if (header.at(j) == animationHeader)
+			{
+				playerAnimationHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+			}
 			//フィールドモデルのロード
 			if (header.at(j) == fieldHeader)
 			{
@@ -147,28 +152,12 @@ void Load::LoadData()
 			//フィールドの座標取得
 			if (header.at(j) == fieldPosXHeader)
 			{
-				fieldPosX.push_back(stof(cell.at(i).at(j)));
-			}
-			if (header.at(j) == fieldPosYHeader)
-			{
-				fieldPosY.push_back(stof(cell.at(i).at(j)));
-			}
-			if (header.at(j) == fieldPosZHeader)
-			{
-				fieldPosZ.push_back(stof(cell.at(i).at(j)));
+				fieldPos.push_back({ stof(cell.at(i).at(j)),stof(cell.at(i).at(j + 1)),stof(cell.at(i).at(j + 2)) });
 			}
 			//障害物の座標取得
 			if (header.at(j) == obstaclePosXHeader)
 			{
-				obstaclePosX.push_back(stof(cell.at(i).at(j)));
-			}
-			if (header.at(j) == obstaclePosYHeader)
-			{
-				obstaclePosY.push_back(stof(cell.at(i).at(j)));
-			}
-			if (header.at(j) == obstaclePosZHeader)
-			{
-				obstaclePosZ.push_back(stof(cell.at(i).at(j)));
+				obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
 			}
 		}
 	}

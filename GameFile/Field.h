@@ -1,18 +1,37 @@
 #pragma once
+#include<DxLib.h>
 
 class GameObject;
 
-class Field:GameObject
+/// <summary>
+/// フィールドオブジェクトクラス
+/// </summary>
+class Field:public GameObject
 {
 public:
-	Field(int modelHandle, float posX, float posY, float posZ);
+	/// <summary>
+	/// モデルの取得と座標の初期化
+	/// </summary>
+	/// <param name="modelHandle">モデルハンドル</param>
+	/// <param name="pos">オブジェクトの座標</param>
+	Field(int modelHandle, VECTOR pos);
+
+	/// <summary>
+	/// データの解放
+	/// </summary>
 	~Field();
 
+	/// <summary>
+	/// オブジェクトの更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// オブジェクトの描画
+	/// </summary>
 	void Draw();
 
 private:
-	int modelHandle;
-	VECTOR pos;
+
 };
 
