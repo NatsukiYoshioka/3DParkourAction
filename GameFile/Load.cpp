@@ -24,14 +24,14 @@ Load::~Load()
 	{
 		MV1DeleteModel(playerModelHandle);
 	}
-	for (int i = 0; fieldModelHandle.size(); i++)
+	for (int i = initializeNum; i < fieldModelHandle.size(); i++)
 	{
 		if (fieldModelHandle.at(i) != -1)
 		{
 			MV1DeleteModel(fieldModelHandle.at(i));
 		}
 	}
-	for (int i = 0; obstacleModelHandle.size(); i++)
+	for (int i = initializeNum; i < obstacleModelHandle.size(); i++)
 	{
 		if (obstacleModelHandle.at(i) != -1)
 		{
@@ -89,7 +89,7 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (i != initializeNum && j == initializeNum)index.push_back(commaBuf);
 				//要素の格納
-				if (i != initializeNum && j != initializeNum)cell.at(i - 1).push_back(commaBuf);
+				if (i != initializeNum && j != initializeNum)cell.at(i).push_back(commaBuf);
 			}
 			else if (this->isHeader)
 			{
@@ -98,7 +98,7 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (i != initializeNum && j == initializeNum)index.push_back(string());
 				//要素の格納
-				if (i != initializeNum)cell.at(i - 1).push_back(commaBuf);
+				if (i != initializeNum)cell.at(i).push_back(commaBuf);
 			}
 			else if (this->isIndex)
 			{
@@ -107,7 +107,7 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 				//インデックス情報の格納
 				if (j == initializeNum)index.push_back(commaBuf);
 				//要素の格納
-				if (j != initializeNum)cell.at(i - 1).push_back(commaBuf);
+				if (j != initializeNum)cell.at(i).push_back(commaBuf);
 			}
 			else
 			{
@@ -125,16 +125,12 @@ void Load::ReadFile(string filePath, bool isHeader, bool isIndex)
 //データのロード
 void Load::LoadData()
 {
-	for (int i = initializeNum; i < index.size(); i++)
+	for (int i = initializeNum; i < cell.size(); i++)
 	{
-		for (int j = initializeNum; j < header.size(); j++)
+		for (int j = initializeNum; j < cell.at(i).size(); j++)
 		{
-			if (i >= 15 && j == 9)
-			{
-				break;
-			}
 			//プレイヤーモデルのロード
-			if (header.at(j) == playerHeader)
+			if (header.at(j) == playerHeader && cell.at(i).at(j) != "")
 			{
 				playerModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
 			}
@@ -148,21 +144,21 @@ void Load::LoadData()
 			{
 				fieldModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
-			////障害物モデルのロード
-			//if (header.at(j) == obstacleHeader)
-			//{
-			//	obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
-			//}
-			////フィールドの座標取得
-			//if (header.at(j) == fieldPosXHeader)
-			//{
-			//	fieldPos.push_back({ stof(cell.at(i).at(j)),stof(cell.at(i).at(j + 1)),stof(cell.at(i).at(j + 2)) });
-			//}
-			////障害物の座標取得
-			//if (header.at(j) == obstaclePosXHeader)
-			//{
-			//	obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
-			//}
+			//障害物モデルのロード
+			if (header.at(j) == obstacleHeader && cell.at(i).at(j) != "")
+			{
+				obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+			}
+			//フィールドの座標取得
+			if (header.at(j) == fieldPosXHeader && cell.at(i).at(j) != "")
+			{
+				fieldPos.push_back({ stof(cell.at(i).at(j)),stof(cell.at(i).at(j + 1)),stof(cell.at(i).at(j + 2)) });
+			}
+			//障害物の座標取得
+			if (header.at(j) == obstaclePosXHeader && cell.at(i).at(j) != "")
+			{
+				obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
+			}
 		}
 	}
 }

@@ -55,6 +55,9 @@
     <Filter Include="ソース ファイル\Game\GameManager\Scene\ResultScene">
       <UniqueIdentifier>{d2c77cc9-8aca-4ff3-a63f-af9738305f15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject\Camera">
+      <UniqueIdentifier>{45ed8039-715e-4b3f-a5c5-98a9dd93f929}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -92,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\Game\GameManager\Scene\ResultScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +139,9 @@
     </ClInclude>
     <ClInclude Include="ResultScene.h">
       <Filter>ソース ファイル\Game\GameManager\Scene\ResultScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

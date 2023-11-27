@@ -3,6 +3,7 @@
 #include"Load.h"
 #include"GameObject.h"
 #include"Player.h"
+#include"Camera.h"
 #include"Field.h"
 #include"Obstacle.h"
 #include"common.h"
@@ -24,7 +25,10 @@ GameObjectManager::GameObjectManager()
 //データの解放
 GameObjectManager::~GameObjectManager()
 {
-
+	for (int i = initializeNum; i < objectInstance.size(); i++)
+	{
+		delete(objectInstance.at(i));
+	}
 }
 
 //インスタンスの生成
@@ -58,6 +62,9 @@ void GameObjectManager::InitObject()
 	//プレイヤーオブジェクトの追加
 	objectInstance.push_back(new Player(load->GetPlayerModelHandle(),load->GetPlayerAnimationHandle()));
 
+	//カメラの追加
+	objectInstance.push_back(new Camera());
+
 	//フィールドオブジェクトの追加
 	for (int i = initializeNum; i < load->GetFieldModelHandle().size(); i++)
 	{
@@ -74,11 +81,17 @@ void GameObjectManager::InitObject()
 //オブジェクト全体の更新
 void GameObjectManager::Update()
 {
-
+	for (int i = initializeNum; i < objectInstance.size(); i++)
+	{
+		objectInstance.at(i)->Update();
+	}
 }
 
 //オブジェクト全体の描画
 void GameObjectManager::Draw()
 {
-
+	for (int i = initializeNum; i < objectInstance.size(); i++)
+	{
+		objectInstance.at(i)->Draw();
+	}
 }

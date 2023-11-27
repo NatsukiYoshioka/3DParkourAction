@@ -1,5 +1,6 @@
 #pragma once
 #include<vector>
+#include<DxLib.h>
 
 using namespace std;
 
@@ -51,8 +52,16 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// オブジェクトの座標の取得
+	/// </summary>
+	/// <returns></returns>
+	static VECTOR GetHeadPos() { return headPos; }
+
 private:
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
+	static VECTOR headPos;
+	static constexpr int headFrameIndex = 5;
 };
 

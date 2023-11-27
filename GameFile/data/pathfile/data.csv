@@ -1,7 +1,7 @@
 ,FIELD,FieldPosX,FieldPosY,FieldPosZ,OBSTACLE,ObstaclePosX,ObstaclePosY,ObstaclePosZ,PLAYER,ANIMATION
 1,data/model/buildings/01.mv1,0,0,0,data/model/obstacles/chipped_road_block.mv1,0,0,0,data/model/character/character.mv1,data/model/character/crouched_to_standing.mv1
 2,data/model/buildings/02.mv1,0,0,0,data/model/obstacles/chipped_road_block_001.mv1,0,0,0,,data/model/character/crouching_idle.mv1
-3,data/model/buildings/03.mv1,0,0,0,data/model/obstacles/chipped_road_block_002.mv1,0,0,0,,data/model/character/dead_falling.mv1
+3,data/model/buildings/03.mv1,960,540,300,data/model/obstacles/chipped_road_block_002.mv1,0,0,0,,data/model/character/dead_falling.mv1
 4,data/model/buildings/04.mv1,0,0,0,data/model/obstacles/chipped_road_block_003.mv1,0,0,0,,data/model/character/falling_idle.mv1
 5,data/model/buildings/05.mv1,0,0,0,data/model/obstacles/crush_barrier.mv1,0,0,0,,data/model/character/falling_to_roll.mv1
 6,data/model/buildings/06.mv1,0,0,0,data/model/obstacles/crush_barrier_001.mv1,0,0,0,,data/model/character/jump.mv1
