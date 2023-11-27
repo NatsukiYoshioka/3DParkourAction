@@ -1,5 +1,9 @@
 #include"BaseScene.h"
+#include"MenuScene.h"
+#include"GameScene.h"
+#include"ResultScene.h"
 #include"GameObjectManager.h"
+#include"DxLib.h"
 #include <cstddef>
 #include "GameManager.h"
 
@@ -12,7 +16,9 @@ GameManager::GameManager() :
 {
 	GameObjectManager::CreateInstance();
 	gameObjectManager = GameObjectManager::GetInstance();
-	gameObjectManager->AddObject();
+	gameObjectManager->InitObject();
+
+	nowScene = new MenuScene();
 }
 
 //クラスの後処理
@@ -52,13 +58,13 @@ void GameManager::ChangeScene(SCENE scene)
 	switch (scene)
 	{
 	case SCENE::TITLE:
-
+		nowScene = new MenuScene();
 		break;
 	case SCENE::GAME:
-
+		nowScene = new GameScene();
 		break;
 	case SCENE::RESULT:
-
+		nowScene = new ResultScene();
 		break;
 	}
 }
@@ -68,6 +74,11 @@ void GameManager::Update()
 {
 	gameObjectManager->Update();
 	nowScene->Update();
+
+	if (CheckHitKey(KEY_INPUT_RETURN) != 0)
+	{
+		ChangeScene(SCENE::GAME);
+	}
 }
 
 //現在のシーンの描画

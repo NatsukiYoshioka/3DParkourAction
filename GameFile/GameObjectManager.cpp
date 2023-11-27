@@ -12,10 +12,13 @@ using namespace std;
 GameObjectManager* GameObjectManager::gameObjectManager = nullptr;
 const string GameObjectManager::dataFilePath = "data/pathfile/data.csv";
 
-//データのロードとオブジェクトの生成
+//データのロード
 GameObjectManager::GameObjectManager()
 {
-	
+	Load::CreateInstance();
+	load = Load::GetInstance();
+	load->ReadFile(dataFilePath, true, true);
+	load->LoadData();
 }
 
 //データの解放
@@ -36,18 +39,21 @@ void GameObjectManager::CreateInstance()
 //インスタンスの破棄
 void GameObjectManager::DestroyInstance()
 {
+	Load::DestroyInstance();
 	if (gameObjectManager)
 	{
 		delete(gameObjectManager);
 	}
 }
 
-//データのロードとインスタンスの追加
-void GameObjectManager::AddObject()
+//インスタンスの初期化
+void GameObjectManager::InitObject()
 {
-	Load::CreateInstance();
-	load = Load::GetInstance();
-	load->ReadFile(dataFilePath, true, true);
+	//オブジェクトが追加されていたら一度初期化する
+	if (!objectInstance.empty())
+	{
+		objectInstance.clear();
+	}
 
 	//プレイヤーオブジェクトの追加
 	objectInstance.push_back(new Player(load->GetPlayerModelHandle(),load->GetPlayerAnimationHandle()));

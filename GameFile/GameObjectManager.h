@@ -41,9 +41,9 @@ public:
 	static GameObjectManager* GetInstance() { return gameObjectManager; }
 
 	/// <summary>
-	/// オブジェクトの追加
+	/// オブジェクトの初期化
 	/// </summary>
-	void AddObject();
+	void InitObject();
 
 	/// <summary>
 	/// オブジェクト全体の更新

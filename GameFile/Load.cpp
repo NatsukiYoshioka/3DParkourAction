@@ -127,8 +127,12 @@ void Load::LoadData()
 {
 	for (int i = initializeNum; i < index.size(); i++)
 	{
-		for (int j = initializeNum; header.size(); j++)
+		for (int j = initializeNum; j < header.size(); j++)
 		{
+			if (i >= 15 && j == 9)
+			{
+				break;
+			}
 			//プレイヤーモデルのロード
 			if (header.at(j) == playerHeader)
 			{
@@ -144,21 +148,21 @@ void Load::LoadData()
 			{
 				fieldModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
-			//障害物モデルのロード
-			if (header.at(j) == obstacleHeader)
-			{
-				obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
-			}
-			//フィールドの座標取得
-			if (header.at(j) == fieldPosXHeader)
-			{
-				fieldPos.push_back({ stof(cell.at(i).at(j)),stof(cell.at(i).at(j + 1)),stof(cell.at(i).at(j + 2)) });
-			}
-			//障害物の座標取得
-			if (header.at(j) == obstaclePosXHeader)
-			{
-				obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
-			}
+			////障害物モデルのロード
+			//if (header.at(j) == obstacleHeader)
+			//{
+			//	obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+			//}
+			////フィールドの座標取得
+			//if (header.at(j) == fieldPosXHeader)
+			//{
+			//	fieldPos.push_back({ stof(cell.at(i).at(j)),stof(cell.at(i).at(j + 1)),stof(cell.at(i).at(j + 2)) });
+			//}
+			////障害物の座標取得
+			//if (header.at(j) == obstaclePosXHeader)
+			//{
+			//	obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
+			//}
 		}
 	}
 }

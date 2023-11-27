@@ -43,6 +43,18 @@
     <Filter Include="ソース ファイル\Game\GameManager">
       <UniqueIdentifier>{88701045-6d60-442c-8534-d92b9e308b6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\GameManager\Scene">
+      <UniqueIdentifier>{a326b85f-6caa-47d7-a47e-07b1275de872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameManager\Scene\MenuScene">
+      <UniqueIdentifier>{35b5bc8f-d2bf-4584-84e8-f3bc0abe26ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameManager\Scene\GameScene">
+      <UniqueIdentifier>{42b41ea5-560e-47ce-9bc1-37dd75ab5626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameManager\Scene\ResultScene">
+      <UniqueIdentifier>{d2c77cc9-8aca-4ff3-a63f-af9738305f15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +84,15 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>ソース ファイル\Game\GameManager</Filter>
     </ClCompile>
+    <ClCompile Include="MenuScene.cpp">
+      <Filter>ソース ファイル\Game\GameManager\Scene\MenuScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>ソース ファイル\Game\GameManager\Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultScene.cpp">
+      <Filter>ソース ファイル\Game\GameManager\Scene\ResultScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
@@ -98,11 +119,20 @@
     <ClInclude Include="Obstacle.h">
       <Filter>ソース ファイル\Game\GameObject\Obstacle</Filter>
     </ClInclude>
-    <ClInclude Include="BaseScene.h">
-      <Filter>ソース ファイル\Game\GameManager</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>ソース ファイル\Game\GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScene.h">
+      <Filter>ソース ファイル\Game\GameManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.h">
+      <Filter>ソース ファイル\Game\GameManager\Scene\MenuScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>ソース ファイル\Game\GameManager\Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultScene.h">
+      <Filter>ソース ファイル\Game\GameManager\Scene\ResultScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
