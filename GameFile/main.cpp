@@ -1,6 +1,7 @@
 #include"FpsControl.h"
 #include"Load.h"
 #include"GameManager.h"
+#include"PadInput.h"
 #include"common.h"
 #include"DxLib.h"
 
@@ -24,6 +25,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	FpsControl::CreateInstance();
 	auto fpsControl = FpsControl::GetInstance();
+
+	PadInput::CreateInstance();
 
 	GameManager::CreateInstance();
 	auto gameManager = GameManager::GetInstance();
@@ -56,6 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//クラスの後処理
 	FpsControl::DestroyInstance();
 	GameManager::DestroyInstance();
+	PadInput::DestroyInstance();
 
 	//DXライブラリの後始末
 	DxLib_End();

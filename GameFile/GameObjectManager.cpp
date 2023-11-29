@@ -6,12 +6,13 @@
 #include"Camera.h"
 #include"Field.h"
 #include"Obstacle.h"
+#include"Skydome.h"
 #include"common.h"
 #include "GameObjectManager.h"
 using namespace std;
 
 GameObjectManager* GameObjectManager::gameObjectManager = nullptr;
-const string GameObjectManager::dataFilePath = "data/pathfile/data.csv";
+const string GameObjectManager::dataFilePath = "data/file/data.csv";
 
 //データのロード
 GameObjectManager::GameObjectManager()
@@ -75,6 +76,11 @@ void GameObjectManager::InitObject()
 	for (int i = initializeNum; i < load->GetObstacleModelHandle().size(); i++)
 	{
 		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i)));
+	}
+
+	for (int i = initializeNum; i < load->GetSkydomeModelHandle().size(); i++)
+	{
+		objectInstance.push_back(new Skydome(load->GetSkydomeModelHandle().at(i)));
 	}
 }
 

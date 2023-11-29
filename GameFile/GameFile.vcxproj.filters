@@ -58,6 +58,12 @@
     <Filter Include="ソース ファイル\Game\GameObject\Camera">
       <UniqueIdentifier>{45ed8039-715e-4b3f-a5c5-98a9dd93f929}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject\Skydome">
+      <UniqueIdentifier>{8049ef42-5cab-4371-9cf0-34666110388a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System\PadInput">
+      <UniqueIdentifier>{19f2841b-b7ff-4bf0-be53-7289169f9f1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -98,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>ソース ファイル\Game\GameObject\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="PadInput.cpp">
+      <Filter>ソース ファイル\System\PadInput</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.h">
+      <Filter>ソース ファイル\Game\GameObject\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="PadInput.h">
+      <Filter>ソース ファイル\System\PadInput</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

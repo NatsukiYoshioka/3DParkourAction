@@ -140,7 +140,7 @@ void Load::LoadData()
 				playerAnimationHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
 			//フィールドモデルのロード
-			if (header.at(j) == fieldHeader)
+			if (header.at(j) == fieldHeader && cell.at(i).at(j) != "")
 			{
 				fieldModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
@@ -158,6 +158,11 @@ void Load::LoadData()
 			if (header.at(j) == obstaclePosXHeader && cell.at(i).at(j) != "")
 			{
 				obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
+			}
+			//スカイドームのモデルのロード
+			if (header.at(j) == skydomeHeader && cell.at(i).at(j) != "")
+			{
+				skydomeModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
 		}
 	}

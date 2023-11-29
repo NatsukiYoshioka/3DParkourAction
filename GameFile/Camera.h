@@ -3,6 +3,9 @@
 
 class GameOnject;
 
+/// <summary>
+/// カメラの制御クラス
+/// </summary>
 class Camera:public GameObject
 {
 public:
@@ -22,11 +25,5 @@ public:
 	void Update();
 
 	void Draw(){}
-
-	/// <summary>
-	/// オブジェクトの座標の取得
-	/// </summary>
-	/// <returns></returns>
-	VECTOR GetPos() { return pos; }
 };
 

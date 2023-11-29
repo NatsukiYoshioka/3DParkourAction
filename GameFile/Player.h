@@ -5,6 +5,7 @@
 using namespace std;
 
 class GameObject;
+class PadInput;
 class Player :public GameObject
 {
 public:
@@ -48,6 +49,11 @@ public:
 	void Update();
 
 	/// <summary>
+	/// 入力による挙動の更新
+	/// </summary>
+	void UpdateInput();
+
+	/// <summary>
 	/// オブジェクトの描画
 	/// </summary>
 	void Draw();
@@ -61,7 +67,12 @@ public:
 private:
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
-	static VECTOR headPos;
-	static constexpr int headFrameIndex = 5;
+
+	PadInput* input;					//コントローラー入力管理クラスのアドレス
+
+	static constexpr float moveSpeed = 1.0f;	//プレイヤーの移動速度移動速度
+
+	static VECTOR headPos;						//頭のフレームの座標
+	static constexpr int headFrameIndex = 5;	//頭のフレームの番号
 };
 

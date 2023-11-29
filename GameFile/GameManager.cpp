@@ -3,6 +3,7 @@
 #include"GameScene.h"
 #include"ResultScene.h"
 #include"GameObjectManager.h"
+#include"PadInput.h"
 #include"DxLib.h"
 #include <cstddef>
 #include "GameManager.h"
@@ -12,11 +13,14 @@ BaseScene* GameManager::nowScene = NULL;
 
 //シーンの初期化とオブジェクトの生成
 GameManager::GameManager() :
-	sceneStatus(SCENE::TITLE)
+	sceneStatus(SCENE::TITLE),
+	input(nullptr)
 {
 	GameObjectManager::CreateInstance();
 	gameObjectManager = GameObjectManager::GetInstance();
 	gameObjectManager->InitObject();
+
+	input = PadInput::GetInstance();
 
 	nowScene = new MenuScene();
 }
@@ -72,6 +76,7 @@ void GameManager::ChangeScene(SCENE scene)
 //現在のシーンの更新
 void GameManager::Update()
 {
+	input->Update();
 	gameObjectManager->Update();
 	nowScene->Update();
 

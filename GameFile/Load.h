@@ -87,6 +87,12 @@ public:
 	/// <returns>障害物の座標のvector配列</returns>
 	vector<VECTOR> GetObstaclePos() { return obstaclePos; }
 
+	/// <summary>
+	/// スカイドームのモデルハンドル取得
+	/// </summary>
+	/// <returns>スカイドームのモデルハンドルのvector配列</returns>
+	vector<int> GetSkydomeModelHandle() { return skydomeModelHandle; }
+
 private:
 	static Load* load;				//ロードクラスのインスタンス
 
@@ -108,11 +114,15 @@ private:
 	vector<int> obstacleModelHandle;	//障害物のモデルハンドル
 	vector<VECTOR> obstaclePos;			//障害物の各座標
 
+	vector<int> skydomeModelHandle;		//スカイドームのモデルハンドル
+	vector<VECTOR> skydomePos;			//スカイドームのポジション
+
 	static constexpr const char* playerHeader = "PLAYER";
 	static constexpr const char* animationHeader = "ANIMATION";
 	static constexpr const char* fieldHeader = "FIELD";
 	static constexpr const char* fieldPosXHeader = "FieldPosX";
 	static constexpr const char* obstacleHeader = "OBSTACLE";
 	static constexpr const char* obstaclePosXHeader = "ObstaclePosX";
+	static constexpr const char* skydomeHeader = "SKYDOME";
 };
 

@@ -2,6 +2,7 @@
 
 class BaseScene;
 class GameObjectManager;
+class PadInput;
 
 /// <summary>
 /// ゲーム全体の管理をするクラス
@@ -74,5 +75,6 @@ private:
 	SCENE sceneStatus;							//シーンの状態
 
 	GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラス
+	PadInput* input;
 };
 
