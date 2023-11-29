@@ -21,8 +21,8 @@ Skydome::~Skydome()
 
 void Skydome::Update()
 {
-    /*pos.x = Player::GetHeadPos().x;
-    pos.z = Player::GetHeadPos().z;*/
+    pos.x = Player::GetHeadPos().x;
+    pos.z = Player::GetHeadPos().z;
     MV1SetPosition(modelHandle, pos);
 }
 

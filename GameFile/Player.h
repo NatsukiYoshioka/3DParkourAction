@@ -6,6 +6,7 @@ using namespace std;
 
 class GameObject;
 class PadInput;
+
 class Player :public GameObject
 {
 public:
@@ -64,13 +65,25 @@ public:
 	/// <returns></returns>
 	static VECTOR GetHeadPos() { return headPos; }
 
+	/// <summary>
+	/// プレイヤーの向きを取得
+	/// </summary>
+	/// <returns>プレイヤーの向き</returns>
+	static VECTOR GetAngle() { return angle; }
+
 private:
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 
 	PadInput* input;					//コントローラー入力管理クラスのアドレス
 
-	static constexpr float moveSpeed = 1.0f;	//プレイヤーの移動速度移動速度
+	VECTOR addMove;									//プレイヤーの移動加算値
+	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
+
+	static VECTOR angle;							//プレイヤーの向き
+	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
+
+	static const VECTOR fixAngle;				//モデルの方向修正
 
 	static VECTOR headPos;						//頭のフレームの座標
 	static constexpr int headFrameIndex = 5;	//頭のフレームの番号

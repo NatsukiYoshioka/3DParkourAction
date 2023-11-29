@@ -2,6 +2,7 @@
 #include<DxLib.h>
 
 class GameOnject;
+class PadInput;
 
 /// <summary>
 /// カメラの制御クラス
@@ -10,7 +11,7 @@ class Camera:public GameObject
 {
 public:
 	/// <summary>
-	/// 
+	/// コンストラクタ
 	/// </summary>
 	Camera();
 
@@ -24,6 +25,17 @@ public:
 	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 入力処理更新
+	/// </summary>
+	void UpdateInput();
+
 	void Draw(){}
+
+private:
+	PadInput* input;		//コントローラー入力情報管理クラス
+	float rotateV;			//カメラX軸回転量
+
+	static constexpr float directionSpeed = 0.05f;		//方向転換速度
 };
 
