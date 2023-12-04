@@ -29,7 +29,10 @@ public:
 		SLIDE,						//スライディング
 		STAND,						//立つ
 		CROUNSHING_WALK,			//しゃがみ歩き
-		STANDING_TO_CROUCH			//立ちからしゃがむ
+		STANDING_TO_CROUCH,			//立ちからしゃがむ
+		RUN_BACK,					//後ろ走り
+		RUN_RIGHT,					//右走り
+		RUN_LEFT					//左走り
 	};
 
 	/// <summary>
@@ -55,6 +58,11 @@ public:
 	void UpdateInput();
 
 	/// <summary>
+	/// アニメーションの更新
+	/// </summary>
+	void UpdateAnimation();
+
+	/// <summary>
 	/// オブジェクトの描画
 	/// </summary>
 	void Draw();
@@ -77,13 +85,18 @@ private:
 
 	PadInput* input;					//コントローラー入力管理クラスのアドレス
 
+	static const VECTOR scale;
+
 	VECTOR addMove;									//プレイヤーの移動加算値
-	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
+	static constexpr float moveSpeed = 4.0f;		//プレイヤーの移動速度移動速度
 
 	static VECTOR angle;							//プレイヤーの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
 
 	static const VECTOR fixAngle;				//モデルの方向修正
+
+	float totalAnimTime;				//アニメーションの総再生時間
+	float playAnimTime;							//アニメーションの再生時間
 
 	static VECTOR headPos;						//頭のフレームの座標
 	static constexpr int headFrameIndex = 5;	//頭のフレームの番号

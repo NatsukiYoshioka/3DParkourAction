@@ -4,6 +4,7 @@
 #include"DxLib.h"
 #include "Player.h"
 
+const VECTOR Player::scale = VGet(0.5f, 0.5f, 0.5f);
 VECTOR Player::headPos = initializePos;
 VECTOR Player::angle = initializePos;
 const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
@@ -11,19 +12,21 @@ const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
 //オブジェクトの初期化
 Player::Player(int modelHandle, vector<int> animationHandle):
 	input(nullptr),
-	addMove({ static_cast<int>(initializeNum) })
+	addMove(initializePos),
+	playAnimTime(static_cast<float>(initializeNum))
 {
 	//クラスのインスタンス取得
 	input = PadInput::GetInstance();
 
 	this->modelHandle = MV1DuplicateModel(modelHandle);
-	pos = VGet(960.0f, 540.0f, -200.0f);
+	MV1SetScale(this->modelHandle, scale);
+	pos = VGet(960.0f, 200.0f, -200.0f);
 
 	MV1SetRotationXYZ(this->modelHandle, fixAngle);
 
 	this->animationHandle = animationHandle;
 	//プレイヤーの初期状態をしゃがみにする
-	status = STATUS::CROUCH;
+	status = STATUS::STAND;
 }
 
 //データの解放
@@ -41,6 +44,7 @@ void Player::Update()
 	UpdateInput();
 	MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
 	MV1SetPosition(modelHandle, pos);
+	UpdateAnimation();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 }
 
@@ -68,6 +72,8 @@ void Player::UpdateInput()
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
 		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
+
+		status = STATUS::RUN_LEFT;
 	}
 	//左スティック右倒し
 	if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
@@ -78,6 +84,8 @@ void Player::UpdateInput()
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
 		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
+
+		status = STATUS::RUN_RIGHT;
 	}
 	//左スティック上倒し
 	if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
@@ -87,6 +95,8 @@ void Player::UpdateInput()
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
 		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
+
+		status = STATUS::RUN;
 	}
 	//左スティック下倒し
 	if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
@@ -96,7 +106,21 @@ void Player::UpdateInput()
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
 		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
+
+		status = STATUS::RUN_BACK;
 	}
+
+	//左スティックが操作されていない場合
+	if (input->GetInput().ThumbLX == static_cast<short>(initializeNum) && input->GetInput().ThumbLY == static_cast<short>(initializeNum))
+	{
+		status = STATUS::STAND;
+	}
+}
+
+//アニメーションの更新
+void Player::UpdateAnimation()
+{
+	MV1AttachAnim(modelHandle, initializeNum, animationHandle.at(static_cast<int>(status)));
 }
 
 //オブジェクトの描画

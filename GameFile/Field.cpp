@@ -3,12 +3,17 @@
 #include"GameObject.h"
 #include "Field.h"
 
-//モデルの取得と座標の初期化
-Field::Field(int modelHandle, VECTOR pos)
+//モデルの取得と座標と角度の初期化
+Field::Field(int modelHandle, VECTOR pos,float angle):
+	angle(initializePos)
 {
 	this->modelHandle = MV1DuplicateModel(modelHandle);
-	MV1SetScale(this->modelHandle, VGet(1.0f, 1.0f, 1.0f));
 	this->pos = pos;
+	this->angle.y = angle;
+
+	MV1SetRotationXYZ(this->modelHandle, this->angle);
+
+	MV1SetupCollInfo(frameIndex, collisionDivNum, collisionDivNum, collisionDivNum);
 }
 
 //データの解放

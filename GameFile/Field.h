@@ -10,11 +10,11 @@ class Field:public GameObject
 {
 public:
 	/// <summary>
-	/// モデルの取得と座標の初期化
+	/// モデルの取得と座標と角度の初期化
 	/// </summary>
 	/// <param name="modelHandle">モデルハンドル</param>
 	/// <param name="pos">オブジェクトの座標</param>
-	Field(int modelHandle, VECTOR pos);
+	Field(int modelHandle, VECTOR pos,float angle);
 
 	/// <summary>
 	/// データの解放
@@ -32,6 +32,9 @@ public:
 	void Draw();
 
 private:
+	VECTOR angle;
 
+	static constexpr int frameIndex = -1;
+	static constexpr int collisionDivNum = 10;
 };
 

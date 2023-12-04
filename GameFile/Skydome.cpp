@@ -2,13 +2,14 @@
 #include"Player.h"
 #include"common.h"
 #include"DxLib.h"
+#include"common.h"
 #include "Skydome.h"
 
 Skydome::Skydome(int modelHandle)
 {
     this->modelHandle = MV1DuplicateModel(modelHandle);
-    //pos = VGet(static_cast<float>(initializeNum), static_cast<float>(initializeNum), static_cast<float>(initializeNum));
-    pos = VGet(960.0f, 540.0f, 0.0f);
+    pos = initializePos;
+    pos.y = 350.0f;
 }
 
 Skydome::~Skydome()

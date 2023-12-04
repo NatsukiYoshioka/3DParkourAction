@@ -8,4 +8,6 @@ constexpr auto SCREEN_COLOR = 16;	          //スクリーンカラー;
 static constexpr int        initializeNum = 0;          //初期化定数
 static constexpr float      secondFrame = 1000.0f;      //秒間フレーム数
 
-static const VECTOR initializePos = VGet(0.0f, 0.0f, 0.0f);
+static const VECTOR initializePos = VGet(0.0f, 0.0f, 0.0f);		//座標初期化定数
+
+static constexpr float pi1_f = 180.0f;		//ラジアン計算用定数

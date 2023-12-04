@@ -69,7 +69,7 @@ void GameObjectManager::InitObject()
 	//フィールドオブジェクトの追加
 	for (int i = initializeNum; i < load->GetFieldModelHandle().size(); i++)
 	{
-		objectInstance.push_back(new Field(load->GetFieldModelHandle().at(i), load->GetFieldPos().at(i)));
+		objectInstance.push_back(new Field(load->GetFieldModelHandle().at(i), load->GetFieldPos().at(i), load->GetFieldAngle().at(i)));
 	}
 
 	//障害物オブジェクトの追加
@@ -78,6 +78,7 @@ void GameObjectManager::InitObject()
 		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i)));
 	}
 
+	//スカイドームの追加
 	for (int i = initializeNum; i < load->GetSkydomeModelHandle().size(); i++)
 	{
 		objectInstance.push_back(new Skydome(load->GetSkydomeModelHandle().at(i)));

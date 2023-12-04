@@ -135,7 +135,7 @@ void Load::LoadData()
 				playerModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
 			}
 			//プレイヤーのアニメーションをロード
-			if (header.at(j) == animationHeader)
+			if (header.at(j) == animationHeader && cell.at(i).at(j) != "")
 			{
 				playerAnimationHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
@@ -153,6 +153,11 @@ void Load::LoadData()
 			if (header.at(j) == fieldPosXHeader && cell.at(i).at(j) != "")
 			{
 				fieldPos.push_back({ stof(cell.at(i).at(j)),stof(cell.at(i).at(j + 1)),stof(cell.at(i).at(j + 2)) });
+			}
+			//フィールドの角度を取得
+			if (header.at(j) == fieldAngleHeader && cell.at(i).at(j) != "")
+			{
+				fieldAngle.push_back(stof(cell.at(i).at(j)) * DX_PI_F / pi1_f);
 			}
 			//障害物の座標取得
 			if (header.at(j) == obstaclePosXHeader && cell.at(i).at(j) != "")

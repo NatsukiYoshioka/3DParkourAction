@@ -76,6 +76,12 @@ public:
 	vector<VECTOR> GetFieldPos() { return fieldPos; }
 
 	/// <summary>
+	/// フィールドの角度取得
+	/// </summary>
+	/// <returns>フィールド角度のvector配列</returns>
+	vector<float> GetFieldAngle() { return fieldAngle; }
+
+	/// <summary>
 	/// 障害物のモデルハンドル取得
 	/// </summary>
 	/// <returns>障害物のモデルハンドルのvector配列</returns>
@@ -110,6 +116,7 @@ private:
 
 	vector<int> fieldModelHandle;		//フィールドのモデルハンドル
 	vector<VECTOR> fieldPos;			//フィールドモデルの各座標
+	vector<float> fieldAngle;			//フィールドモデルの角度
 
 	vector<int> obstacleModelHandle;	//障害物のモデルハンドル
 	vector<VECTOR> obstaclePos;			//障害物の各座標
@@ -121,6 +128,7 @@ private:
 	static constexpr const char* animationHeader = "ANIMATION";
 	static constexpr const char* fieldHeader = "FIELD";
 	static constexpr const char* fieldPosXHeader = "FieldPosX";
+	static constexpr const char* fieldAngleHeader = "FieldAngle";
 	static constexpr const char* obstacleHeader = "OBSTACLE";
 	static constexpr const char* obstaclePosXHeader = "ObstaclePosX";
 	static constexpr const char* skydomeHeader = "SKYDOME";
