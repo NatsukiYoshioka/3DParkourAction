@@ -31,9 +31,6 @@
     <Filter Include="ソース ファイル\System\Load">
       <UniqueIdentifier>{fad84212-2518-4315-ae4d-c9a9237d920c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Game\GameObject\Field">
-      <UniqueIdentifier>{ffb59747-d2c7-4de0-8385-258cabd3ecf0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Game\GameObject\Obstacle">
       <UniqueIdentifier>{8135eb0c-a29a-4d19-a64d-588d66a19d81}</UniqueIdentifier>
     </Filter>
@@ -63,6 +60,9 @@
     </Filter>
     <Filter Include="ソース ファイル\System\PadInput">
       <UniqueIdentifier>{19f2841b-b7ff-4bf0-be53-7289169f9f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Game\GameObject\Field">
+      <UniqueIdentifier>{ffb59747-d2c7-4de0-8385-258cabd3ecf0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,14 +102,14 @@
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル\Game\GameManager\Scene\ResultScene</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>ソース ファイル\Game\GameObject\Skydome</Filter>
     </ClCompile>
     <ClCompile Include="PadInput.cpp">
       <Filter>ソース ファイル\System\PadInput</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,14 +152,14 @@
     <ClInclude Include="ResultScene.h">
       <Filter>ソース ファイル\Game\GameManager\Scene\ResultScene</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Skydome.h">
       <Filter>ソース ファイル\Game\GameObject\Skydome</Filter>
     </ClInclude>
     <ClInclude Include="PadInput.h">
       <Filter>ソース ファイル\System\PadInput</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

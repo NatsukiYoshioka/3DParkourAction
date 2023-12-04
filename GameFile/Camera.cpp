@@ -7,9 +7,12 @@
 
 //コンストラクタ
 Camera::Camera():
-	rotateV(static_cast<float>(initializeNum))
+	rotateV(static_cast<float>(initializeNum)),
+	angle(initializePos),
+	addPos(initializePos)
 {
 	input = PadInput::GetInstance();
+	SetCameraNearFar(cameraNear, cameraFar);
 }
 
 //データ解放
@@ -22,7 +25,23 @@ Camera::~Camera()
 void Camera::Update()
 {
 	UpdateInput();
-	SetCameraPositionAndAngle(Player::GetHeadPos(), Player::GetAngle().x + rotateV, Player::GetAngle().y, Player::GetAngle().z);
+
+	//カメラのY座標を設定
+	pos = Player::GetHeadPos();
+	pos.y += fixPosY;
+
+	//カメラの向きを更新
+	angle = Player::GetAngle();
+	angle.x += rotateV;
+
+	//カメラを前に押し出し
+	addPos = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	addPos = VNorm(addPos);
+	addPos = VScale(addPos, fixFoewardPos);
+	pos = VAdd(pos, addPos);
+
+	//カメラの位置と向きをセット
+	SetCameraPositionAndAngle(pos, angle.x, angle.y, angle.z);
 }
 
 //入力処理更新
@@ -33,10 +52,18 @@ void Camera::UpdateInput()
 	if (input->GetInput().ThumbRY > initializeNum || CheckHitKey(KEY_INPUT_UP) != initializeNum)
 	{
 		rotateV -= directionSpeed;
+		if (rotateV <= maxUpDirection)
+		{
+			rotateV = maxUpDirection;
+		}
 	}
 	//右スティック下倒し
 	if (input->GetInput().ThumbRY < initializeNum || CheckHitKey(KEY_INPUT_DOWN) != initializeNum)
 	{
 		rotateV += directionSpeed;
+		if (rotateV >= maxDownDirection)
+		{
+			rotateV = maxDownDirection;
+		}
 	}
 }
