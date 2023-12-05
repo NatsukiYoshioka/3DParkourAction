@@ -5,11 +5,15 @@
 #include"common.h"
 #include "Skydome.h"
 
+const VECTOR Skydome::scale = VGet(5.0f, 5.0f, 5.0f);
+
 Skydome::Skydome(int modelHandle)
 {
     this->modelHandle = MV1DuplicateModel(modelHandle);
     pos = initializePos;
-    pos.y = 350.0f;
+    pos.y = height;
+
+    MV1SetScale(this->modelHandle, scale);
 }
 
 Skydome::~Skydome()

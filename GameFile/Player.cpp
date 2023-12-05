@@ -4,7 +4,8 @@
 #include"DxLib.h"
 #include "Player.h"
 
-const VECTOR Player::scale = VGet(0.5f, 0.5f, 0.5f);
+const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
+const unsigned int Player::capsuleColor = GetColor(255, 255, 0);
 VECTOR Player::headPos = initializePos;
 VECTOR Player::angle = initializePos;
 const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
@@ -13,7 +14,12 @@ const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
 Player::Player(int modelHandle, vector<int> animationHandle):
 	input(nullptr),
 	addMove(initializePos),
-	playAnimTime(static_cast<float>(initializeNum))
+	status(STATUS::STAND),
+	animationIndex(initializeNum),
+	totalAnimTime(static_cast<float>(initializeNum)),
+	playAnimTime(static_cast<float>(initializeNum)),
+	headTopPos(initializePos),
+	toePos(initializePos)
 {
 	//クラスのインスタンス取得
 	input = PadInput::GetInstance();
@@ -25,8 +31,9 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	MV1SetRotationXYZ(this->modelHandle, fixAngle);
 
 	this->animationHandle = animationHandle;
-	//プレイヤーの初期状態をしゃがみにする
-	status = STATUS::STAND;
+
+	//プレイヤーの初期状態を立ち状態にする
+	animationIndex = MV1AttachAnim(this->modelHandle, initializeNum, this->animationHandle.at(static_cast<int>(status)));
 }
 
 //データの解放
@@ -46,6 +53,12 @@ void Player::Update()
 	MV1SetPosition(modelHandle, pos);
 	UpdateAnimation();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
+	//当たり判定用カプセル座標の計算
+	headTopPos = MV1GetFramePosition(modelHandle, headTopFrameIndex);
+	toePos = MV1GetFramePosition(modelHandle, toeFrameIndex);
+	toePos.x = headTopPos.x;
+	toePos.z = headTopPos.z;
+	toePos.y += fixToePosY;
 }
 
 void Player::UpdateInput()
@@ -61,6 +74,8 @@ void Player::UpdateInput()
 	{
 		angle.y += directionSpeed;
 	}
+
+	status = STATUS::STAND;
 
 	//移動入力処理
 	//左スティック左倒し
@@ -109,22 +124,34 @@ void Player::UpdateInput()
 
 		status = STATUS::RUN_BACK;
 	}
-
-	//左スティックが操作されていない場合
-	if (input->GetInput().ThumbLX == static_cast<short>(initializeNum) && input->GetInput().ThumbLY == static_cast<short>(initializeNum))
-	{
-		status = STATUS::STAND;
-	}
 }
 
 //アニメーションの更新
 void Player::UpdateAnimation()
 {
-	MV1AttachAnim(modelHandle, initializeNum, animationHandle.at(static_cast<int>(status)));
+	//アニメーションのアタッチ
+	MV1DetachAnim(modelHandle, animationIndex);
+	animationIndex = MV1AttachAnim(modelHandle, initializeNum, animationHandle.at(static_cast<int>(status)));
+	//アニメーションの再生
+	totalAnimTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
+	playAnimTime += animationSpeed;
+	if (playAnimTime >= totalAnimTime)
+	{
+		playAnimTime = static_cast<float>(initializeNum);
+	}
+	MV1SetAttachAnimTime(modelHandle, animationIndex, playAnimTime);
+}
+
+//当たり判定
+void Player::OnCollisionEnter(const GameObject* other)
+{
+
 }
 
 //オブジェクトの描画
 void Player::Draw()
 {
 	MV1DrawModel(modelHandle);
+	//当たり判定デバッグ用カプセル描画
+	DrawCapsule3D(headTopPos, toePos, capsuleWidth, capsuleDivNum, capsuleColor, capsuleColor, FALSE);
 }

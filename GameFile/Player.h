@@ -1,4 +1,5 @@
 #pragma once
+#include"common.h"
 #include<vector>
 #include<DxLib.h>
 
@@ -63,6 +64,12 @@ public:
 	void UpdateAnimation();
 
 	/// <summary>
+	/// 他のオブジェクトとの当たり判定
+	/// </summary>
+	/// <param name="other">他オブジェクト</param>
+	void OnCollisionEnter(const GameObject* other)override;
+
+	/// <summary>
 	/// オブジェクトの描画
 	/// </summary>
 	void Draw();
@@ -79,26 +86,41 @@ public:
 	/// <returns>プレイヤーの向き</returns>
 	static VECTOR GetAngle() { return angle; }
 
+	int GetModelHandle() { return initializeNum; }
+
 private:
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 
 	PadInput* input;					//コントローラー入力管理クラスのアドレス
 
-	static const VECTOR scale;
+	static const VECTOR scale;			//モデルのスケール
+
+	static constexpr float capsuleWidth = 5.0f;		//当たり判定カプセルの幅
+	static constexpr int capsuleDivNum = 10;		//当たり判定カプセルのポリゴンの細かさ
+	static const unsigned int capsuleColor;			//当たり判定カプセルのカラー
 
 	VECTOR addMove;									//プレイヤーの移動加算値
-	static constexpr float moveSpeed = 4.0f;		//プレイヤーの移動速度移動速度
+	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
 
 	static VECTOR angle;							//プレイヤーの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
 
 	static const VECTOR fixAngle;				//モデルの方向修正
 
-	float totalAnimTime;				//アニメーションの総再生時間
-	float playAnimTime;							//アニメーションの再生時間
+	int animationIndex;								//アニメーション番号
+	float totalAnimTime;							//アニメーションの総再生時間
+	float playAnimTime;								//アニメーションの再生時間
+	static constexpr float animationSpeed = 1.0f;	//アニメーション再生速度
 
 	static VECTOR headPos;						//頭のフレームの座標
 	static constexpr int headFrameIndex = 5;	//頭のフレームの番号
+
+	VECTOR headTopPos;							//頭の頂点のフレームの座標
+	static constexpr int headTopFrameIndex = 6;	//頭の頂点のフレームの番号
+
+	VECTOR toePos;								//つま先のフレームの座標
+	static constexpr int toeFrameIndex = 0;		//つま先のフレームの番号
+	static constexpr float fixToePosY = 2.5f;	//つま先のY座標調整量
 };
 

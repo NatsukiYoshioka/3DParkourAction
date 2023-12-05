@@ -31,6 +31,12 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ƒ‚ƒfƒ‹ƒnƒ“ƒhƒ‹‚ÌŽæ“¾
+	/// </summary>
+	/// <returns></returns>
+	int GetModelHandle() { return modelHandle; }
+
 private:
 	VECTOR angle;
 

@@ -31,6 +31,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	int GetModelHandle() { return modelHandle; }
+
 private:
 	
 };

@@ -20,6 +20,12 @@ public:
 	//純粋仮想関数
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+
+	//オブジェクトの当たり判定
+	virtual void OnCollisionEnter(const GameObject* other){}
+
+	//モデルの取得
+	virtual int GetModelHandle() = 0;
 protected:
 	int modelHandle;			//モデルのハンドル
 	VECTOR pos;					//オブジェクトの座標

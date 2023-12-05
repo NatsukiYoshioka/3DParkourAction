@@ -1,4 +1,5 @@
 #pragma once
+#include"common.h"
 #include<DxLib.h>
 
 class GameObject;
@@ -29,5 +30,11 @@ public:
     /// スカイドームの描画
     /// </summary>
     void Draw();
+
+    int GetModelHandle() { return initializeNum; }
+
+private:
+    static const VECTOR scale;              //スカイドームの大きさ
+    static constexpr float height = 350.0f; //スカイドームの高さ
 };
 
