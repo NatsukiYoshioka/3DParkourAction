@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject():
+	tag(),
 	modelHandle(initializeNum)
 {
 	pos = initializePos;

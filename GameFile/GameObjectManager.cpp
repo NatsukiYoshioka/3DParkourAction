@@ -2,6 +2,7 @@
 #include<string>
 #include"Load.h"
 #include"GameObject.h"
+#include"ObjectTag.h"
 #include"Player.h"
 #include"Camera.h"
 #include"Field.h"
@@ -91,6 +92,14 @@ void GameObjectManager::Update()
 	for (int i = initializeNum; i < objectInstance.size(); i++)
 	{
 		objectInstance.at(i)->Update();
+		for (int j = initializeNum; j < objectInstance.size(); j++)
+		{
+			//“–‚½‚è”»’è‚ÌXV
+			if (i != j)
+			{
+				objectInstance.at(i)->OnCollisionEnter(objectInstance.at(j), objectInstance.at(j)->GetObjectTag());
+			}
+		}
 	}
 }
 

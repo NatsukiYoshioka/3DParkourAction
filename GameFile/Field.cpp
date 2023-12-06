@@ -15,7 +15,8 @@ Field::Field(int modelHandle, VECTOR pos,float angle):
 
 	MV1SetRotationXYZ(this->modelHandle, this->angle);
 
-	MV1SetupCollInfo(frameIndex, collisionDivNum, collisionDivNum, collisionDivNum);
+	MV1SetPosition(this->modelHandle, this->pos);
+	MV1SetupCollInfo(this->modelHandle, frameIndex, collisionDivNum, collisionDivNum, collisionDivNum);
 }
 
 //データの解放
@@ -30,7 +31,7 @@ Field::~Field()
 //オブジェクトの更新
 void Field::Update()
 {
-	MV1SetPosition(modelHandle, pos);
+	
 }
 
 //オブジェクトの描画

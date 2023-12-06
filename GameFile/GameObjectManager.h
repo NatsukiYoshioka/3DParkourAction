@@ -61,5 +61,6 @@ private:
 	static const string dataFilePath;					//データ格納ファイルのパス
 
 	vector<GameObject*> objectInstance;					//オブジェクトのインスタンス
+	static constexpr int playerIndex = 1;
 };
 

@@ -60,6 +60,11 @@ public:
 	void UpdateInput();
 
 	/// <summary>
+	/// 重力処理の更新
+	/// </summary>
+	void UpdateGravity();
+
+	/// <summary>
 	/// アニメーションの更新
 	/// </summary>
 	void UpdateAnimation();
@@ -68,7 +73,7 @@ public:
 	/// 他のオブジェクトとの当たり判定
 	/// </summary>
 	/// <param name="other">他オブジェクト</param>
-	void OnCollisionEnter(const GameObject* other,const ObjectTag tag)override;
+	void OnCollisionEnter(GameObject* other,const ObjectTag tag)override;
 
 	/// <summary>
 	/// オブジェクトの描画
@@ -118,6 +123,11 @@ private:
 	VECTOR addMove;									//プレイヤーの移動加算値
 	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
 
+	bool isGround;									//地面に立っているか
+	float gravity;									//プレイヤーにかかる重力量
+	static constexpr float addGravity = 0.1f;		//重力加算量
+	static constexpr float maxGravity = 3.0f;		//最大重力量
+
 	static VECTOR angle;							//プレイヤーの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
 
@@ -133,9 +143,8 @@ private:
 
 	static constexpr int lineNum = 2;				//線分の2点
 	static constexpr int lineDivNum = 4;			//当たり判定用線分の数
-	static constexpr float lineSpace = 10.0f;
+	static constexpr float lineSpace = 5.0f;		//線分の間隔
 
 	VECTOR groundLinePos[lineDivNum][lineNum];	//地面の当たり判定用線分の座標
-	static constexpr float fixGroundLinePosY = 5.0f;
 };
 

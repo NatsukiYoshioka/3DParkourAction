@@ -23,7 +23,7 @@ public:
 	virtual void Draw() = 0;
 
 	//オブジェクトの当たり判定
-	virtual void OnCollisionEnter(const GameObject* other, const ObjectTag tag) {}
+	virtual void OnCollisionEnter(GameObject* other, const ObjectTag tag) {}
 
 	//モデルの取得
 	virtual int GetModelHandle() = 0;

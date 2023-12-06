@@ -1,6 +1,7 @@
 #include"GameObject.h"
 #include"ObjectTag.h"
 #include"PadInput.h"
+#include"Collision.h"
 #include"common.h"
 #include"DxLib.h"
 #include "Player.h"
@@ -15,6 +16,8 @@ const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
 Player::Player(int modelHandle, vector<int> animationHandle):
 	input(nullptr),
 	addMove(initializePos),
+	isGround(false),
+	gravity(static_cast<float>(initializeNum)),
 	status(STATUS::STAND),
 	animationIndex(initializeNum),
 	totalAnimTime(static_cast<float>(initializeNum)),
@@ -27,7 +30,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	MV1SetScale(this->modelHandle, scale);
-	pos = VGet(960.0f, 200.0f, -200.0f);
+	pos = VGet(1000.0f, 400.0f, 0.0f);
 
 	MV1SetRotationXYZ(this->modelHandle, fixAngle);
 
@@ -51,6 +54,7 @@ void Player::Update()
 {
 	UpdateInput();
 	MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
+	//UpdateGravity();
 	MV1SetPosition(modelHandle, pos);
 	UpdateAnimation();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
@@ -75,7 +79,12 @@ void Player::Update()
 			addMove = VScale(addMove, lineSpace);
 			groundLinePos[i][j] = VAdd(pos, addMove);
 			addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
-			groundLinePos[i][j].y -= fixGroundLinePosY;
+
+			addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+			addMove = VNorm(addMove);
+			addMove = VScale(addMove, (i - lineNum) * (lineSpace * lineNum / lineDivNum));
+			groundLinePos[i][j] = VAdd(groundLinePos[i][j], addMove);
+			addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
 		}
 	}
 }
@@ -145,6 +154,17 @@ void Player::UpdateInput()
 	}
 }
 
+//重力処理の更新
+void Player::UpdateGravity()
+{
+	gravity += addGravity;
+	if (gravity >= maxGravity)
+	{
+		gravity = maxGravity;
+	}
+	pos.y -= gravity;
+}
+
 //アニメーションの更新
 void Player::UpdateAnimation()
 {
@@ -162,11 +182,14 @@ void Player::UpdateAnimation()
 }
 
 //当たり判定
-void Player::OnCollisionEnter(const GameObject* other,const ObjectTag tag)
+void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 {
 	if (tag == ObjectTag::FIELD)
 	{
-
+		for (int i = initializeNum; i < lineDivNum; i++)
+		{
+			HitFieldJudge(pos, other->GetModelHandle(), groundLinePos[i][0], groundLinePos[i][1]);
+		}
 	}
 	if (tag == ObjectTag::OBSTACLE)
 	{

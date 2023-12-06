@@ -23,6 +23,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(TRUE);
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	SetUseZBuffer3D(TRUE);
+	SetWriteZBuffer3D(TRUE);
+
 	FpsControl::CreateInstance();
 	auto fpsControl = FpsControl::GetInstance();
 
