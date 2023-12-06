@@ -1,4 +1,5 @@
 #pragma once
+#include"ObjectTag.h"
 #include"common.h"
 #include<vector>
 #include<DxLib.h>
@@ -67,7 +68,7 @@ public:
 	/// 他のオブジェクトとの当たり判定
 	/// </summary>
 	/// <param name="other">他オブジェクト</param>
-	void OnCollisionEnter(const GameObject* other)override;
+	void OnCollisionEnter(const GameObject* other,const ObjectTag tag)override;
 
 	/// <summary>
 	/// オブジェクトの描画
@@ -86,7 +87,23 @@ public:
 	/// <returns>プレイヤーの向き</returns>
 	static VECTOR GetAngle() { return angle; }
 
+	/// <summary>
+	/// モデルハンドル取得
+	/// </summary>
+	/// <returns>モデルハンドル</returns>
 	int GetModelHandle() { return initializeNum; }
+
+	/// <summary>
+	/// オブジェクトタグ取得
+	/// </summary>
+	/// <returns>オブジェクトタグ</returns>
+	ObjectTag GetObjectTag() { return tag; }
+
+	/// <summary>
+	/// 座標取得
+	/// </summary>
+	/// <returns>オブジェクトの座標</returns>
+	VECTOR GetPos() { return pos; }
 
 private:
 	vector<int> animationHandle;		//アニメーションの配列
@@ -96,9 +113,7 @@ private:
 
 	static const VECTOR scale;			//モデルのスケール
 
-	static constexpr float capsuleWidth = 5.0f;		//当たり判定カプセルの幅
-	static constexpr int capsuleDivNum = 10;		//当たり判定カプセルのポリゴンの細かさ
-	static const unsigned int capsuleColor;			//当たり判定カプセルのカラー
+	static const unsigned int debugColor;			//当たり判定カプセルのカラー
 
 	VECTOR addMove;									//プレイヤーの移動加算値
 	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
@@ -116,11 +131,11 @@ private:
 	static VECTOR headPos;						//頭のフレームの座標
 	static constexpr int headFrameIndex = 5;	//頭のフレームの番号
 
-	VECTOR headTopPos;							//頭の頂点のフレームの座標
-	static constexpr int headTopFrameIndex = 6;	//頭の頂点のフレームの番号
+	static constexpr int lineNum = 2;				//線分の2点
+	static constexpr int lineDivNum = 4;			//当たり判定用線分の数
+	static constexpr float lineSpace = 10.0f;
 
-	VECTOR toePos;								//つま先のフレームの座標
-	static constexpr int toeFrameIndex = 0;		//つま先のフレームの番号
-	static constexpr float fixToePosY = 2.5f;	//つま先のY座標調整量
+	VECTOR groundLinePos[lineDivNum][lineNum];	//地面の当たり判定用線分の座標
+	static constexpr float fixGroundLinePosY = 5.0f;
 };
 

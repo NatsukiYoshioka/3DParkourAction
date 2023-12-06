@@ -1,4 +1,5 @@
 #pragma once
+#include"ObjectTag.h"
 #include"DxLib.h"
 
 /// <summary>
@@ -22,11 +23,16 @@ public:
 	virtual void Draw() = 0;
 
 	//オブジェクトの当たり判定
-	virtual void OnCollisionEnter(const GameObject* other){}
+	virtual void OnCollisionEnter(const GameObject* other, const ObjectTag tag) {}
 
 	//モデルの取得
 	virtual int GetModelHandle() = 0;
+	//タグの取得
+	virtual ObjectTag GetObjectTag() = 0;
+	//座標の取得
+	virtual VECTOR GetPos() = 0;
 protected:
+	ObjectTag tag;				//オブジェクトのタグ
 	int modelHandle;			//モデルのハンドル
 	VECTOR pos;					//オブジェクトの座標
 };

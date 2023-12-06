@@ -1,11 +1,13 @@
 #include"DxLib.h"
 #include"GameObject.h"
+#include"ObjectTag.h"
 #include"common.h"
 #include "Obstacle.h"
 
 //ƒ‚ƒfƒ‹‚ÌŽæ“¾‚ÆÀ•W‚Ì‰Šú‰»
 Obstacle::Obstacle(int modelHandle, VECTOR pos)
 {
+	tag = ObjectTag::OBSTACLE;
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	this->pos = pos;
 }

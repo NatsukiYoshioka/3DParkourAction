@@ -1,4 +1,5 @@
 #pragma once
+#include"ObjectTag.h"
 #include"common.h"
 #include<DxLib.h>
 
@@ -31,7 +32,23 @@ public:
     /// </summary>
     void Draw();
 
+    /// <summary>
+    /// モデルハンドル取得
+    /// </summary>
+    /// <returns>モデルハンドル</returns>
     int GetModelHandle() { return initializeNum; }
+
+    /// <summary>
+    /// オブジェクトタグ取得
+    /// </summary>
+    /// <returns>オブジェクトタグ</returns>
+    ObjectTag GetObjectTag() { return tag; }
+
+    /// <summary>
+    /// 座標取得
+    /// </summary>
+    /// <returns>オブジェクトの座標</returns>
+    VECTOR GetPos() { return pos; }
 
 private:
     static const VECTOR scale;              //スカイドームの大きさ

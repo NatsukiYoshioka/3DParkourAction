@@ -1,4 +1,5 @@
 #pragma once
+#include"ObjectTag.h"
 #include<DxLib.h>
 
 class GameObject;
@@ -34,8 +35,20 @@ public:
 	/// <summary>
 	/// モデルハンドルの取得
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>モデルハンドル</returns>
 	int GetModelHandle() { return modelHandle; }
+
+	/// <summary>
+	/// オブジェクトのタグ取得
+	/// </summary>
+	/// <returns>オブジェクトタグ</returns>
+	ObjectTag GetObjectTag() { return tag; }
+
+	/// <summary>
+	/// 座標取得
+	/// </summary>
+	/// <returns>オブジェクトの座標</returns>
+	VECTOR GetPos() { return pos; }
 
 private:
 	VECTOR angle;

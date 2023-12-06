@@ -1,11 +1,12 @@
 #include"GameObject.h"
+#include"ObjectTag.h"
 #include"PadInput.h"
 #include"common.h"
 #include"DxLib.h"
 #include "Player.h"
 
 const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
-const unsigned int Player::capsuleColor = GetColor(255, 255, 0);
+const unsigned int Player::debugColor = GetColor(255, 255, 0);
 VECTOR Player::headPos = initializePos;
 VECTOR Player::angle = initializePos;
 const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
@@ -18,9 +19,9 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	animationIndex(initializeNum),
 	totalAnimTime(static_cast<float>(initializeNum)),
 	playAnimTime(static_cast<float>(initializeNum)),
-	headTopPos(initializePos),
-	toePos(initializePos)
+	groundLinePos()
 {
+	tag = ObjectTag::PLAYER;
 	//クラスのインスタンス取得
 	input = PadInput::GetInstance();
 
@@ -53,12 +54,30 @@ void Player::Update()
 	MV1SetPosition(modelHandle, pos);
 	UpdateAnimation();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
-	//当たり判定用カプセル座標の計算
-	headTopPos = MV1GetFramePosition(modelHandle, headTopFrameIndex);
-	toePos = MV1GetFramePosition(modelHandle, toeFrameIndex);
-	toePos.x = headTopPos.x;
-	toePos.z = headTopPos.z;
-	toePos.y += fixToePosY;
+	//当たり判定用線分の座標計算
+	for (int i = initializeNum; i < lineDivNum; i++)
+	{
+		for (int j = initializeNum; j < lineNum; j++)
+		{
+			//線分の1点目の座標設定
+			if (j == initializeNum)
+			{
+				addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+			}
+			//線分の2点目の座標設定
+			else
+			{
+				addMove = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+				
+			}
+			addMove = VCross(addMove, VGet(0.0f, 0.1f, 0.0f));
+			addMove = VNorm(addMove);
+			addMove = VScale(addMove, lineSpace);
+			groundLinePos[i][j] = VAdd(pos, addMove);
+			addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
+			groundLinePos[i][j].y -= fixGroundLinePosY;
+		}
+	}
 }
 
 void Player::UpdateInput()
@@ -143,15 +162,25 @@ void Player::UpdateAnimation()
 }
 
 //当たり判定
-void Player::OnCollisionEnter(const GameObject* other)
+void Player::OnCollisionEnter(const GameObject* other,const ObjectTag tag)
 {
+	if (tag == ObjectTag::FIELD)
+	{
 
+	}
+	if (tag == ObjectTag::OBSTACLE)
+	{
+
+	}
 }
 
 //オブジェクトの描画
 void Player::Draw()
 {
 	MV1DrawModel(modelHandle);
-	//当たり判定デバッグ用カプセル描画
-	DrawCapsule3D(headTopPos, toePos, capsuleWidth, capsuleDivNum, capsuleColor, capsuleColor, FALSE);
+	//当たり判定デバッグ用描画
+	for (int i = initializeNum; i < lineDivNum; i++)
+	{
+		DrawLine3D(groundLinePos[i][0], groundLinePos[i][1], debugColor);
+	}
 }

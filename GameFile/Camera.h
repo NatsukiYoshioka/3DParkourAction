@@ -1,4 +1,5 @@
 #pragma once
+#include"ObjectTag.h"
 #include"common.h"
 #include<DxLib.h>
 
@@ -33,7 +34,23 @@ public:
 
 	void Draw(){}
 
+	/// <summary>
+	/// モデルハンドル取得
+	/// </summary>
+	/// <returns>モデルハンドル</returns>
 	int GetModelHandle() { return initializeNum; }
+
+	/// <summary>
+	/// タグの取得
+	/// </summary>
+	/// <returns>オブジェクトタグ</returns>
+	ObjectTag GetObjectTag() { return tag; }
+
+	/// <summary>
+	/// 座標の取得
+	/// </summary>
+	/// <returns>オブジェクトの座標</returns>
+	VECTOR GetPos() { return pos; }
 
 private:
 	PadInput* input;		//コントローラー入力情報管理クラス
@@ -43,8 +60,8 @@ private:
 	float rotateV;			//カメラX軸回転量
 
 	static constexpr float fixPosY = 4.0f;				//カメラY座標調整量
-	//static constexpr float fixFoewardPos = 2.75f;		//カメラ前押し出し量
-	static constexpr float fixFoewardPos = -120.5f;	//アニメーションデバッグ用
+	//static constexpr float fixForwardPos = 2.75f;		//カメラ前押し出し量
+	static constexpr float fixForwardPos = -120.5f;	//アニメーションデバッグ用
 
 	static constexpr float directionSpeed = 0.05f;						//方向転換速度
 	static constexpr float maxUpDirection = -90.0f * DX_PI_F / 180.0f;	//カメラの上方向限度

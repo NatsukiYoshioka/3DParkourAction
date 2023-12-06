@@ -64,6 +64,9 @@
     <Filter Include="ソース ファイル\Game\GameObject\Field">
       <UniqueIdentifier>{ffb59747-d2c7-4de0-8385-258cabd3ecf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game\Collision">
+      <UniqueIdentifier>{9bf23d7b-50a1-4481-a0a2-800f744052e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -110,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>ソース ファイル\Game\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +166,12 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ソース ファイル\Game\GameObject\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTag.h">
+      <Filter>ソース ファイル\Game\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ソース ファイル\Game\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

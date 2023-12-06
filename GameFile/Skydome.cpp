@@ -1,4 +1,5 @@
 #include"GameObject.h"
+#include"ObjectTag.h"
 #include"Player.h"
 #include"common.h"
 #include"DxLib.h"
@@ -9,6 +10,7 @@ const VECTOR Skydome::scale = VGet(5.0f, 5.0f, 5.0f);
 
 Skydome::Skydome(int modelHandle)
 {
+    tag = ObjectTag::SKYDOME;
     this->modelHandle = MV1DuplicateModel(modelHandle);
     pos = initializePos;
     pos.y = height;
@@ -33,5 +35,5 @@ void Skydome::Update()
 
 void Skydome::Draw()
 {
-    MV1DrawModel(modelHandle);
+    //MV1DrawModel(modelHandle);
 }

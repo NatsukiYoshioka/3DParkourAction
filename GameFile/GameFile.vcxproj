@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Field.cpp" />
     <ClCompile Include="FpsControl.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Field.h" />
     <ClInclude Include="FpsControl.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Load.h" />
     <ClInclude Include="MenuScene.h" />
+    <ClInclude Include="ObjectTag.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="PadInput.h" />
     <ClInclude Include="Player.h" />

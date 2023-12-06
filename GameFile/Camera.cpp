@@ -1,4 +1,5 @@
 #include"GameObject.h"
+#include"ObjectTag.h"
 #include"Player.h"
 #include"PadInput.h"
 #include"common.h"
@@ -11,6 +12,7 @@ Camera::Camera():
 	angle(initializePos),
 	addPos(initializePos)
 {
+	tag = ObjectTag::CAMERA;
 	input = PadInput::GetInstance();
 	SetCameraNearFar(cameraNear, cameraFar);
 }
@@ -37,7 +39,7 @@ void Camera::Update()
 	//カメラを前に押し出し
 	addPos = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 	addPos = VNorm(addPos);
-	addPos = VScale(addPos, fixFoewardPos);
+	addPos = VScale(addPos, fixForwardPos);
 	pos = VAdd(pos, addPos);
 
 	//カメラの位置と向きをセット

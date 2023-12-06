@@ -1,4 +1,5 @@
 #include"DxLib.h"
+#include"ObjectTag.h"
 #include"common.h"
 #include"GameObject.h"
 #include "Field.h"
@@ -7,6 +8,7 @@
 Field::Field(int modelHandle, VECTOR pos,float angle):
 	angle(initializePos)
 {
+	tag = ObjectTag::FIELD;
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	this->pos = pos;
 	this->angle.y = angle;
