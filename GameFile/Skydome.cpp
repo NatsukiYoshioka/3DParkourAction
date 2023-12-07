@@ -35,5 +35,5 @@ void Skydome::Update()
 
 void Skydome::Draw()
 {
-    //MV1DrawModel(modelHandle);
+    MV1DrawModel(modelHandle);
 }

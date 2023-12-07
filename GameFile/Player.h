@@ -70,6 +70,11 @@ public:
 	void UpdateAnimation();
 
 	/// <summary>
+	/// 当たり判定線分の計算
+	/// </summary>
+	void CalcCollisionLine();
+
+	/// <summary>
 	/// 他のオブジェクトとの当たり判定
 	/// </summary>
 	/// <param name="other">他オブジェクト</param>
@@ -142,9 +147,12 @@ private:
 	static constexpr int headFrameIndex = 5;	//頭のフレームの番号
 
 	static constexpr int lineNum = 2;				//線分の2点
-	static constexpr int lineDivNum = 4;			//当たり判定用線分の数
-	static constexpr float lineSpace = 5.0f;		//線分の間隔
+	static constexpr int lineDivNum = 5;			//当たり判定用線分の列数
+	static constexpr float lineWidth = 5.0f;		//線分の長さ
+	static constexpr float lineSpace = 0.75f;		//線分の間隔
 
-	VECTOR groundLinePos[lineDivNum][lineNum];	//地面の当たり判定用線分の座標
+	VECTOR groundLinePos[lineDivNum][lineDivNum];	//地面の当たり判定用線分の座標
+
+	static constexpr int jumpButtonIndex = 12;		//ジャンプボタンの番号
 };
 

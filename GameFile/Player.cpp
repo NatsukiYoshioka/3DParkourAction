@@ -54,39 +54,12 @@ void Player::Update()
 {
 	UpdateInput();
 	MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
-	//UpdateGravity();
+	UpdateGravity();
 	MV1SetPosition(modelHandle, pos);
 	UpdateAnimation();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	//当たり判定用線分の座標計算
-	for (int i = initializeNum; i < lineDivNum; i++)
-	{
-		for (int j = initializeNum; j < lineNum; j++)
-		{
-			//線分の1点目の座標設定
-			if (j == initializeNum)
-			{
-				addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			}
-			//線分の2点目の座標設定
-			else
-			{
-				addMove = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				
-			}
-			addMove = VCross(addMove, VGet(0.0f, 0.1f, 0.0f));
-			addMove = VNorm(addMove);
-			addMove = VScale(addMove, lineSpace);
-			groundLinePos[i][j] = VAdd(pos, addMove);
-			addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
-
-			addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			addMove = VNorm(addMove);
-			addMove = VScale(addMove, (i - lineNum) * (lineSpace * lineNum / lineDivNum));
-			groundLinePos[i][j] = VAdd(groundLinePos[i][j], addMove);
-			addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
-		}
-	}
+	CalcCollisionLine();
 }
 
 void Player::UpdateInput()
@@ -109,12 +82,11 @@ void Player::UpdateInput()
 	//左スティック左倒し
 	if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
 	{
-		addMove= VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+		addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 		addMove = VCross(addMove, VGet(0.0f, 1.0f, 0.0f));
 		addMove = VNorm(addMove);
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
-		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
 
 		status = STATUS::RUN_LEFT;
 	}
@@ -126,7 +98,6 @@ void Player::UpdateInput()
 		addMove = VNorm(addMove);
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
-		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
 
 		status = STATUS::RUN_RIGHT;
 	}
@@ -137,7 +108,6 @@ void Player::UpdateInput()
 		addMove = VNorm(addMove);
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
-		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
 
 		status = STATUS::RUN;
 	}
@@ -148,9 +118,15 @@ void Player::UpdateInput()
 		addMove = VNorm(addMove);
 		addMove = VScale(addMove, moveSpeed);
 		pos = VAdd(pos, addMove);
-		addMove = VGet(static_cast<int>(initializeNum), static_cast<int>(initializeNum), static_cast<int>(initializeNum));
 
 		status = STATUS::RUN_BACK;
+	}
+
+	//アクション入力処理
+	//ジャンプ:Aボタン入力
+	if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
+	{
+
 	}
 }
 
@@ -158,6 +134,10 @@ void Player::UpdateInput()
 void Player::UpdateGravity()
 {
 	gravity += addGravity;
+	if (isGround)
+	{
+		gravity = static_cast<float>(initializeNum);
+	}
 	if (gravity >= maxGravity)
 	{
 		gravity = maxGravity;
@@ -181,6 +161,28 @@ void Player::UpdateAnimation()
 	MV1SetAttachAnimTime(modelHandle, animationIndex, playAnimTime);
 }
 
+//当たり判定線分の計算
+void Player::CalcCollisionLine()
+{
+	//地面の当たり判定線分
+	for (int i = initializeNum; i < lineDivNum; i++)
+	{
+		for (int j = initializeNum; j < lineDivNum; j++)
+		{
+			addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+			addMove = VCross(addMove, VGet(0.0f, 0.1f, 0.0f));
+			addMove = VNorm(addMove);
+			addMove = VScale(addMove, static_cast<float>((i - lineNum) * (lineSpace * lineDivNum / lineNum)));
+			groundLinePos[i][j] = VAdd(VGet(pos.x, pos.y + lineWidth - maxGravity, pos.z), addMove);
+
+			addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+			addMove = VNorm(addMove);
+			addMove = VScale(addMove, static_cast<float>((j - lineNum) * (lineSpace * lineDivNum / lineNum)));
+			groundLinePos[i][j] = VAdd(groundLinePos[i][j], addMove);
+		}
+	}
+}
+
 //当たり判定
 void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 {
@@ -188,7 +190,11 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 	{
 		for (int i = initializeNum; i < lineDivNum; i++)
 		{
-			HitFieldJudge(pos, other->GetModelHandle(), groundLinePos[i][0], groundLinePos[i][1]);
+			for (int j = initializeNum; j < lineDivNum; j++)
+			{
+				HitFieldJudge(pos, other->GetModelHandle(), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y + lineWidth, groundLinePos[i][j].z), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y - lineWidth, groundLinePos[i][j].z));
+				CalcCollisionLine();
+			}
 		}
 	}
 	if (tag == ObjectTag::OBSTACLE)
@@ -204,6 +210,9 @@ void Player::Draw()
 	//当たり判定デバッグ用描画
 	for (int i = initializeNum; i < lineDivNum; i++)
 	{
-		DrawLine3D(groundLinePos[i][0], groundLinePos[i][1], debugColor);
+		for (int j = initializeNum; j < lineDivNum; j++)
+		{
+			DrawLine3D(VGet(groundLinePos[i][j].x, groundLinePos[i][j].y + lineWidth, groundLinePos[i][j].z), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y - lineWidth, groundLinePos[i][j].z), debugColor);
+		}
 	}
 }
