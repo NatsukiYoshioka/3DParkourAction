@@ -133,6 +133,9 @@ private:
 	static constexpr float addGravity = 0.1f;		//重力加算量
 	static constexpr float maxGravity = 3.0f;		//最大重力量
 
+	float jump;										//ジャンプ力
+	static constexpr float jumpPower = 3.5f;		//ジャンプ力加算量
+
 	static VECTOR angle;							//プレイヤーの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
 
@@ -148,10 +151,17 @@ private:
 
 	static constexpr int lineNum = 2;				//線分の2点
 	static constexpr int lineDivNum = 5;			//当たり判定用線分の列数
-	static constexpr float lineWidth = 5.0f;		//線分の長さ
-	static constexpr float lineSpace = 0.75f;		//線分の間隔
 
-	VECTOR groundLinePos[lineDivNum][lineDivNum];	//地面の当たり判定用線分の座標
+	static constexpr float groundLineWidth = 5.0f;		//地面当たり判定線分の長さ
+	static constexpr float groundLineSpace = 0.75f;		//地面当たり判定線分の間隔
+
+	VECTOR groundLinePos[lineDivNum][lineDivNum];			//地面の当たり判定用線分の座標
+
+	static constexpr float wallCollisionLineWidth = 7.5f;	//壁の当たり判定線分の長さ
+	static constexpr float wallCollisionLineSpace = 7.5f;	//壁の当たり判定線分の感覚
+	static constexpr float fixWallCollisionLinePosY = 7.5f;	//壁の当たり判定線分のY座標調整量
+
+	VECTOR wallCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//壁との当たり判定用線分の座標
 
 	static constexpr int jumpButtonIndex = 12;		//ジャンプボタンの番号
 };
