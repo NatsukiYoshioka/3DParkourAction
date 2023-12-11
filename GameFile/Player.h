@@ -126,9 +126,14 @@ private:
 	static const unsigned int debugColor;			//当たり判定カプセルのカラー
 
 	VECTOR addMove;									//プレイヤーの移動加算値
+	VECTOR moveDirection;							//プレイヤーの向くべき方向
+	VECTOR moveDirectionX;							//プレイヤーのローカルX軸で進むべき方向
+	VECTOR moveDirectionZ;							//プレイヤーのローカルZ軸で進むべき方向
 	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
 
 	bool isGround;									//地面に立っているか
+	bool isMove;									//動いているか
+	bool isWallRun;									//ウォールランしているかどうか
 	float gravity;									//プレイヤーにかかる重力量
 	static constexpr float addGravity = 0.1f;		//重力加算量
 	static constexpr float maxGravity = 3.0f;		//最大重力量
@@ -159,9 +164,10 @@ private:
 
 	static constexpr float wallCollisionLineWidth = 7.5f;	//壁の当たり判定線分の長さ
 	static constexpr float wallCollisionLineSpace = 7.5f;	//壁の当たり判定線分の感覚
-	static constexpr float fixWallCollisionLinePosY = 7.5f;	//壁の当たり判定線分のY座標調整量
+	static constexpr float fixWallCollisionLinePosY = 12.0f;	//壁の当たり判定線分のY座標調整量
 
 	VECTOR wallCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//壁との当たり判定用線分の座標
+	VECTOR sideCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//側面の当たり判定用線分の座標
 
 	static constexpr int jumpButtonIndex = 12;		//ジャンプボタンの番号
 };
