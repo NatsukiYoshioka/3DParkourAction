@@ -1,3 +1,4 @@
+#include"common.h"
 #include"DxLib.h"
 #include"Collision.h"
 
@@ -30,4 +31,24 @@ bool HitWallJudge(VECTOR& pos, int modelHandle, VECTOR linePos1, VECTOR linePos2
         return true;
     }
     return false;
+}
+
+//ƒEƒH[ƒ‹ƒ‰ƒ““–‚½‚è”»’èˆ—
+int WallRunProcess(VECTOR& pos, int modelHandle, VECTOR linePos1, VECTOR linePos2)
+{
+    MV1_COLL_RESULT_POLY hitPoly = MV1CollCheck_Line(modelHandle, frameIndex, linePos1, linePos2);
+    if (hitPoly.HitFlag)
+    {
+        if (VSize(VSub(hitPoly.HitPosition, linePos1)) < VSize(VSub(hitPoly.HitPosition, linePos2)))
+        {
+            pos = VAdd(pos, VSub(hitPoly.HitPosition, linePos1));
+            return hitLeft;
+        }
+        else
+        {
+            pos = VAdd(pos, VSub(hitPoly.HitPosition, linePos2));
+            return hitRight;
+        }
+    }
+    return initializeNum;
 }

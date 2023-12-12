@@ -60,6 +60,34 @@ public:
 	void UpdateInput();
 
 	/// <summary>
+	/// ワールド座標左移動計算関数
+	/// </summary>
+	/// <param name="vec">加算するベクトル</param>
+	/// <returns>加算するベクトル</returns>
+	VECTOR CalcLeftMove(VECTOR vec);
+
+	/// <summary>
+	/// ワールド座標右移動計算関数
+	/// </summary>
+	/// <param name="vec">加算するベクトル</param>
+	/// <returns>加算するベクトル</returns>
+	VECTOR CalcRightMove(VECTOR vec);
+
+	/// <summary>
+	/// ワールド座標前移動計算関数
+	/// </summary>
+	/// <param name="vec">加算するベクトル</param>
+	/// <returns>加算するベクトル</returns>
+	VECTOR CalcFrontMove(VECTOR vec);
+
+	/// <summary>
+	/// ワールド座標後ろ移動計算関数
+	/// </summary>
+	/// <param name="vec">加算するベクトル</param>
+	/// <returns>加算するベクトル</returns>
+	VECTOR CalcBehindMove(VECTOR vec);
+
+	/// <summary>
 	/// 重力処理の更新
 	/// </summary>
 	void UpdateGravity();
@@ -129,9 +157,12 @@ private:
 	VECTOR moveDirection;							//プレイヤーの向くべき方向
 	VECTOR moveDirectionX;							//プレイヤーのローカルX軸で進むべき方向
 	VECTOR moveDirectionZ;							//プレイヤーのローカルZ軸で進むべき方向
+	int isHitWall;									//壁に当たったかどうか
+	bool isLeft;									//左の壁に当たったかどうか
 	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
 
 	bool isGround;									//地面に立っているか
+	bool isJump;									//ジャンプしたかどうか
 	bool isMove;									//動いているか
 	bool isWallRun;									//ウォールランしているかどうか
 	float gravity;									//プレイヤーにかかる重力量
@@ -139,7 +170,7 @@ private:
 	static constexpr float maxGravity = 3.0f;		//最大重力量
 
 	float jump;										//ジャンプ力
-	static constexpr float jumpPower = 3.5f;		//ジャンプ力加算量
+	static constexpr float jumpPower = 4.5f;		//ジャンプ力加算量
 
 	static VECTOR angle;							//プレイヤーの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度

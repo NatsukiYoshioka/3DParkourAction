@@ -19,7 +19,10 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	moveDirection(initializePos),
 	moveDirectionX(initializePos),
 	moveDirectionZ(initializePos),
+	isHitWall(initializeNum),
+	isLeft(false),
 	isGround(false),
+	isJump(false),
 	isMove(false),
 	isWallRun(false),
 	gravity(static_cast<float>(initializeNum)),
@@ -72,15 +75,18 @@ void Player::Update()
 void Player::UpdateInput()
 {
 	//視点移動入力処理
-	//右スティック左倒し
-	if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
+	if (!isWallRun)
 	{
-		angle.y -= directionSpeed;
-	}
-	//右スティック右倒し
-	if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
-	{
-		angle.y += directionSpeed;
+		//右スティック左倒し
+		if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
+		{
+			angle.y -= directionSpeed;
+		}
+		//右スティック右倒し
+		if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
+		{
+			angle.y += directionSpeed;
+		}
 	}
 
 	//移動入力処理
@@ -91,11 +97,7 @@ void Player::UpdateInput()
 		//左スティック左倒し
 		if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
 		{
-			addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			addMove = VCross(addMove, VGet(0.0f, 1.0f, 0.0f));
-			addMove = VNorm(addMove);
-			addMove = VScale(addMove, moveSpeed);
-			pos = VAdd(pos, addMove);
+			pos = VAdd(pos, CalcLeftMove(addMove));
 
 			isMove = true;
 			status = STATUS::RUN_LEFT;
@@ -103,11 +105,7 @@ void Player::UpdateInput()
 		//左スティック右倒し
 		if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
 		{
-			addMove = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			addMove = VCross(addMove, VGet(0.0f, 1.0f, 0.0f));
-			addMove = VNorm(addMove);
-			addMove = VScale(addMove, moveSpeed);
-			pos = VAdd(pos, addMove);
+			pos = VAdd(pos, CalcRightMove(addMove));
 
 			isMove = true;
 			status = STATUS::RUN_RIGHT;
@@ -115,10 +113,7 @@ void Player::UpdateInput()
 		//左スティック上倒し
 		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
 		{
-			addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			addMove = VNorm(addMove);
-			addMove = VScale(addMove, moveSpeed);
-			pos = VAdd(pos, addMove);
+			pos = VAdd(pos, CalcFrontMove(addMove));
 
 			isMove = true;
 			status = STATUS::RUN;
@@ -126,10 +121,7 @@ void Player::UpdateInput()
 		//左スティック下倒し
 		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
 		{
-			addMove = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			addMove = VNorm(addMove);
-			addMove = VScale(addMove, moveSpeed);
-			pos = VAdd(pos, addMove);
+			pos = VAdd(pos, CalcBehindMove(addMove));
 
 			isMove = true;
 			status = STATUS::RUN_BACK;
@@ -139,6 +131,7 @@ void Player::UpdateInput()
 		//ジャンプ:Aボタン入力
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
+			isJump = true;
 			moveDirectionX = initializePos;
 			moveDirectionZ = initializePos;
 			//左スティック左倒し
@@ -179,7 +172,57 @@ void Player::UpdateInput()
 	}
 	else if (isWallRun)
 	{
+		isMove = false;
+		//左スティック上倒し
+		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+		{
+			pos = VAdd(pos, CalcFrontMove(addMove));
+		}
+		if (isLeft)
+		{
+			//左スティック左倒し
+			if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+			{
+				pos = VAdd(pos, CalcLeftMove(addMove));
+			}
+		}
+		else
+		{
+			//左スティック右倒し
+			if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+			{
+				pos = VAdd(pos, CalcRightMove(addMove));
+			}
+		}
+		//ジャンプ:Aボタン入力
+		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
+		{
+			moveDirectionZ = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+			moveDirectionZ = VNorm(moveDirectionZ);
+			isMove = true;
+			if (isLeft)
+			{
+				moveDirectionX = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+				moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
+				moveDirectionX = VNorm(moveDirectionX);
+				pos = VAdd(pos, CalcRightMove(addMove));
+			}
+			else
+			{
+				moveDirectionX = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+				moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
+				moveDirectionX = VNorm(moveDirectionX);
+				pos = VAdd(pos, CalcLeftMove(addMove));
+			}
+			moveDirection = VAdd(moveDirectionX, moveDirectionZ);
+			moveDirection = VNorm(moveDirection);
+			jump = jumpPower;
+			gravity = static_cast<float>(initializeNum);
 
+			status = STATUS::JUMP;
+			playAnimTime = static_cast<float>(initializeNum);
+			isWallRun = false;
+		}
 	}
 	else
 	{
@@ -199,6 +242,40 @@ void Player::UpdateInput()
 		}
 		pos.y += jump;
 	}
+}
+
+VECTOR Player::CalcLeftMove(VECTOR vec)
+{
+	vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	vec = VCross(vec, VGet(0.0f, 1.0f, 0.0f));
+	vec = VNorm(vec);
+	vec = VScale(vec, moveSpeed);
+	return vec;
+}
+
+VECTOR Player::CalcRightMove(VECTOR vec)
+{
+	vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	vec = VCross(vec, VGet(0.0f, 1.0f, 0.0f));
+	vec = VNorm(vec);
+	vec = VScale(vec, moveSpeed);
+	return vec;
+}
+
+VECTOR Player::CalcFrontMove(VECTOR vec)
+{
+	vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	vec = VNorm(vec);
+	vec = VScale(vec, moveSpeed);
+	return vec;
+}
+
+VECTOR Player::CalcBehindMove(VECTOR vec)
+{
+	vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	vec = VNorm(vec);
+	vec = VScale(vec, moveSpeed);
+	return vec;
 }
 
 //重力処理の更新
@@ -320,11 +397,25 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 				{
 					CalcCollisionLine();
 					isGround = true;
+					isJump = false;
 				}
-				if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+				if (isGround)
 				{
-					if (!isGround)isWallRun = true;
-					CalcCollisionLine();
+					if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+					{
+						CalcCollisionLine();
+					}
+				}
+				else
+				{
+					isHitWall = WallRunProcess(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]);
+					if (isHitWall && isJump)
+					{
+						if (isHitWall == hitLeft)isLeft = true;
+						else isLeft = false;
+						isWallRun = true;
+						CalcCollisionLine();
+					}
 				}
 				if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
 				{
