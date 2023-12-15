@@ -25,9 +25,11 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	isJump(false),
 	isMove(false),
 	isWallRun(false),
+	isWallJump(false),
 	gravity(static_cast<float>(initializeNum)),
 	jump(static_cast<float>(initializeNum)),
 	status(STATUS::STAND),
+	jumpAngle(initializePos),
 	animationIndex(initializeNum),
 	totalAnimTime(static_cast<float>(initializeNum)),
 	playAnimTime(static_cast<float>(initializeNum)),
@@ -63,7 +65,7 @@ Player::~Player()
 void Player::Update()
 {
 	UpdateInput();
-	MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
+	if(!isWallRun)MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
 	UpdateGravity();
 	MV1SetPosition(modelHandle, pos);
 	UpdateAnimation();
@@ -75,24 +77,27 @@ void Player::Update()
 void Player::UpdateInput()
 {
 	//視点移動入力処理
-	if (!isWallRun)
+	//右スティック左倒し
+	if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
 	{
-		//右スティック左倒し
-		if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
-		{
-			angle.y -= directionSpeed;
-		}
-		//右スティック右倒し
-		if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
-		{
-			angle.y += directionSpeed;
-		}
+		angle.y -= directionSpeed;
+	}
+	//右スティック右倒し
+	if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
+	{
+		angle.y += directionSpeed;
 	}
 
 	//移動入力処理
 	if (isGround && !isWallRun)
 	{
 		isMove = false;
+
+		gravity = static_cast<float>(initializeNum);
+		moveDirection = initializePos;
+		moveDirectionX = initializePos;
+		moveDirectionZ = initializePos;
+
 		status = STATUS::STAND;
 		//左スティック左倒し
 		if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
@@ -134,6 +139,7 @@ void Player::UpdateInput()
 			isJump = true;
 			moveDirectionX = initializePos;
 			moveDirectionZ = initializePos;
+			jumpAngle = angle;
 			//左スティック左倒し
 			if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
 			{
@@ -160,8 +166,7 @@ void Player::UpdateInput()
 				moveDirectionZ = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 				moveDirectionZ = VNorm(moveDirectionZ);
 			}
-			moveDirection = VAdd(moveDirectionX, moveDirectionZ);
-			moveDirection = VNorm(moveDirection);
+			
 			jump = jumpPower;
 			gravity = static_cast<float>(initializeNum);
 
@@ -169,6 +174,8 @@ void Player::UpdateInput()
 			status = STATUS::JUMP;
 			playAnimTime = static_cast<float>(initializeNum);
 		}
+		moveDirection = VAdd(moveDirectionX, moveDirectionZ);
+		moveDirection = VNorm(moveDirection);
 	}
 	else if (isWallRun)
 	{
@@ -197,30 +204,15 @@ void Player::UpdateInput()
 		//ジャンプ:Aボタン入力
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
-			moveDirectionZ = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-			moveDirectionZ = VNorm(moveDirectionZ);
 			isMove = true;
-			if (isLeft)
-			{
-				moveDirectionX = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
-				moveDirectionX = VNorm(moveDirectionX);
-				pos = VAdd(pos, CalcRightMove(addMove));
-			}
-			else
-			{
-				moveDirectionX = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
-				moveDirectionX = VNorm(moveDirectionX);
-				pos = VAdd(pos, CalcLeftMove(addMove));
-			}
-			moveDirection = VAdd(moveDirectionX, moveDirectionZ);
+			moveDirection = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 			moveDirection = VNorm(moveDirection);
+			
 			jump = jumpPower;
-			gravity = static_cast<float>(initializeNum);
 
 			status = STATUS::JUMP;
 			playAnimTime = static_cast<float>(initializeNum);
+			isWallJump = true;
 			isWallRun = false;
 		}
 	}
@@ -246,34 +238,42 @@ void Player::UpdateInput()
 
 VECTOR Player::CalcLeftMove(VECTOR vec)
 {
-	vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	if(!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	else vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(jumpAngle.z), MGetRotX(jumpAngle.x)), MGetRotY(jumpAngle.y)));
 	vec = VCross(vec, VGet(0.0f, 1.0f, 0.0f));
 	vec = VNorm(vec);
+	moveDirectionX = vec;
 	vec = VScale(vec, moveSpeed);
 	return vec;
 }
 
 VECTOR Player::CalcRightMove(VECTOR vec)
 {
-	vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	if (!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	else vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(jumpAngle.z), MGetRotX(jumpAngle.x)), MGetRotY(jumpAngle.y)));
 	vec = VCross(vec, VGet(0.0f, 1.0f, 0.0f));
 	vec = VNorm(vec);
+	moveDirectionX = vec;
 	vec = VScale(vec, moveSpeed);
 	return vec;
 }
 
 VECTOR Player::CalcFrontMove(VECTOR vec)
 {
-	vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	if (!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	else vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(jumpAngle.z), MGetRotX(jumpAngle.x)), MGetRotY(jumpAngle.y)));
 	vec = VNorm(vec);
+	moveDirectionZ = vec;
 	vec = VScale(vec, moveSpeed);
 	return vec;
 }
 
 VECTOR Player::CalcBehindMove(VECTOR vec)
 {
-	vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	if (!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	else vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(jumpAngle.z), MGetRotX(jumpAngle.x)), MGetRotY(jumpAngle.y)));
 	vec = VNorm(vec);
+	moveDirectionZ = vec;
 	vec = VScale(vec, moveSpeed);
 	return vec;
 }
@@ -309,6 +309,16 @@ void Player::UpdateAnimation()
 		switch (status)
 		{
 		case STATUS::JUMP:
+			status = STATUS::FALL;
+			break;
+		case STATUS::LEFT_WALLRUN:
+			isWallRun = false;
+			isWallJump = true;
+			status = STATUS::FALL;
+			break;
+		case STATUS::RIGHT_WALLRUN:
+			isWallRun = false;
+			isWallJump = true;
 			status = STATUS::FALL;
 			break;
 		default:
@@ -393,12 +403,16 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 		{
 			for (int j = initializeNum; j < lineDivNum; j++)
 			{
+				//地面との当たり判定
 				if (HitGroundJudge(pos, other->GetModelHandle(), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y + groundLineWidth, groundLinePos[i][j].z), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y - groundLineWidth, groundLinePos[i][j].z)))
 				{
 					CalcCollisionLine();
 					isGround = true;
+					isWallRun = false;
+					isWallJump = false;
 					isJump = false;
 				}
+				//地面にいるときの壁との当たり判定
 				if (isGround)
 				{
 					if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
@@ -406,20 +420,30 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 						CalcCollisionLine();
 					}
 				}
+				//空中で壁に当たった時の当たり判定
 				else
 				{
 					isHitWall = WallRunProcess(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]);
-					if (isHitWall && isJump)
+					if (isHitWall && isJump && !isWallJump)
 					{
-						if (isHitWall == hitLeft)isLeft = true;
-						else isLeft = false;
+						if (isHitWall == hitLeft)
+						{
+							isLeft = true;
+							status = STATUS::LEFT_WALLRUN;
+						}
+						else
+						{
+							isLeft = false;
+							status = STATUS::RIGHT_WALLRUN;
+						}
+						if (!isWallRun)playAnimTime = static_cast<float>(initializeNum);
 						isWallRun = true;
 						CalcCollisionLine();
 					}
-				}
-				if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
-				{
-					CalcCollisionLine();
+					else if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+					{
+						CalcCollisionLine();
+					}
 				}
 			}
 		}

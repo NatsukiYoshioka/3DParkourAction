@@ -165,6 +165,7 @@ private:
 	bool isJump;									//ジャンプしたかどうか
 	bool isMove;									//動いているか
 	bool isWallRun;									//ウォールランしているかどうか
+	bool isWallJump;								//壁ジャンプしたかどうか
 	float gravity;									//プレイヤーにかかる重力量
 	static constexpr float addGravity = 0.1f;		//重力加算量
 	static constexpr float maxGravity = 3.0f;		//最大重力量
@@ -173,6 +174,7 @@ private:
 	static constexpr float jumpPower = 4.5f;		//ジャンプ力加算量
 
 	static VECTOR angle;							//プレイヤーの向き
+	VECTOR jumpAngle;								//ジャンプしたときの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
 
 	static const VECTOR fixAngle;				//モデルの方向修正

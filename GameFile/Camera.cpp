@@ -9,12 +9,14 @@
 //コンストラクタ
 Camera::Camera():
 	rotateV(static_cast<float>(initializeNum)),
+	fov(initializeFov),
 	angle(initializePos),
 	addPos(initializePos)
 {
 	tag = ObjectTag::CAMERA;
 	input = PadInput::GetInstance();
 	SetCameraNearFar(cameraNear, cameraFar);
+	//SetupCamera_Perspective(fov);
 }
 
 //データ解放
