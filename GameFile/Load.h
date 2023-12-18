@@ -94,6 +94,12 @@ public:
 	vector<VECTOR> GetObstaclePos() { return obstaclePos; }
 
 	/// <summary>
+	/// 障害物の角度取得
+	/// </summary>
+	/// <returns>障害物の角度のvector配列</returns>
+	vector<float> GetObstacleAngle() { return obstacleAngle; }
+
+	/// <summary>
 	/// スカイドームのモデルハンドル取得
 	/// </summary>
 	/// <returns>スカイドームのモデルハンドルのvector配列</returns>
@@ -120,6 +126,7 @@ private:
 
 	vector<int> obstacleModelHandle;	//障害物のモデルハンドル
 	vector<VECTOR> obstaclePos;			//障害物の各座標
+	vector<float> obstacleAngle;		//障害物の角度
 
 	vector<int> skydomeModelHandle;		//スカイドームのモデルハンドル
 	vector<VECTOR> skydomePos;			//スカイドームのポジション
@@ -131,6 +138,7 @@ private:
 	static constexpr const char* fieldAngleHeader = "FieldAngle";
 	static constexpr const char* obstacleHeader = "OBSTACLE";
 	static constexpr const char* obstaclePosXHeader = "ObstaclePosX";
+	static constexpr const char* obstacleAngleHeader = "ObstacleAngle";
 	static constexpr const char* skydomeHeader = "SKYDOME";
 };
 

@@ -84,7 +84,7 @@ void Player::UpdateInput()
 	if (!isSlide)
 	{
 		//視点移動入力処理
-	//右スティック左倒し
+		//右スティック左倒し
 		if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
 		{
 			angle.y -= directionSpeed;
@@ -106,41 +106,39 @@ void Player::UpdateInput()
 		moveDirectionX = initializePos;
 		moveDirectionZ = initializePos;
 
-		if (status != STATUS::SLIDE)
+		if (status != STATUS::CROUCH)status = STATUS::STAND;
+		
+		//左スティック左倒し
+		if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
 		{
-			status = STATUS::STAND;
-			//左スティック左倒し
-			if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
-			{
-				pos = VAdd(pos, CalcLeftMove(addMove));
+			pos = VAdd(pos, CalcLeftMove(addMove));
 
-				isMove = true;
-				status = STATUS::RUN_LEFT;
-			}
-			//左スティック右倒し
-			if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
-			{
-				pos = VAdd(pos, CalcRightMove(addMove));
+			isMove = true;
+			status = STATUS::RUN_LEFT;
+		}
+		//左スティック右倒し
+		if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+		{
+			pos = VAdd(pos, CalcRightMove(addMove));
 
-				isMove = true;
-				status = STATUS::RUN_RIGHT;
-			}
-			//左スティック上倒し
-			if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
-			{
-				pos = VAdd(pos, CalcFrontMove(addMove));
+			isMove = true;
+			status = STATUS::RUN_RIGHT;
+		}
+		//左スティック上倒し
+		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+		{
+			pos = VAdd(pos, CalcFrontMove(addMove));
 
-				isMove = true;
-				status = STATUS::RUN;
-			}
-			//左スティック下倒し
-			if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
-			{
-				pos = VAdd(pos, CalcBehindMove(addMove));
+			isMove = true;
+			status = STATUS::RUN;
+		}
+		//左スティック下倒し
+		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
+		{
+			pos = VAdd(pos, CalcBehindMove(addMove));
 
-				isMove = true;
-				status = STATUS::RUN_BACK;
-			}
+			isMove = true;
+			status = STATUS::RUN_BACK;
 		}
 
 		//アクション入力処理
@@ -195,11 +193,30 @@ void Player::UpdateInput()
 		moveDirection = VAdd(moveDirectionX, moveDirectionZ);
 		moveDirection = VNorm(moveDirection);
 	}
+	//スライディング中の処理
 	else if (status == STATUS::SLIDE)
 	{
+		moveDirection = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+		moveDirection = VNorm(moveDirection);
 		fixSlidePos = VAdd(fixSlidePos, VScale(moveDirection, slideSpeed));
-		pos = VAdd(pos, VScale(moveDirection, moveSpeed));
+		pos = VAdd(pos, VScale(moveDirection, slideSpeed));
+
+		//ジャンプ:Aボタン入力
+		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
+		{
+			isSlide = false;
+
+			isJump = true;
+			jump = jumpPower;
+			jumpAngle = angle;
+			gravity = static_cast<float>(initializeNum);
+
+			isGround = false;
+			status = STATUS::JUMP;
+			playAnimTime = static_cast<float>(initializeNum);
+		}
 	}
+	//ウォールラン中の処理
 	else if (isWallRun)
 	{
 		isMove = false;
@@ -259,6 +276,7 @@ void Player::UpdateInput()
 	}
 }
 
+//左移動処理
 VECTOR Player::CalcLeftMove(VECTOR vec)
 {
 	if(!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -270,6 +288,7 @@ VECTOR Player::CalcLeftMove(VECTOR vec)
 	return vec;
 }
 
+//右移動処理
 VECTOR Player::CalcRightMove(VECTOR vec)
 {
 	if (!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -281,6 +300,7 @@ VECTOR Player::CalcRightMove(VECTOR vec)
 	return vec;
 }
 
+//前移動処理
 VECTOR Player::CalcFrontMove(VECTOR vec)
 {
 	if (!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -291,6 +311,7 @@ VECTOR Player::CalcFrontMove(VECTOR vec)
 	return vec;
 }
 
+//後方移動処理
 VECTOR Player::CalcBehindMove(VECTOR vec)
 {
 	if (!isWallRun)vec = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -327,6 +348,7 @@ void Player::UpdateAnimation()
 	//アニメーションの再生
 	totalAnimTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
 	playAnimTime += animationSpeed;
+	//アニメーション遷移の特殊処理
 	if (playAnimTime >= totalAnimTime)
 	{
 		switch (status)
@@ -336,22 +358,17 @@ void Player::UpdateAnimation()
 			break;
 		case STATUS::LEFT_WALLRUN:
 			isWallRun = false;
-			isWallJump = true;
 			status = STATUS::FALL;
 			break;
 		case STATUS::RIGHT_WALLRUN:
 			isWallRun = false;
-			isWallJump = true;
 			status = STATUS::FALL;
 			break;
 		case STATUS::SLIDE:
-			if (playAnimTime >= totalAnimTime)
-			{
-				status = STATUS::CROUCH;
-				pos = VAdd(pos, fixSlidePos);
-				fixSlidePos = initializePos;
-				isSlide = false;
-			}
+			status = STATUS::CROUCH;
+			pos = VAdd(pos, fixSlidePos);
+			fixSlidePos = initializePos;
+			isSlide = false;
 			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
@@ -429,11 +446,13 @@ void Player::CalcCollisionLine()
 //当たり判定
 void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 {
-	if (tag == ObjectTag::FIELD)
+	
+	for (int i = initializeNum; i < lineDivNum; i++)
 	{
-		for (int i = initializeNum; i < lineDivNum; i++)
+		for (int j = initializeNum; j < lineDivNum; j++)
 		{
-			for (int j = initializeNum; j < lineDivNum; j++)
+			//フィールドとの当たり判定
+			if (tag == ObjectTag::FIELD)
 			{
 				//地面との当たり判定
 				if (HitGroundJudge(pos, other->GetModelHandle(), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y + groundLineWidth, groundLinePos[i][j].z), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y - groundLineWidth, groundLinePos[i][j].z)))
@@ -478,11 +497,22 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 					}
 				}
 			}
+			//障害物との当たり判定
+			if (tag == ObjectTag::OBSTACLE)
+			{
+				if (status != STATUS::SLIDE)
+				{
+					if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+					{
+						CalcCollisionLine();
+					}
+					if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+					{
+						CalcCollisionLine();
+					}
+				}
+			}
 		}
-	}
-	if (tag == ObjectTag::OBSTACLE)
-	{
-
 	}
 }
 

@@ -76,7 +76,7 @@ void GameObjectManager::InitObject()
 	//障害物オブジェクトの追加
 	for (int i = initializeNum; i < load->GetObstacleModelHandle().size(); i++)
 	{
-		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i)));
+		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i), load->GetObstacleAngle().at(i)));
 	}
 
 	//スカイドームの追加

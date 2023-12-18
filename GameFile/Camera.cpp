@@ -16,7 +16,7 @@ Camera::Camera():
 	tag = ObjectTag::CAMERA;
 	input = PadInput::GetInstance();
 	SetCameraNearFar(cameraNear, cameraFar);
-	//SetupCamera_Perspective(fov);
+	SetupCamera_Perspective(fov);
 }
 
 //ƒf[ƒ^‰ğ•ú

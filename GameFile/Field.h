@@ -51,9 +51,9 @@ public:
 	VECTOR GetPos() { return pos; }
 
 private:
-	VECTOR angle;
+	VECTOR angle;		//モデルの角度
 
-	static constexpr int frameIndex = -1;
-	static constexpr int collisionDivNum = 10;
+	static constexpr int frameIndex = -1;		//モデルのフレームの番号
+	static constexpr int collisionDivNum = 10;	//当たり判定分割数
 };
 

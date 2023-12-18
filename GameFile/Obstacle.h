@@ -15,7 +15,7 @@ public:
 	/// </summary>
 	/// <param name="modelHandle">モデルハンドル</param>
 	/// <param name="pos">オブジェクトの座標</param>
-	Obstacle(int modelHandle, VECTOR pos);
+	Obstacle(int modelHandle, VECTOR pos, float angle);
 
 	/// <summary>
 	/// データの解放
@@ -51,6 +51,11 @@ public:
 	VECTOR GetPos() { return pos; }
 
 private:
-	
+	VECTOR angle;
+
+	static const VECTOR scale;				//モデルのスケール
+
+	static constexpr int frameIndex = -1;		//モデルのフレームの番号
+	static constexpr int collisionDivNum = 10;	//当たり判定分割数
 };
 

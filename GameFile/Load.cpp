@@ -164,6 +164,11 @@ void Load::LoadData()
 			{
 				obstaclePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
 			}
+			//障害物の角度取得
+			if (header.at(j) == obstacleAngleHeader && cell.at(i).at(j) != "")
+			{
+				obstacleAngle.push_back(stof(cell.at(i).at(j)) * DX_PI_F / pi1_f);
+			}
 			//スカイドームのモデルのロード
 			if (header.at(j) == skydomeHeader && cell.at(i).at(j) != "")
 			{
