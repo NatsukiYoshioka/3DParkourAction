@@ -166,6 +166,7 @@ private:
 	bool isMove;									//動いているか
 	bool isWallRun;									//ウォールランしているかどうか
 	bool isWallJump;								//壁ジャンプしたかどうか
+	bool isSlide;									//スライディングしているかどうか
 	float gravity;									//プレイヤーにかかる重力量
 	static constexpr float addGravity = 0.1f;		//重力加算量
 	static constexpr float maxGravity = 3.0f;		//最大重力量
@@ -177,6 +178,9 @@ private:
 	VECTOR jumpAngle;								//ジャンプしたときの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
 
+	VECTOR fixSlidePos;								//スライディングするときの移動修正量
+	static constexpr float slideSpeed = 1.0f;		//スライディングするときの移動速度
+
 	static const VECTOR fixAngle;				//モデルの方向修正
 
 	int animationIndex;								//アニメーション番号
@@ -184,8 +188,8 @@ private:
 	float playAnimTime;								//アニメーションの再生時間
 	static constexpr float animationSpeed = 1.0f;	//アニメーション再生速度
 
-	static VECTOR headPos;						//頭のフレームの座標
-	static constexpr int headFrameIndex = 5;	//頭のフレームの番号
+	static VECTOR headPos;							//頭のフレームの座標
+	static constexpr int headFrameIndex = 5;		//頭のフレームの番号
 
 	static constexpr int lineNum = 2;				//線分の2点
 	static constexpr int lineDivNum = 5;			//当たり判定用線分の列数
@@ -203,5 +207,6 @@ private:
 	VECTOR sideCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//側面の当たり判定用線分の座標
 
 	static constexpr int jumpButtonIndex = 12;		//ジャンプボタンの番号
+	static constexpr int slideButtonIndex = 13;		//スライディングボタンの番号
 };
 

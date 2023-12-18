@@ -26,10 +26,12 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	isMove(false),
 	isWallRun(false),
 	isWallJump(false),
+	isSlide(false),
 	gravity(static_cast<float>(initializeNum)),
 	jump(static_cast<float>(initializeNum)),
 	status(STATUS::STAND),
 	jumpAngle(initializePos),
+	fixSlidePos(initializePos),
 	animationIndex(initializeNum),
 	totalAnimTime(static_cast<float>(initializeNum)),
 	playAnimTime(static_cast<float>(initializeNum)),
@@ -65,7 +67,10 @@ Player::~Player()
 void Player::Update()
 {
 	UpdateInput();
-	if(!isWallRun)MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
+	if (!isWallRun)
+	{
+		MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
+	}
 	UpdateGravity();
 	MV1SetPosition(modelHandle, pos);
 	UpdateAnimation();
@@ -76,20 +81,23 @@ void Player::Update()
 
 void Player::UpdateInput()
 {
-	//視点移動入力処理
+	if (!isSlide)
+	{
+		//視点移動入力処理
 	//右スティック左倒し
-	if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
-	{
-		angle.y -= directionSpeed;
-	}
-	//右スティック右倒し
-	if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
-	{
-		angle.y += directionSpeed;
+		if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
+		{
+			angle.y -= directionSpeed;
+		}
+		//右スティック右倒し
+		if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
+		{
+			angle.y += directionSpeed;
+		}
 	}
 
 	//移動入力処理
-	if (isGround && !isWallRun)
+	if (isGround && !isWallRun && status != STATUS::SLIDE)
 	{
 		isMove = false;
 
@@ -98,38 +106,41 @@ void Player::UpdateInput()
 		moveDirectionX = initializePos;
 		moveDirectionZ = initializePos;
 
-		status = STATUS::STAND;
-		//左スティック左倒し
-		if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+		if (status != STATUS::SLIDE)
 		{
-			pos = VAdd(pos, CalcLeftMove(addMove));
+			status = STATUS::STAND;
+			//左スティック左倒し
+			if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+			{
+				pos = VAdd(pos, CalcLeftMove(addMove));
 
-			isMove = true;
-			status = STATUS::RUN_LEFT;
-		}
-		//左スティック右倒し
-		if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
-		{
-			pos = VAdd(pos, CalcRightMove(addMove));
+				isMove = true;
+				status = STATUS::RUN_LEFT;
+			}
+			//左スティック右倒し
+			if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+			{
+				pos = VAdd(pos, CalcRightMove(addMove));
 
-			isMove = true;
-			status = STATUS::RUN_RIGHT;
-		}
-		//左スティック上倒し
-		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
-		{
-			pos = VAdd(pos, CalcFrontMove(addMove));
+				isMove = true;
+				status = STATUS::RUN_RIGHT;
+			}
+			//左スティック上倒し
+			if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+			{
+				pos = VAdd(pos, CalcFrontMove(addMove));
 
-			isMove = true;
-			status = STATUS::RUN;
-		}
-		//左スティック下倒し
-		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
-		{
-			pos = VAdd(pos, CalcBehindMove(addMove));
+				isMove = true;
+				status = STATUS::RUN;
+			}
+			//左スティック下倒し
+			if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
+			{
+				pos = VAdd(pos, CalcBehindMove(addMove));
 
-			isMove = true;
-			status = STATUS::RUN_BACK;
+				isMove = true;
+				status = STATUS::RUN_BACK;
+			}
 		}
 
 		//アクション入力処理
@@ -174,8 +185,20 @@ void Player::UpdateInput()
 			status = STATUS::JUMP;
 			playAnimTime = static_cast<float>(initializeNum);
 		}
+		//スライディング:Bボタン入力
+		if ((input->GetInput().Buttons[slideButtonIndex] || CheckHitKey(KEY_INPUT_C) != initializeNum) && status == STATUS::RUN)
+		{
+			playAnimTime = static_cast<float>(initializeNum);
+			status = STATUS::SLIDE;
+			isSlide = true;
+		}
 		moveDirection = VAdd(moveDirectionX, moveDirectionZ);
 		moveDirection = VNorm(moveDirection);
+	}
+	else if (status == STATUS::SLIDE)
+	{
+		fixSlidePos = VAdd(fixSlidePos, VScale(moveDirection, slideSpeed));
+		pos = VAdd(pos, VScale(moveDirection, moveSpeed));
 	}
 	else if (isWallRun)
 	{
@@ -321,6 +344,15 @@ void Player::UpdateAnimation()
 			isWallJump = true;
 			status = STATUS::FALL;
 			break;
+		case STATUS::SLIDE:
+			if (playAnimTime >= totalAnimTime)
+			{
+				status = STATUS::CROUCH;
+				pos = VAdd(pos, fixSlidePos);
+				fixSlidePos = initializePos;
+				isSlide = false;
+			}
+			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
 			break;
@@ -352,7 +384,7 @@ void Player::CalcCollisionLine()
 			//壁の当たり判定用線分
 			for (int l = initializeNum; l < lineNum; l++)
 			{
-				if(l == initializeNum)
+				if (l == initializeNum)
 				{
 					addMove = VTransform(VGet(0.1f, 0.0f, 0.0f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 				}
