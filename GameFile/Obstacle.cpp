@@ -7,10 +7,12 @@
 const VECTOR Obstacle::scale = VGet(0.04f, 0.04f, 0.04f);
 
 //ƒ‚ƒfƒ‹‚ÌŽæ“¾‚ÆÀ•W‚Ì‰Šú‰»
-Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle):
+Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int isSlide):
 	angle(initializePos)
 {
-	tag = ObjectTag::OBSTACLE;
+	if (isSlide)tag = ObjectTag::SLIDE_OBSTACLE;
+	else tag = ObjectTag::OBSTACLE;
+	
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	this->pos = pos;
 	this->angle.y = angle;

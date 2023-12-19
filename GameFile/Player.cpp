@@ -27,10 +27,12 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	isWallRun(false),
 	isWallJump(false),
 	isSlide(false),
+	isStandByToJumpOver(false),
 	gravity(static_cast<float>(initializeNum)),
 	jump(static_cast<float>(initializeNum)),
 	status(STATUS::STAND),
 	jumpAngle(initializePos),
+	fixJumpOverPos(initializePos),
 	fixSlidePos(initializePos),
 	animationIndex(initializeNum),
 	totalAnimTime(static_cast<float>(initializeNum)),
@@ -81,7 +83,7 @@ void Player::Update()
 
 void Player::UpdateInput()
 {
-	if (!isSlide)
+	if (!isSlide && status != STATUS::JUMP_OVER)
 	{
 		//視点移動入力処理
 		//右スティック左倒し
@@ -97,7 +99,7 @@ void Player::UpdateInput()
 	}
 
 	//移動入力処理
-	if (isGround && !isWallRun && status != STATUS::SLIDE)
+	if (isGround && !isWallRun && status != STATUS::SLIDE && status != STATUS::JUMP_OVER)
 	{
 		isMove = false;
 
@@ -125,7 +127,7 @@ void Player::UpdateInput()
 			status = STATUS::RUN_RIGHT;
 		}
 		//左スティック上倒し
-		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
 		{
 			pos = VAdd(pos, CalcFrontMove(addMove));
 
@@ -133,7 +135,7 @@ void Player::UpdateInput()
 			status = STATUS::RUN;
 		}
 		//左スティック下倒し
-		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
+		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
 		{
 			pos = VAdd(pos, CalcBehindMove(addMove));
 
@@ -145,43 +147,53 @@ void Player::UpdateInput()
 		//ジャンプ:Aボタン入力
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
-			isJump = true;
-			moveDirectionX = initializePos;
-			moveDirectionZ = initializePos;
-			jumpAngle = angle;
-			//左スティック左倒し
-			if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+			if (!isStandByToJumpOver)
 			{
-				moveDirectionX = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
-				moveDirectionX = VNorm(moveDirectionX);
-			}
-			//左スティック右倒し
-			if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
-			{
-				moveDirectionX = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
-				moveDirectionX = VNorm(moveDirectionX);
-			}
-			//左スティック上倒し
-			if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
-			{
-				moveDirectionZ = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				moveDirectionZ = VNorm(moveDirectionZ);
-			}
-			//左スティック下倒し
-			if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
-			{
-				moveDirectionZ = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
-				moveDirectionZ = VNorm(moveDirectionZ);
-			}
-			
-			jump = jumpPower;
-			gravity = static_cast<float>(initializeNum);
+				isJump = true;
+				moveDirectionX = initializePos;
+				moveDirectionZ = initializePos;
+				jumpAngle = angle;
+				//左スティック左倒し
+				if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+				{
+					moveDirectionX = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+					moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
+					moveDirectionX = VNorm(moveDirectionX);
+				}
+				//左スティック右倒し
+				if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+				{
+					moveDirectionX = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+					moveDirectionX = VCross(moveDirectionX, VGet(0.0f, 1.0f, 0.0f));
+					moveDirectionX = VNorm(moveDirectionX);
+				}
+				//左スティック上倒し
+				if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+				{
+					moveDirectionZ = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+					moveDirectionZ = VNorm(moveDirectionZ);
+				}
+				//左スティック下倒し
+				if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
+				{
+					moveDirectionZ = VTransform(VGet(0.0f, 0.0f, -0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+					moveDirectionZ = VNorm(moveDirectionZ);
+				}
 
-			isGround = false;
-			status = STATUS::JUMP;
-			playAnimTime = static_cast<float>(initializeNum);
+				jump = jumpPower;
+				gravity = static_cast<float>(initializeNum);
+
+				isGround = false;
+				status = STATUS::JUMP;
+				playAnimTime = static_cast<float>(initializeNum);
+			}
+			//障害物飛び越え処理
+			else
+			{
+				status = STATUS::JUMP_OVER;
+				playAnimTime = static_cast<float>(initializeNum);
+				pos.y += fixPosYToJumpOver;
+			}
 		}
 		//スライディング:Bボタン入力
 		if ((input->GetInput().Buttons[slideButtonIndex] || CheckHitKey(KEY_INPUT_C) != initializeNum) && status == STATUS::RUN)
@@ -192,6 +204,13 @@ void Player::UpdateInput()
 		}
 		moveDirection = VAdd(moveDirectionX, moveDirectionZ);
 		moveDirection = VNorm(moveDirection);
+	}
+	//飛び越え中の処理
+	else if (status == STATUS::JUMP_OVER)
+	{
+		moveDirection = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+		moveDirection = VNorm(moveDirection);
+		fixJumpOverPos = VAdd(fixJumpOverPos, VScale(moveDirection, slideSpeed));
 	}
 	//スライディング中の処理
 	else if (status == STATUS::SLIDE)
@@ -221,7 +240,7 @@ void Player::UpdateInput()
 	{
 		isMove = false;
 		//左スティック上倒し
-		if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
 		{
 			pos = VAdd(pos, CalcFrontMove(addMove));
 		}
@@ -370,6 +389,13 @@ void Player::UpdateAnimation()
 			fixSlidePos = initializePos;
 			isSlide = false;
 			break;
+		case STATUS::JUMP_OVER:
+			status = STATUS::FALL;
+			pos = VAdd(pos, fixJumpOverPos);
+			fixJumpOverPos = initializePos;
+			isStandByToJumpOver = false;
+			isGround = false;
+			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
 			break;
@@ -497,8 +523,15 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 					}
 				}
 			}
+			if (tag == ObjectTag::SLIDE_OBSTACLE || tag == ObjectTag::OBSTACLE)
+			{
+				//オブジェクトを飛び越えられるかどうか判定
+				if (jumpOverDistance * jumpOverDistance >= (wallCollisionLinePos[initializeNum][i][j].x - other->GetPos().x) * (wallCollisionLinePos[initializeNum][i][j].x - other->GetPos().x) + (wallCollisionLinePos[initializeNum][i][j].y - other->GetPos().y) * (wallCollisionLinePos[initializeNum][i][j].y - other->GetPos().y) + (wallCollisionLinePos[initializeNum][i][j].z - other->GetPos().z) * (wallCollisionLinePos[initializeNum][i][j].z - other->GetPos().z))
+					isStandByToJumpOver = true;
+				else isStandByToJumpOver = false;
+			}
 			//障害物との当たり判定
-			if (tag == ObjectTag::OBSTACLE)
+			if (tag == ObjectTag::SLIDE_OBSTACLE)
 			{
 				if (status != STATUS::SLIDE)
 				{
@@ -510,6 +543,17 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 					{
 						CalcCollisionLine();
 					}
+				}
+			}
+			if (tag == ObjectTag::OBSTACLE)
+			{
+				if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+				{
+					CalcCollisionLine();
+				}
+				if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+				{
+					CalcCollisionLine();
 				}
 			}
 		}

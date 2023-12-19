@@ -167,6 +167,7 @@ private:
 	bool isWallRun;									//ウォールランしているかどうか
 	bool isWallJump;								//壁ジャンプしたかどうか
 	bool isSlide;									//スライディングしているかどうか
+	bool isStandByToJumpOver;				//飛び越え待機しているかどうか
 	float gravity;									//プレイヤーにかかる重力量
 	static constexpr float addGravity = 0.1f;		//重力加算量
 	static constexpr float maxGravity = 3.0f;		//最大重力量
@@ -177,6 +178,10 @@ private:
 	static VECTOR angle;							//プレイヤーの向き
 	VECTOR jumpAngle;								//ジャンプしたときの向き
 	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
+
+	static constexpr float jumpOverDistance = 30.0f;	//障害物飛び越えができる距離
+	static constexpr float fixPosYToJumpOver = 50.0f;	//障害物飛び越え時のY座標調整量
+	VECTOR fixJumpOverPos;								//障害物飛び越え時の移動修正量
 
 	VECTOR fixSlidePos;								//スライディングするときの移動修正量
 	static constexpr float slideSpeed = 1.0f;		//スライディングするときの移動速度
@@ -199,8 +204,8 @@ private:
 
 	VECTOR groundLinePos[lineDivNum][lineDivNum];			//地面の当たり判定用線分の座標
 
-	static constexpr float wallCollisionLineWidth = 7.5f;	//壁の当たり判定線分の長さ
-	static constexpr float wallCollisionLineSpace = 7.5f;	//壁の当たり判定線分の感覚
+	static constexpr float wallCollisionLineWidth = 8.0f;	//壁の当たり判定線分の長さ
+	static constexpr float wallCollisionLineSpace = 8.0f;	//壁の当たり判定線分の感覚
 	static constexpr float fixWallCollisionLinePosY = 12.0f;	//壁の当たり判定線分のY座標調整量
 
 	VECTOR wallCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//壁との当たり判定用線分の座標

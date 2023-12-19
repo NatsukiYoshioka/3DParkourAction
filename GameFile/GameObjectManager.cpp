@@ -8,6 +8,7 @@
 #include"Field.h"
 #include"Obstacle.h"
 #include"Skydome.h"
+#include"ObjectTag.h"
 #include"common.h"
 #include "GameObjectManager.h"
 using namespace std;
@@ -76,7 +77,7 @@ void GameObjectManager::InitObject()
 	//障害物オブジェクトの追加
 	for (int i = initializeNum; i < load->GetObstacleModelHandle().size(); i++)
 	{
-		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i), load->GetObstacleAngle().at(i)));
+		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i), load->GetObstacleAngle().at(i), load->GetIsSlide().at(i)));
 	}
 
 	//スカイドームの追加
@@ -94,7 +95,7 @@ void GameObjectManager::Update()
 		objectInstance.at(i)->Update();
 		for (int j = initializeNum; j < objectInstance.size(); j++)
 		{
-			//当たり判定の更新
+			//当たり判定更新
 			if (i != j)
 			{
 				objectInstance.at(i)->OnCollisionEnter(objectInstance.at(j), objectInstance.at(j)->GetObjectTag());

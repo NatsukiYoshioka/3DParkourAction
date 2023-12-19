@@ -9,5 +9,6 @@ enum class ObjectTag :unsigned char
     CAMERA,         //カメラタグ
     FIELD,          //フィールドタグ
     OBSTACLE,       //障害物タグ
+    SLIDE_OBSTACLE, //くぐれる障害物タグ
     SKYDOME         //スカイドームタグ
 };

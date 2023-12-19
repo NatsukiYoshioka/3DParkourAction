@@ -11,11 +11,13 @@ class Obstacle:public GameObject
 {
 public:
 	/// <summary>
-	/// モデルの取得と座標の初期化
+	/// オブジェクトの生成
 	/// </summary>
 	/// <param name="modelHandle">モデルハンドル</param>
 	/// <param name="pos">オブジェクトの座標</param>
-	Obstacle(int modelHandle, VECTOR pos, float angle);
+	/// <param name="angle">オブジェクトの角度</param>
+	/// <param name="isSlide">くぐれるかどうか</param>
+	Obstacle(int modelHandle, VECTOR pos, float angle, int isSlide);
 
 	/// <summary>
 	/// データの解放

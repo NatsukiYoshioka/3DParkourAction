@@ -169,6 +169,11 @@ void Load::LoadData()
 			{
 				obstacleAngle.push_back(stof(cell.at(i).at(j)) * DX_PI_F / pi1_f);
 			}
+			//障害物がくぐれるか取得
+			if (header.at(j) == obstacleIsSlideHeader && cell.at(i).at(j) != "")
+			{
+				isSlide.push_back(stoi(cell.at(i).at(j)));
+			}
 			//スカイドームのモデルのロード
 			if (header.at(j) == skydomeHeader && cell.at(i).at(j) != "")
 			{
