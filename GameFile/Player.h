@@ -60,6 +60,11 @@ public:
 	void UpdateInput();
 
 	/// <summary>
+	/// デバッグ用移動処理
+	/// </summary>
+	void DebugInput();
+
+	/// <summary>
 	/// ワールド座標左移動計算関数
 	/// </summary>
 	/// <param name="vec">加算するベクトル</param>
@@ -144,6 +149,7 @@ public:
 	VECTOR GetPos() { return pos; }
 
 private:
+	bool debug;							//デバッグ中かどうか
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 
@@ -177,7 +183,7 @@ private:
 
 	float jump;										//ジャンプ力
 	static constexpr float jumpPower = 4.5f;		//ジャンプ力加算量
-	static constexpr float bigJumpPower = 7.0f;		//大ジャンプ加算量
+	static constexpr float bigJumpPower = 9.0f;		//大ジャンプ加算量
 
 	static VECTOR angle;							//プレイヤーの向き
 	VECTOR jumpAngle;								//ジャンプしたときの向き

@@ -10,7 +10,7 @@
 9,data/model/buildings/31.mv1,960,0,2100,90,data/model/obstacles/small_road_block_004.mv1,0,0,0,0,0,,data/model/character/left_wallrun.mv1,
 10,data/model/buildings/32.mv1,960,0,2400,0,data/model/obstacles/small_road_block_005.mv1,0,0,0,0,0,,data/model/character/right_wallrun.mv1,
 11,data/model/buildings/45.mv1,960,0,2700,0,data/model/obstacles/wood_road_block_large.mv1,0,0,0,0,0,,data/model/character/run.mv1,
-12,data/model/buildings/47.mv1,960,0,3000,0,data/model/obstacles/wood_road_block_large_002.mv1,0,0,0,0,0,,data/model/character/running_slide.mv1,
+12,data/model/buildings/47.mv1,2650,0,820,0,data/model/obstacles/wood_road_block_large_002.mv1,0,0,0,0,0,,data/model/character/running_slide.mv1,
 13,data/model/buildings/52.mv1,960,0,3300,90,data/model/obstacles/wood_road_block_large_003.mv1,0,0,0,0,0,,data/model/character/standing_idle.mv1,
 14,data/model/buildings/55.mv1,960,0,3600,0,data/model/obstacles/wood_road_block_large_004.mv1,0,0,0,0,0,,data/model/character/walk_crouching.mv1,
 15,data/model/buildings/59.mv1,960,0,3900,0,data/model/obstacles/wood_road_block_large_005.mv1,0,0,0,0,0,,data/model/character/standing_to_crouch.mv1,

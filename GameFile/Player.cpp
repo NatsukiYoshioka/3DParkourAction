@@ -14,6 +14,7 @@ const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
 
 //オブジェクトの初期化
 Player::Player(int modelHandle, vector<int> animationHandle):
+	debug(false),
 	input(nullptr),
 	addMove(initializePos),
 	moveDirection(initializePos),
@@ -71,14 +72,18 @@ Player::~Player()
 //オブジェクトの更新
 void Player::Update()
 {
-	UpdateInput();
-	if (!isWallRun)
+	//DebugInput();
+	if (!debug)
 	{
-		MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
+		UpdateInput();
+		if (!isWallRun)
+		{
+			MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
+		}
+		UpdateGravity();
+		UpdateAnimation();
 	}
-	UpdateGravity();
 	MV1SetPosition(modelHandle, pos);
-	UpdateAnimation();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	//当たり判定用線分の座標計算
 	CalcCollisionLine();
@@ -150,19 +155,7 @@ void Player::UpdateInput()
 		//ジャンプ:Aボタン入力
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
-			//大ジャンプ処理
-			if (isStandByToBigJump)
-			{
-				isJump = true;
-				jump = bigJumpPower;
-				jumpAngle = angle;
-				gravity = static_cast<float>(initializeNum);
-
-				isGround = false;
-				status = STATUS::JUMP;
-				playAnimTime = static_cast<float>(initializeNum);
-			}
-			else if (!isStandByToJumpOver)
+			if (!isStandByToJumpOver)
 			{
 				isJump = true;
 				moveDirectionX = initializePos;
@@ -227,6 +220,24 @@ void Player::UpdateInput()
 		moveDirection = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 		moveDirection = VNorm(moveDirection);
 		fixJumpOverPos = VAdd(fixJumpOverPos, VScale(moveDirection, slideSpeed));
+		//大ジャンプ処理
+		if (isStandByToBigJump)
+		{
+			//ジャンプ:Aボタン入力
+			if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
+			{
+				isJump = true;
+				jump = bigJumpPower;
+				jumpAngle = angle;
+				gravity = static_cast<float>(initializeNum);
+
+				isGround = false;
+				status = STATUS::JUMP;
+				playAnimTime = static_cast<float>(initializeNum);
+
+				fixJumpOverPos = initializePos;
+			}
+		}
 	}
 	//スライディング中の処理
 	else if (status == STATUS::SLIDE)
@@ -292,6 +303,44 @@ void Player::UpdateInput()
 		pos.y += jump;
 	}
 	isStandByToBigJump = false;
+}
+
+//デバッグ用移動処理
+void Player::DebugInput()
+{
+	debug = true;
+	//視点移動入力処理
+	//右スティック左倒し
+	if (input->GetInput().ThumbRX < initializeNum || CheckHitKey(KEY_INPUT_LEFT) != initializeNum)
+	{
+		angle.y -= directionSpeed;
+	}
+	//右スティック右倒し
+	if (input->GetInput().ThumbRX > initializeNum || CheckHitKey(KEY_INPUT_RIGHT) != initializeNum)
+	{
+		angle.y += directionSpeed;
+	}
+
+	//左スティック左倒し
+	if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+	{
+		pos = VAdd(pos, CalcLeftMove(addMove));
+	}
+	//左スティック右倒し
+	if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+	{
+		pos = VAdd(pos, CalcRightMove(addMove));
+	}
+	//左スティック上倒し
+	if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
+	{
+		pos = VAdd(pos, CalcFrontMove(addMove));
+	}
+	//左スティック下倒し
+	if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
+	{
+		pos = VAdd(pos, CalcBehindMove(addMove));
+	}
 }
 
 //左移動処理
@@ -366,6 +415,10 @@ void Player::UpdateAnimation()
 	//アニメーションの再生
 	totalAnimTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
 	playAnimTime += animationSpeed;
+	if (status == STATUS::JUMP_OVER && playAnimTime >= totalAnimTime / 2)
+	{
+		isStandByToBigJump = true;
+	}
 	//アニメーション遷移の特殊処理
 	if (playAnimTime >= totalAnimTime)
 	{
@@ -393,7 +446,7 @@ void Player::UpdateAnimation()
 			pos = VAdd(pos, fixJumpOverPos);
 			fixJumpOverPos = initializePos;
 			isStandByToJumpOver = false;
-			isStandByToBigJump = true;
+			isGround = true;
 			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
