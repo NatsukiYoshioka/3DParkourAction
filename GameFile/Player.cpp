@@ -20,6 +20,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	moveDirectionX(initializePos),
 	moveDirectionZ(initializePos),
 	isHitWall(initializeNum),
+	moveSpeed(initializeSpeed),
 	isLeft(false),
 	isGround(false),
 	isJump(false),
@@ -28,6 +29,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	isWallJump(false),
 	isSlide(false),
 	isStandByToJumpOver(false),
+	isStandByToBigJump(false),
 	gravity(static_cast<float>(initializeNum)),
 	jump(static_cast<float>(initializeNum)),
 	status(STATUS::STAND),
@@ -37,6 +39,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	animationIndex(initializeNum),
 	totalAnimTime(static_cast<float>(initializeNum)),
 	playAnimTime(static_cast<float>(initializeNum)),
+	spinePos(initializePos),
 	groundLinePos(),
 	wallCollisionLinePos()
 {
@@ -147,7 +150,19 @@ void Player::UpdateInput()
 		//ジャンプ:Aボタン入力
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
-			if (!isStandByToJumpOver)
+			//大ジャンプ処理
+			if (isStandByToBigJump)
+			{
+				isJump = true;
+				jump = bigJumpPower;
+				jumpAngle = angle;
+				gravity = static_cast<float>(initializeNum);
+
+				isGround = false;
+				status = STATUS::JUMP;
+				playAnimTime = static_cast<float>(initializeNum);
+			}
+			else if (!isStandByToJumpOver)
 			{
 				isJump = true;
 				moveDirectionX = initializePos;
@@ -195,6 +210,7 @@ void Player::UpdateInput()
 				pos.y += fixPosYToJumpOver;
 			}
 		}
+		isStandByToJumpOver = false;
 		//スライディング:Bボタン入力
 		if ((input->GetInput().Buttons[slideButtonIndex] || CheckHitKey(KEY_INPUT_C) != initializeNum) && status == STATUS::RUN)
 		{
@@ -224,6 +240,7 @@ void Player::UpdateInput()
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
 			isSlide = false;
+			isHitWall = false;
 
 			isJump = true;
 			jump = jumpPower;
@@ -240,26 +257,7 @@ void Player::UpdateInput()
 	{
 		isMove = false;
 		//左スティック上倒し
-		if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
-		{
-			pos = VAdd(pos, CalcFrontMove(addMove));
-		}
-		if (isLeft)
-		{
-			//左スティック左倒し
-			if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
-			{
-				pos = VAdd(pos, CalcLeftMove(addMove));
-			}
-		}
-		else
-		{
-			//左スティック右倒し
-			if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
-			{
-				pos = VAdd(pos, CalcRightMove(addMove));
-			}
-		}
+		pos = VAdd(pos, CalcFrontMove(addMove));
 		//ジャンプ:Aボタン入力
 		if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 		{
@@ -293,6 +291,7 @@ void Player::UpdateInput()
 		}
 		pos.y += jump;
 	}
+	isStandByToBigJump = false;
 }
 
 //左移動処理
@@ -394,7 +393,7 @@ void Player::UpdateAnimation()
 			pos = VAdd(pos, fixJumpOverPos);
 			fixJumpOverPos = initializePos;
 			isStandByToJumpOver = false;
-			isGround = false;
+			isStandByToBigJump = true;
 			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
@@ -408,6 +407,7 @@ void Player::UpdateAnimation()
 //当たり判定線分の計算
 void Player::CalcCollisionLine()
 {
+	spinePos = MV1GetFramePosition(modelHandle, spineFrameIndex);
 	for (int i = initializeNum; i < lineDivNum; i++)
 	{
 		for (int j = initializeNum; j < lineDivNum; j++)
@@ -435,7 +435,11 @@ void Player::CalcCollisionLine()
 				addMove = VCross(addMove, VGet(0.0f, 0.1f, 0.0f));
 				addMove = VNorm(addMove);
 				addMove = VScale(addMove, wallCollisionLineWidth);
-				wallCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
+				if (status != STATUS::SLIDE && !isWallRun)wallCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
+				else
+				{
+					wallCollisionLinePos[l][i][j] = VAdd(VGet(spinePos.x, spinePos.y, spinePos.z), addMove);
+				}
 
 				addMove = VTransform(VGet(0.1f, 0.0f, 0.0f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 				addMove = VNorm(addMove);
@@ -456,7 +460,11 @@ void Player::CalcCollisionLine()
 				addMove = VCross(addMove, VGet(0.0f, 0.1f, 0.0f));
 				addMove = VNorm(addMove);
 				addMove = VScale(addMove, wallCollisionLineWidth);
-				sideCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
+				if (status != STATUS::SLIDE && !isWallRun)sideCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
+				else
+				{
+					sideCollisionLinePos[l][i][j] = VAdd(VGet(spinePos.x, spinePos.y, spinePos.z), addMove);
+				}
 
 				addMove = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 				addMove = VNorm(addMove);
@@ -472,7 +480,6 @@ void Player::CalcCollisionLine()
 //当たり判定
 void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 {
-	
 	for (int i = initializeNum; i < lineDivNum; i++)
 	{
 		for (int j = initializeNum; j < lineDivNum; j++)
@@ -525,10 +532,10 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 			}
 			if (tag == ObjectTag::SLIDE_OBSTACLE || tag == ObjectTag::OBSTACLE)
 			{
-				//オブジェクトを飛び越えられるかどうか判定
+				//飛び越えできる位置に障害物があるかどうか判定
 				if (jumpOverDistance * jumpOverDistance >= (wallCollisionLinePos[initializeNum][i][j].x - other->GetPos().x) * (wallCollisionLinePos[initializeNum][i][j].x - other->GetPos().x) + (wallCollisionLinePos[initializeNum][i][j].y - other->GetPos().y) * (wallCollisionLinePos[initializeNum][i][j].y - other->GetPos().y) + (wallCollisionLinePos[initializeNum][i][j].z - other->GetPos().z) * (wallCollisionLinePos[initializeNum][i][j].z - other->GetPos().z))
 					isStandByToJumpOver = true;
-				else isStandByToJumpOver = false;
+				else if(!isStandByToJumpOver) isStandByToJumpOver = false;
 			}
 			//障害物との当たり判定
 			if (tag == ObjectTag::SLIDE_OBSTACLE)

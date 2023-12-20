@@ -61,8 +61,8 @@ private:
 	float fov;				//視野角
 
 	static constexpr float fixPosY = 5.0f;				//カメラY座標調整量
-	static constexpr float fixForwardPos = 7.5f;		//カメラ前押し出し量
-	//static constexpr float fixForwardPos = -120.5f;	//アニメーションデバッグ用
+	//static constexpr float fixForwardPos = 7.5f;		//カメラ前押し出し量
+	static constexpr float fixForwardPos = -120.5f;	//アニメーションデバッグ用
 
 	static constexpr float directionSpeed = 0.025f;						//方向転換速度
 	static constexpr float maxUpDirection = -90.0f * DX_PI_F / 180.0f;	//カメラの上方向限度

@@ -127,10 +127,12 @@ private:
 	vector<int> playerAnimationHandle;	//プレイヤーのアニメーションハンドル
 
 	vector<int> fieldModelHandle;		//フィールドのモデルハンドル
+	int tempFieldModelHandle;			//フィールドモデル複数追加用仮保存
 	vector<VECTOR> fieldPos;			//フィールドモデルの各座標
 	vector<float> fieldAngle;			//フィールドモデルの角度
 
 	vector<int> obstacleModelHandle;	//障害物のモデルハンドル
+	int tempObstacleModelHandle;		//障害物モデル複数追加用仮保存
 	vector<VECTOR> obstaclePos;			//障害物の各座標
 	vector<float> obstacleAngle;		//障害物の角度
 	vector<int> isSlide;				//くぐれる障害物かどうか

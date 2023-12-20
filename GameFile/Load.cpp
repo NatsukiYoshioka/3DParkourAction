@@ -12,7 +12,9 @@ Load* Load::load = nullptr;
 Load::Load():
 	isHeader(false),
 	isIndex(false),
-	playerModelHandle(-1)
+	playerModelHandle(-1),
+	tempFieldModelHandle(-1),
+	tempObstacleModelHandle(-1)
 {
 
 }
@@ -140,14 +142,24 @@ void Load::LoadData()
 				playerAnimationHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
 			//フィールドモデルのロード
-			if (header.at(j) == fieldHeader && cell.at(i).at(j) != "")
+			if (header.at(j) == fieldHeader && cell.at(i).at(j) == "same")
 			{
-				fieldModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+				fieldModelHandle.push_back(MV1DuplicateModel(tempFieldModelHandle));
+			}
+			else if (header.at(j) == fieldHeader && cell.at(i).at(j) != "")
+			{
+				tempFieldModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
+				fieldModelHandle.push_back(MV1DuplicateModel(tempFieldModelHandle));
 			}
 			//障害物モデルのロード
-			if (header.at(j) == obstacleHeader && cell.at(i).at(j) != "")
+			if (header.at(j) == obstacleHeader && cell.at(i).at(j) == "same")
 			{
-				obstacleModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
+				obstacleModelHandle.push_back(MV1DuplicateModel(tempObstacleModelHandle));
+			}
+			else if (header.at(j) == obstacleHeader && cell.at(i).at(j) != "")
+			{
+				tempObstacleModelHandle = MV1LoadModel(cell.at(i).at(j).c_str());
+				obstacleModelHandle.push_back(MV1DuplicateModel(tempObstacleModelHandle));
 			}
 			//フィールドの座標取得
 			if (header.at(j) == fieldPosXHeader && cell.at(i).at(j) != "")

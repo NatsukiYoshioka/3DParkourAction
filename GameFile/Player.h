@@ -159,7 +159,8 @@ private:
 	VECTOR moveDirectionZ;							//プレイヤーのローカルZ軸で進むべき方向
 	int isHitWall;									//壁に当たったかどうか
 	bool isLeft;									//左の壁に当たったかどうか
-	static constexpr float moveSpeed = 2.0f;		//プレイヤーの移動速度移動速度
+	float moveSpeed;								//プレイヤーの移動速度移動速度
+	static constexpr float initializeSpeed = 2.0f;	//プレイヤーの初速
 
 	bool isGround;									//地面に立っているか
 	bool isJump;									//ジャンプしたかどうか
@@ -167,13 +168,16 @@ private:
 	bool isWallRun;									//ウォールランしているかどうか
 	bool isWallJump;								//壁ジャンプしたかどうか
 	bool isSlide;									//スライディングしているかどうか
-	bool isStandByToJumpOver;				//飛び越え待機しているかどうか
+	bool isStandByToJumpOver;						//飛び越え待機しているかどうか
+	bool isStandByToBigJump;						//大ジャンプ待機しているかどうか
+
 	float gravity;									//プレイヤーにかかる重力量
 	static constexpr float addGravity = 0.1f;		//重力加算量
 	static constexpr float maxGravity = 3.0f;		//最大重力量
 
 	float jump;										//ジャンプ力
 	static constexpr float jumpPower = 4.5f;		//ジャンプ力加算量
+	static constexpr float bigJumpPower = 7.0f;		//大ジャンプ加算量
 
 	static VECTOR angle;							//プレイヤーの向き
 	VECTOR jumpAngle;								//ジャンプしたときの向き
@@ -195,6 +199,8 @@ private:
 
 	static VECTOR headPos;							//頭のフレームの座標
 	static constexpr int headFrameIndex = 5;		//頭のフレームの番号
+	VECTOR spinePos;								//腰の座標
+	static constexpr int spineFrameIndex = 2;		//腰のフレーム番号
 
 	static constexpr int lineNum = 2;				//線分の2点
 	static constexpr int lineDivNum = 5;			//当たり判定用線分の列数
