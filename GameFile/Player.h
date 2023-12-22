@@ -103,6 +103,16 @@ public:
 	void UpdateAnimation();
 
 	/// <summary>
+	/// ライトの更新
+	/// </summary>
+	void UpdateLight();
+
+	/// <summary>
+	/// リスポーン処理
+	/// </summary>
+	void Respone();
+
+	/// <summary>
 	/// 当たり判定線分の計算
 	/// </summary>
 	void CalcCollisionLine();
@@ -153,11 +163,20 @@ private:
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 
+	VECTOR restartPos;					//リスポーンする座標
+	static constexpr float restartHeight = 100.0f;	//リスポーンする高さ
+
 	PadInput* input;					//コントローラー入力管理クラスのアドレス
 
 	static const VECTOR scale;			//モデルのスケール
 
 	static const unsigned int debugColor;			//当たり判定カプセルのカラー
+
+	int forwardLightHandle;								//前を照らすライトハンドル
+	int downLightHandle;								//地面を照らすライトハンドル
+	VECTOR lightDirection;								//ライトの向き
+	static const VECTOR downLightDirection;				//地面を照らすライトの向き
+	static constexpr float downLightHeight = 10000.0f;	//地面を照らすライトの高さ
 
 	VECTOR addMove;									//プレイヤーの移動加算値
 	VECTOR moveDirection;							//プレイヤーの向くべき方向
@@ -187,10 +206,10 @@ private:
 
 	static VECTOR angle;							//プレイヤーの向き
 	VECTOR jumpAngle;								//ジャンプしたときの向き
-	static constexpr float directionSpeed = 0.1f;	//プレイヤーの方向転換速度
+	static constexpr float directionSpeed = 0.05f;	//プレイヤーの方向転換速度
 
 	static constexpr float jumpOverDistance = 30.0f;	//障害物飛び越えができる距離
-	static constexpr float fixPosYToJumpOver = 50.0f;	//障害物飛び越え時のY座標調整量
+	static constexpr float fixPosYToJumpOver = 10.0f;	//障害物飛び越え時のY座標調整量
 	VECTOR fixJumpOverPos;								//障害物飛び越え時の移動修正量
 
 	VECTOR fixSlidePos;								//スライディングするときの移動修正量

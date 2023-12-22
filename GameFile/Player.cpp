@@ -7,6 +7,7 @@
 #include "Player.h"
 
 const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
+const VECTOR Player::downLightDirection = VGet(0.0f, -1.0f, 0.0f);
 const unsigned int Player::debugColor = GetColor(255, 255, 0);
 VECTOR Player::headPos = initializePos;
 VECTOR Player::angle = initializePos;
@@ -17,6 +18,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	debug(false),
 	input(nullptr),
 	addMove(initializePos),
+	lightDirection(initializePos),
 	moveDirection(initializePos),
 	moveDirectionX(initializePos),
 	moveDirectionZ(initializePos),
@@ -51,6 +53,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	MV1SetScale(this->modelHandle, scale);
 	pos = VGet(1000.0f, 400.0f, 0.0f);
+	restartPos = pos;
 
 	MV1SetRotationXYZ(this->modelHandle, fixAngle);
 
@@ -58,6 +61,9 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 
 	//プレイヤーの初期状態を立ち状態にする
 	animationIndex = MV1AttachAnim(this->modelHandle, initializeNum, this->animationHandle.at(static_cast<int>(status)));
+
+	forwardLightHandle = CreateDirLightHandle(angle);
+	downLightHandle = CreateDirLightHandle(downLightDirection);
 }
 
 //データの解放
@@ -67,6 +73,7 @@ Player::~Player()
 	{
 		MV1DeleteModel(modelHandle);
 	}
+	DeleteLightHandleAll();
 }
 
 //オブジェクトの更新
@@ -85,8 +92,14 @@ void Player::Update()
 	}
 	MV1SetPosition(modelHandle, pos);
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
+	UpdateLight();
 	//当たり判定用線分の座標計算
 	CalcCollisionLine();
+	//落ちたらリスポーン
+	if (pos.y <= restartHeight)
+	{
+		Respone();
+	}
 }
 
 void Player::UpdateInput()
@@ -226,14 +239,17 @@ void Player::UpdateInput()
 			//ジャンプ:Aボタン入力
 			if (input->GetInput().Buttons[jumpButtonIndex] || CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
 			{
+				status = STATUS::JUMP;
+				playAnimTime = static_cast<float>(initializeNum);
+
+				isStandByToJumpOver = false;
+				isStandByToBigJump = false;
 				isJump = true;
+				isGround = false;
+
 				jump = bigJumpPower;
 				jumpAngle = angle;
 				gravity = static_cast<float>(initializeNum);
-
-				isGround = false;
-				status = STATUS::JUMP;
-				playAnimTime = static_cast<float>(initializeNum);
 
 				fixJumpOverPos = initializePos;
 			}
@@ -261,6 +277,9 @@ void Player::UpdateInput()
 			isGround = false;
 			status = STATUS::JUMP;
 			playAnimTime = static_cast<float>(initializeNum);
+
+			pos = VAdd(pos, fixSlidePos);
+			fixSlidePos = initializePos;
 		}
 	}
 	//ウォールラン中の処理
@@ -303,6 +322,7 @@ void Player::UpdateInput()
 		pos.y += jump;
 	}
 	isStandByToBigJump = false;
+	isStandByToJumpOver = false;
 }
 
 //デバッグ用移動処理
@@ -392,7 +412,7 @@ VECTOR Player::CalcBehindMove(VECTOR vec)
 //重力処理の更新
 void Player::UpdateGravity()
 {
-	if (jump <= static_cast<float>(initializeNum))
+	if (jump <= static_cast<float>(initializeNum) && status != STATUS::JUMP_OVER)
 	{
 		gravity += addGravity;
 		isGround = false;
@@ -415,10 +435,6 @@ void Player::UpdateAnimation()
 	//アニメーションの再生
 	totalAnimTime = MV1GetAttachAnimTotalTime(modelHandle, animationIndex);
 	playAnimTime += animationSpeed;
-	if (status == STATUS::JUMP_OVER && playAnimTime >= totalAnimTime / 2)
-	{
-		isStandByToBigJump = true;
-	}
 	//アニメーション遷移の特殊処理
 	if (playAnimTime >= totalAnimTime)
 	{
@@ -446,15 +462,36 @@ void Player::UpdateAnimation()
 			pos = VAdd(pos, fixJumpOverPos);
 			fixJumpOverPos = initializePos;
 			isStandByToJumpOver = false;
-			isGround = true;
 			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
 			break;
 		}
 	}
+	if (status == STATUS::JUMP_OVER && playAnimTime >= totalAnimTime / 2)
+	{
+		isStandByToBigJump = true;
+	}
 
 	MV1SetAttachAnimTime(modelHandle, animationIndex, playAnimTime);
+}
+
+//ライトの更新
+void Player::UpdateLight()
+{
+	SetLightPositionHandle(forwardLightHandle, pos);
+	lightDirection = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
+	SetLightDirectionHandle(forwardLightHandle, lightDirection);
+	SetLightPositionHandle(downLightHandle, VGet(pos.x, pos.y + downLightHeight, pos.z));
+}
+
+//リスポーン処理
+void Player::Respone()
+{
+	pos = restartPos;
+	moveDirection = initializePos;
+	moveDirectionX = initializePos;
+	moveDirectionZ = initializePos;
 }
 
 //当たり判定線分の計算
@@ -548,6 +585,7 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 					isWallRun = false;
 					isWallJump = false;
 					isJump = false;
+					restartPos = pos;
 				}
 				//地面にいるときの壁との当たり判定
 				if (isGround)
@@ -588,20 +626,25 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 				//飛び越えできる位置に障害物があるかどうか判定
 				if (jumpOverDistance * jumpOverDistance >= (wallCollisionLinePos[initializeNum][i][j].x - other->GetPos().x) * (wallCollisionLinePos[initializeNum][i][j].x - other->GetPos().x) + (wallCollisionLinePos[initializeNum][i][j].y - other->GetPos().y) * (wallCollisionLinePos[initializeNum][i][j].y - other->GetPos().y) + (wallCollisionLinePos[initializeNum][i][j].z - other->GetPos().z) * (wallCollisionLinePos[initializeNum][i][j].z - other->GetPos().z))
 					isStandByToJumpOver = true;
-				else if(!isStandByToJumpOver) isStandByToJumpOver = false;
+				else if (!isStandByToJumpOver) isStandByToJumpOver = false;
 			}
 			//障害物との当たり判定
 			if (tag == ObjectTag::SLIDE_OBSTACLE)
 			{
-				if (status != STATUS::SLIDE)
+				if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
 				{
-					if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+					if (status != STATUS::SLIDE)
 					{
 						CalcCollisionLine();
+						isStandByToJumpOver = false;
 					}
-					if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+				}
+				if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+				{
+					if (status != STATUS::SLIDE)
 					{
 						CalcCollisionLine();
+						isStandByToJumpOver = false;
 					}
 				}
 			}
