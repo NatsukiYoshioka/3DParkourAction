@@ -96,7 +96,7 @@ void GameObjectManager::Update()
 		for (int j = initializeNum; j < objectInstance.size(); j++)
 		{
 			//“–‚½‚è”»’èXV
-			if (i != j)
+			if (i != j && maxObjectDistance * maxObjectDistance >= (objectInstance.at(i)->GetPos().x - objectInstance.at(j)->GetPos().x) * (objectInstance.at(i)->GetPos().x - objectInstance.at(j)->GetPos().x) + (objectInstance.at(i)->GetPos().y - objectInstance.at(j)->GetPos().y) * (objectInstance.at(i)->GetPos().y - objectInstance.at(j)->GetPos().y) + (objectInstance.at(i)->GetPos().z - objectInstance.at(j)->GetPos().z) * (objectInstance.at(i)->GetPos().z - objectInstance.at(j)->GetPos().z))
 			{
 				objectInstance.at(i)->OnCollisionEnter(objectInstance.at(j), objectInstance.at(j)->GetObjectTag());
 			}

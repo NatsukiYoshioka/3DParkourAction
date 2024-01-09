@@ -79,7 +79,7 @@ Player::~Player()
 //オブジェクトの更新
 void Player::Update()
 {
-	//DebugInput();
+	DebugInput();
 	if (!debug)
 	{
 		UpdateInput();
