@@ -79,7 +79,7 @@ Player::~Player()
 //オブジェクトの更新
 void Player::Update()
 {
-	DebugInput();
+	//DebugInput();
 	if (!debug)
 	{
 		UpdateInput();
@@ -89,12 +89,12 @@ void Player::Update()
 		}
 		UpdateGravity();
 		UpdateAnimation();
+		//当たり判定用線分の座標計算
+		CalcCollisionLine();
 	}
 	MV1SetPosition(modelHandle, pos);
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	UpdateLight();
-	//当たり判定用線分の座標計算
-	CalcCollisionLine();
 	//落ちたらリスポーン
 	if (pos.y <= restartHeight)
 	{
@@ -258,6 +258,7 @@ void Player::UpdateInput()
 	//スライディング中の処理
 	else if (status == STATUS::SLIDE)
 	{
+		isGround = true;
 		moveDirection = VTransform(VGet(0.0f, 0.0f, 0.1f), MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 		moveDirection = VNorm(moveDirection);
 		fixSlidePos = VAdd(fixSlidePos, VScale(moveDirection, slideSpeed));
@@ -462,6 +463,7 @@ void Player::UpdateAnimation()
 			pos = VAdd(pos, fixJumpOverPos);
 			fixJumpOverPos = initializePos;
 			isStandByToJumpOver = false;
+			isGround = false;
 			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);
