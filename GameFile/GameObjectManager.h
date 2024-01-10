@@ -63,6 +63,6 @@ private:
 	vector<GameObject*> objectInstance;					//オブジェクトのインスタンス
 	static constexpr int playerIndex = 1;
 
-	static constexpr float maxObjectDistance = 750.0f;	//当たり判定を行う距離
+	static constexpr float maxObjectDistance = 1000.0f;	//当たり判定を行う距離
 };
 

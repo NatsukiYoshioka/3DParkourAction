@@ -52,7 +52,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	MV1SetScale(this->modelHandle, scale);
-	pos = VGet(1000.0f, 400.0f, 0.0f);
+	pos = VGet(1065.0f, 425.0f, -250.0f);
 	restartPos = pos;
 
 	MV1SetRotationXYZ(this->modelHandle, fixAngle);
@@ -345,22 +345,31 @@ void Player::DebugInput()
 	//左スティック左倒し
 	if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
 	{
-		pos = VAdd(pos, CalcLeftMove(addMove));
+		pos = VAdd(pos, VAdd(CalcLeftMove(addMove),CalcLeftMove(addMove)));
 	}
 	//左スティック右倒し
 	if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
 	{
-		pos = VAdd(pos, CalcRightMove(addMove));
+		pos = VAdd(pos, VAdd(CalcRightMove(addMove), CalcRightMove(addMove)));
 	}
 	//左スティック上倒し
 	if (input->GetInput().ThumbLY > initializeNum || CheckHitKey(KEY_INPUT_W) != initializeNum)
 	{
-		pos = VAdd(pos, CalcFrontMove(addMove));
+		pos = VAdd(pos, VAdd(CalcFrontMove(addMove), CalcFrontMove(addMove)));
 	}
 	//左スティック下倒し
 	if (input->GetInput().ThumbLY < initializeNum || CheckHitKey(KEY_INPUT_S) != initializeNum)
 	{
-		pos = VAdd(pos, CalcBehindMove(addMove));
+		pos = VAdd(pos, VAdd(CalcBehindMove(addMove), CalcBehindMove(addMove)));
+	}
+
+	if (CheckHitKey(KEY_INPUT_SPACE) != initializeNum)
+	{
+		pos.y += moveSpeed*2;
+	}
+	if (CheckHitKey(KEY_INPUT_LCONTROL) != initializeNum)
+	{
+		pos.y -= moveSpeed*2;
 	}
 }
 
