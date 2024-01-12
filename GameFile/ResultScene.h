@@ -10,5 +10,7 @@ public:
 
 	void Update();
 	void Draw();
+private:
+	static constexpr const char* resultString = "RESULT";
 };
 

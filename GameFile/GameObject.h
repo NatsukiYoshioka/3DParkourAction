@@ -35,5 +35,6 @@ protected:
 	ObjectTag tag;				//オブジェクトのタグ
 	int modelHandle;			//モデルのハンドル
 	VECTOR pos;					//オブジェクトの座標
+	
 };
 

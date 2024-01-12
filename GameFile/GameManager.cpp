@@ -4,6 +4,7 @@
 #include"ResultScene.h"
 #include"GameObjectManager.h"
 #include"PadInput.h"
+#include"common.h"
 #include"DxLib.h"
 #include <cstddef>
 #include "GameManager.h"
@@ -80,7 +81,7 @@ void GameManager::Update()
 	gameObjectManager->Update();
 	nowScene->Update();
 
-	if (CheckHitKey(KEY_INPUT_RETURN) != 0)
+	if (CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
 	{
 		ChangeScene(SCENE::GAME);
 	}

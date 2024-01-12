@@ -22,20 +22,20 @@ Load::Load():
 //ƒf[ƒ^‚Ì‰ğ•ú
 Load::~Load()
 {
-	if (playerModelHandle != -1)
+	if (playerModelHandle != noHandle)
 	{
 		MV1DeleteModel(playerModelHandle);
 	}
 	for (int i = initializeNum; i < fieldModelHandle.size(); i++)
 	{
-		if (fieldModelHandle.at(i) != -1)
+		if (fieldModelHandle.at(i) != noHandle)
 		{
 			MV1DeleteModel(fieldModelHandle.at(i));
 		}
 	}
 	for (int i = initializeNum; i < obstacleModelHandle.size(); i++)
 	{
-		if (obstacleModelHandle.at(i) != -1)
+		if (obstacleModelHandle.at(i) != noHandle)
 		{
 			MV1DeleteModel(obstacleModelHandle.at(i));
 		}

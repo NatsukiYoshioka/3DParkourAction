@@ -22,7 +22,7 @@ Field::Field(int modelHandle, VECTOR pos,float angle):
 //ƒf[ƒ^‚Ì‰ğ•ú
 Field::~Field()
 {
-	if (modelHandle != -1)
+	if (modelHandle != noHandle)
 	{
 		MV1DeleteModel(modelHandle);
 	}

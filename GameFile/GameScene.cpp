@@ -19,5 +19,5 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	DrawString(0, 16, "INGAME", GetColor(255, 255, 255));
+	DrawString(stringX, stringY, inGameString, sceneStringColor);
 }

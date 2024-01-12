@@ -20,5 +20,5 @@ void MenuScene::Update()
 
 void MenuScene::Draw()
 {
-	DrawString(0, 16, "MENU", GetColor(255, 255, 255));
+	DrawString(stringX, stringY, menuString, sceneStringColor);
 }

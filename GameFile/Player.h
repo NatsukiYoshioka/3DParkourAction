@@ -163,6 +163,7 @@ private:
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 
+	static const VECTOR initPos;		//初期座標
 	VECTOR restartPos;					//リスポーンする座標
 	static constexpr float restartHeight = 100.0f;	//リスポーンする高さ
 
@@ -242,7 +243,14 @@ private:
 	VECTOR wallCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//壁との当たり判定用線分の座標
 	VECTOR sideCollisionLinePos[lineNum][lineDivNum][lineDivNum];	//側面の当たり判定用線分の座標
 
+	static const VECTOR crossCollisionLine;			//当たり判定線分の外積計算用変数
+
+	static const VECTOR transformWallCollisionLine;			//壁当たり判定のベクトル変換用変数
+	static const VECTOR transformReverseWallCollisionLine;	//壁当たり判定の逆方向ベクトル変換用変数
+
 	static constexpr int jumpButtonIndex = 12;		//ジャンプボタンの番号
 	static constexpr int slideButtonIndex = 13;		//スライディングボタンの番号
+
+	static constexpr int debugSpeed = 2;			//デバッグ時の移動スピード
 };
 

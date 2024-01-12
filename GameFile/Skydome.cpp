@@ -20,7 +20,7 @@ Skydome::Skydome(int modelHandle)
 
 Skydome::~Skydome()
 {
-    if (modelHandle != -1)
+    if (modelHandle != noHandle)
     {
         MV1DeleteModel(modelHandle);
     }

@@ -27,7 +27,7 @@ Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int isSlide):
 //ƒf[ƒ^‚Ì‰ğ•ú
 Obstacle::~Obstacle()
 {
-	if (modelHandle != -1)
+	if (modelHandle != noHandle)
 	{
 		MV1DeleteModel(modelHandle);
 	}
