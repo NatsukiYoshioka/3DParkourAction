@@ -27,7 +27,7 @@ public:
 	/// <summary>
 	/// オブジェクトの更新
 	/// </summary>
-	void Update();
+	void Update(GameManager::SCENE nowScene);
 
 	/// <summary>
 	/// オブジェクトの描画

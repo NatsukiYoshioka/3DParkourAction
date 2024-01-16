@@ -1,4 +1,5 @@
 #pragma once
+#include"GameManager.h"
 #include"ObjectTag.h"
 #include"DxLib.h"
 
@@ -19,7 +20,7 @@ public:
 	~GameObject();
 
 	//純粋仮想関数
-	virtual void Update() = 0;
+	virtual void Update(GameManager::SCENE nowScene) = 0;
 	virtual void Draw() = 0;
 
 	//オブジェクトの当たり判定

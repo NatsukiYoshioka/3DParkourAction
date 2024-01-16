@@ -88,11 +88,11 @@ void GameObjectManager::InitObject()
 }
 
 //オブジェクト全体の更新
-void GameObjectManager::Update()
+void GameObjectManager::Update(GameManager::SCENE nowScene)
 {
 	for (int i = initializeNum; i < objectInstance.size(); i++)
 	{
-		objectInstance.at(i)->Update();
+		objectInstance.at(i)->Update(nowScene);
 		for (int j = initializeNum; j < objectInstance.size(); j++)
 		{
 			//当たり判定更新

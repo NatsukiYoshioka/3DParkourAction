@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// オブジェクトの更新
 	/// </summary>
-	void Update();
+	void Update(GameManager::SCENE nowScene);
 
 	/// <summary>
 	/// 入力処理更新
@@ -57,11 +57,13 @@ private:
 	VECTOR angle;			//カメラの向き
 	VECTOR addPos;			//カメラの位置加算量
 
+	float forwardPos;		//カメラ前押し出し量
 	float rotateV;			//カメラX軸回転量
 	float fov;				//視野角
 
 	static constexpr float fixPosY = 5.0f;				//カメラY座標調整量
-	static constexpr float fixForwardPos = 7.5f;		//カメラ前押し出し量
+	static constexpr float fixForwardPos = 7.5f;		//カメラ前押し出し量限界値
+	static constexpr float firstForwardPos = -30.5f;	//カメラの初期押し出し量
 	//static constexpr float fixForwardPos = -120.5f;	//アニメーションデバッグ用
 
 	static constexpr float directionSpeed = 0.025f;						//方向転換速度

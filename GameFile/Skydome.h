@@ -25,7 +25,7 @@ public:
     /// <summary>
     /// スカイドームの更新
     /// </summary>
-    void Update();
+    void Update(GameManager::SCENE nowScene);
 
     /// <summary>
     /// スカイドームの描画

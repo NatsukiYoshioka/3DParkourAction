@@ -18,3 +18,5 @@ static const float pi1_f = 180.0f;		//ラジアン計算用定数
 static const VECTOR transformVector = VGet(0.0f, 0.0f, 0.1f);			//行列からベクトル変換用変数
 static const VECTOR transformReverseVector = VGet(0.0f, 0.0f, -0.1f);	//行列→ベクトル変換逆方向
 static const VECTOR crossVector = VGet(0.0f, 1.0f, 0.0f);		//外積計算用ベクトル
+
+static constexpr float sceneTransitionTime = 45.0f;			//シーン遷移時間

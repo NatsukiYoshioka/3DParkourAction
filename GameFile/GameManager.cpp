@@ -78,7 +78,7 @@ void GameManager::ChangeScene(SCENE scene)
 void GameManager::Update()
 {
 	input->Update();
-	gameObjectManager->Update();
+	gameObjectManager->Update(sceneStatus);
 	nowScene->Update();
 
 	if (CheckHitKey(KEY_INPUT_RETURN) != initializeNum)

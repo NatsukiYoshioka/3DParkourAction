@@ -52,7 +52,7 @@ public:
 	/// <summary>
 	/// オブジェクトの更新
 	/// </summary>
-	void Update();
+	void Update(GameManager::SCENE nowScene);
 
 	/// <summary>
 	/// 入力による挙動の更新
@@ -160,6 +160,7 @@ public:
 
 private:
 	bool debug;							//デバッグ中かどうか
+	bool isStart;						//ゲームがスタートしたかどうか
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 

@@ -8,6 +8,7 @@
 
 //コンストラクタ
 Camera::Camera():
+	forwardPos(firstForwardPos),
 	rotateV(static_cast<float>(initializeNum)),
 	fov(initializeFov),
 	angle(initializePos),
@@ -26,9 +27,9 @@ Camera::~Camera()
 }
 
 //カメラの更新
-void Camera::Update()
+void Camera::Update(GameManager::SCENE nowScene)
 {
-	UpdateInput();
+	if (nowScene == GameManager::SCENE::GAME)UpdateInput();
 
 	//カメラのY座標を設定
 	pos = Player::GetHeadPos();
@@ -38,10 +39,16 @@ void Camera::Update()
 	angle = Player::GetAngle();
 	angle.x += rotateV;
 
+	if (nowScene == GameManager::SCENE::GAME)
+	{
+		forwardPos += (fixForwardPos - firstForwardPos) / sceneTransitionTime;
+		if (forwardPos >= fixForwardPos)forwardPos = fixForwardPos;
+	}
+
 	//カメラを前に押し出し
 	addPos = VTransform(transformVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 	addPos = VNorm(addPos);
-	addPos = VScale(addPos, fixForwardPos);
+	addPos = VScale(addPos, forwardPos);
 	pos = VAdd(pos, addPos);
 
 	//カメラの位置と向きをセット

@@ -1,4 +1,5 @@
 #pragma once
+#include"GameManager.h"
 #include<string>
 #include<vector>
 
@@ -48,7 +49,7 @@ public:
 	/// <summary>
 	/// オブジェクト全体の更新
 	/// </summary>
-	void Update();
+	void Update(GameManager::SCENE nowScene);
 
 	/// <summary>
 	/// オブジェクト全体の描画

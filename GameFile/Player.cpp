@@ -6,7 +6,7 @@
 #include"DxLib.h"
 #include "Player.h"
 
-const VECTOR Player::initPos = VGet(1065.0f, 425.0f, -250.0f);
+const VECTOR Player::initPos = VGet(1025.0f, 420.0f, -200.0f);
 const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
 const VECTOR Player::downLightDirection = VGet(0.0f, -1.0f, 0.0f);
 const unsigned int Player::debugColor = GetColor(255, 255, 0);
@@ -20,6 +20,7 @@ const VECTOR Player::transformReverseWallCollisionLine = VGet(-0.1f, 0.0f, 0.0f)
 //オブジェクトの初期化
 Player::Player(int modelHandle, vector<int> animationHandle):
 	debug(false),
+	isStart(false),
 	input(nullptr),
 	addMove(initializePos),
 	lightDirection(initializePos),
@@ -39,7 +40,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 	isStandByToBigJump(false),
 	gravity(static_cast<float>(initializeNum)),
 	jump(static_cast<float>(initializeNum)),
-	status(STATUS::STAND),
+	status(STATUS::CROUCH),
 	jumpAngle(initializePos),
 	fixJumpOverPos(initializePos),
 	fixSlidePos(initializePos),
@@ -82,12 +83,18 @@ Player::~Player()
 }
 
 //オブジェクトの更新
-void Player::Update()
+void Player::Update(GameManager::SCENE nowScene)
 {
 	//DebugInput();
 	if (!debug)
 	{
-		UpdateInput();
+		//ゲーム開始時の挙動
+		if (nowScene == GameManager::SCENE::GAME && !isStart)
+		{
+			if (status != STATUS::CROUCHED_TO_STAND)playAnimTime = static_cast<float>(initializeNum);
+			status = STATUS::CROUCHED_TO_STAND;
+		}
+		if (isStart)UpdateInput();
 		if (!isWallRun)
 		{
 			MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
@@ -455,6 +462,10 @@ void Player::UpdateAnimation()
 	{
 		switch (status)
 		{
+		case STATUS::CROUCHED_TO_STAND:
+			isStart = true;
+			status = STATUS::STAND;
+			break;
 		case STATUS::JUMP:
 			status = STATUS::FALL;
 			break;
@@ -685,7 +696,7 @@ void Player::Draw()
 {
 	MV1DrawModel(modelHandle);
 	//当たり判定デバッグ用描画
-	for (int i = initializeNum; i < lineDivNum; i++)
+	/*for (int i = initializeNum; i < lineDivNum; i++)
 	{
 		for (int j = initializeNum; j < lineDivNum; j++)
 		{
@@ -693,5 +704,5 @@ void Player::Draw()
 			DrawLine3D(wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j], debugColor);
 			DrawLine3D(sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j], debugColor);
 		}
-	}
+	}*/
 }

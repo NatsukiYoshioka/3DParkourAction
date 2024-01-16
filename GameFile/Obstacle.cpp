@@ -34,7 +34,7 @@ Obstacle::~Obstacle()
 }
 
 //オブジェクトの更新
-void Obstacle::Update()
+void Obstacle::Update(GameManager::SCENE nowScene)
 {
 	MV1SetPosition(modelHandle, pos);
 }
