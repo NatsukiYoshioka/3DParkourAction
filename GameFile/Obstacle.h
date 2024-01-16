@@ -58,6 +58,6 @@ private:
 	static const VECTOR scale;				//モデルのスケール
 
 	static constexpr int frameIndex = -1;		//モデルのフレームの番号
-	static constexpr int collisionDivNum = 10;	//当たり判定分割数
+	static constexpr int collisionDivNum = 2;	//当たり判定分割数
 };
 

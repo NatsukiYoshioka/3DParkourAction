@@ -64,5 +64,6 @@ private:
 	static constexpr int playerIndex = 1;
 
 	static constexpr float maxObjectDistance = 1000.0f;	//“–‚½‚è”»’è‚ğs‚¤‹——£
+	static constexpr float maxObstacleDistance = 100.0f;//“–‚½‚è”»’è‚ğs‚¤áŠQ•¨‚Æ‚Ì‹——£
 };
 

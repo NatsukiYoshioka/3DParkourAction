@@ -4,7 +4,7 @@
 #include "FpsControl.h"
 
 FpsControl* FpsControl::fpsControl = nullptr;
-const unsigned int FpsControl::blueColor = GetColor(0, 0, 255);
+const unsigned int FpsControl::blueColor = GetColor(255, 255, 0);
 
 //ƒJƒEƒ“ƒg‚Ì‰Šú‰»
 FpsControl::FpsControl() :count(initializeNum), nowFps(initializeNum)
