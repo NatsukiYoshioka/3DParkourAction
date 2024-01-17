@@ -11,10 +11,10 @@
 
 GameManager* GameManager::sceneManager = nullptr;
 BaseScene* GameManager::nowScene = NULL;
+GameManager::SCENE GameManager::sceneStatus;
 
 //シーンの初期化とオブジェクトの生成
 GameManager::GameManager() :
-	sceneStatus(SCENE::TITLE),
 	input(nullptr)
 {
 	GameObjectManager::CreateInstance();
@@ -78,13 +78,8 @@ void GameManager::ChangeScene(SCENE scene)
 void GameManager::Update()
 {
 	input->Update();
-	gameObjectManager->Update(sceneStatus);
+	gameObjectManager->Update();
 	nowScene->Update();
-
-	if (CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
-	{
-		ChangeScene(SCENE::GAME);
-	}
 }
 
 //現在のシーンの描画

@@ -20,6 +20,7 @@ const VECTOR Player::transformReverseWallCollisionLine = VGet(-0.1f, 0.0f, 0.0f)
 //オブジェクトの初期化
 Player::Player(int modelHandle, vector<int> animationHandle):
 	debug(false),
+	isInit(true),
 	isStart(false),
 	input(nullptr),
 	addMove(initializePos),
@@ -65,7 +66,7 @@ Player::Player(int modelHandle, vector<int> animationHandle):
 
 	this->animationHandle = animationHandle;
 
-	//プレイヤーの初期状態を立ち状態にする
+	//プレイヤーの初期状態をしゃがみ状態にする
 	animationIndex = MV1AttachAnim(this->modelHandle, initializeNum, this->animationHandle.at(static_cast<int>(status)));
 
 	forwardLightHandle = CreateDirLightHandle(angle);
@@ -82,17 +83,67 @@ Player::~Player()
 	DeleteLightHandleAll();
 }
 
+//オブジェクトの初期化
+void Player::Initialize()
+{
+	debug=false;
+	isInit=true;
+	isStart=false;
+	input=nullptr;
+	addMove=initializePos;
+	lightDirection=initializePos;
+	moveDirection=initializePos;
+	moveDirectionX=initializePos;
+	moveDirectionZ=initializePos;
+	isHitWall=initializeNum;
+	moveSpeed=initializeSpeed;
+	isLeft=false;
+	isGround=false;
+	isJump=false;
+	isMove=false;
+	isWallRun=false;
+	isWallJump=false;
+	isSlide=false;
+	isStandByToJumpOver=false;
+	isStandByToBigJump=false;
+	gravity=static_cast<float>(initializeNum);
+	jump=static_cast<float>(initializeNum);
+	status=STATUS::CROUCH;
+	jumpAngle=initializePos;
+	fixJumpOverPos=initializePos;
+	fixSlidePos=initializePos;
+	animationIndex=initializeNum;
+	totalAnimTime=static_cast<float>(initializeNum);
+	playAnimTime=static_cast<float>(initializeNum);
+	spinePos=initializePos;
+
+	pos = initPos;
+	restartPos = pos;
+
+	angle=initializePos;
+	MV1SetRotationXYZ(modelHandle, fixAngle);
+
+	//プレイヤーの初期状態をしゃがみ状態にする
+	MV1DetachAnim(modelHandle, animationIndex);
+	animationIndex = MV1AttachAnim(modelHandle, initializeNum, this->animationHandle.at(static_cast<int>(status)));
+}
+
 //オブジェクトの更新
-void Player::Update(GameManager::SCENE nowScene)
+void Player::Update()
 {
 	//DebugInput();
 	if (!debug)
 	{
 		//ゲーム開始時の挙動
-		if (nowScene == GameManager::SCENE::GAME && !isStart)
+		if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && !isStart)
 		{
+			isInit=false;
 			if (status != STATUS::CROUCHED_TO_STAND)playAnimTime = static_cast<float>(initializeNum);
 			status = STATUS::CROUCHED_TO_STAND;
+		}
+		if (GameManager::GetGameStatus() == GameManager::SCENE::TITLE && !isInit)
+		{
+			Initialize();
 		}
 		if (isStart)UpdateInput();
 		if (!isWallRun)
@@ -111,6 +162,10 @@ void Player::Update(GameManager::SCENE nowScene)
 	if (pos.y <= restartHeight)
 	{
 		Respone();
+	}
+	if (pos.x <= goalX)
+	{
+		GameManager::ChangeScene(GameManager::SCENE::TITLE);
 	}
 }
 

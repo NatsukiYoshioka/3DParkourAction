@@ -29,7 +29,7 @@ Field::~Field()
 }
 
 //オブジェクトの更新
-void Field::Update(GameManager::SCENE nowScene)
+void Field::Update()
 {
 	
 }

@@ -26,10 +26,20 @@ Camera::~Camera()
 
 }
 
-//カメラの更新
-void Camera::Update(GameManager::SCENE nowScene)
+//オブジェクトの初期化
+void Camera::Initialize()
 {
-	if (nowScene == GameManager::SCENE::GAME)UpdateInput();
+	forwardPos=firstForwardPos;
+	rotateV=static_cast<float>(initializeNum);
+	angle=initializePos;
+	addPos=initializePos;
+}
+
+//カメラの更新
+void Camera::Update()
+{
+	if(GameManager::GetGameStatus() == GameManager::SCENE::TITLE)Initialize();
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME)UpdateInput();
 
 	//カメラのY座標を設定
 	pos = Player::GetHeadPos();
@@ -39,7 +49,7 @@ void Camera::Update(GameManager::SCENE nowScene)
 	angle = Player::GetAngle();
 	angle.x += rotateV;
 
-	if (nowScene == GameManager::SCENE::GAME)
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME)
 	{
 		forwardPos += (fixForwardPos - firstForwardPos) / sceneTransitionTime;
 		if (forwardPos >= fixForwardPos)forwardPos = fixForwardPos;

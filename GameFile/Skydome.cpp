@@ -26,7 +26,7 @@ Skydome::~Skydome()
     }
 }
 
-void Skydome::Update(GameManager::SCENE nowScene)
+void Skydome::Update()
 {
     pos.x = Player::GetHeadPos().x;
     pos.z = Player::GetHeadPos().z;

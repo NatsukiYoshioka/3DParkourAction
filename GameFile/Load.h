@@ -111,6 +111,12 @@ public:
 	/// <returns>スカイドームのモデルハンドルのvector配列</returns>
 	vector<int> GetSkydomeModelHandle() { return skydomeModelHandle; }
 
+	/// <summary>
+	/// フォントパス取得
+	/// </summary>
+	/// <returns>フォントパスのvector配列</returns>
+	vector<string> GetFontPath(){return fontPath;}
+
 private:
 	static Load* load;				//ロードクラスのインスタンス
 
@@ -140,6 +146,8 @@ private:
 	vector<int> skydomeModelHandle;		//スカイドームのモデルハンドル
 	vector<VECTOR> skydomePos;			//スカイドームのポジション
 
+	vector<string> fontPath;            //フォントパス
+
 	static constexpr const char* playerHeader = "PLAYER";
 	static constexpr const char* animationHeader = "ANIMATION";
 	static constexpr const char* fieldHeader = "FIELD";
@@ -150,5 +158,6 @@ private:
 	static constexpr const char* obstacleAngleHeader = "ObstacleAngle";
 	static constexpr const char* obstacleIsSlideHeader = "IsSlide";
 	static constexpr const char* skydomeHeader = "SKYDOME";
+	static constexpr const char* fontHeader="FONT";
 };
 

@@ -4,17 +4,17 @@
 
 GameScene::GameScene()
 {
-
+	
 }
 
 GameScene::~GameScene()
 {
-
+	
 }
 
 void GameScene::Update()
 {
-
+	
 }
 
 void GameScene::Draw()

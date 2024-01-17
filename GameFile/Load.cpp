@@ -191,6 +191,11 @@ void Load::LoadData()
 			{
 				skydomeModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
+			//フォントパスの取得
+			if (header.at(j) == fontHeader && cell.at(i).at(j) != "")
+			{
+				fontPath.push_back(cell.at(i).at(j).c_str());
+			}
 		}
 	}
 }

@@ -136,6 +136,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="FpsControl.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Field.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="FpsControl.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />

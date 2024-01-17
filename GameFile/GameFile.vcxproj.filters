@@ -67,6 +67,9 @@
     <Filter Include="ソース ファイル\Game\Collision">
       <UniqueIdentifier>{9bf23d7b-50a1-4481-a0a2-800f744052e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Font">
+      <UniqueIdentifier>{f891fd5f-a32d-4bd6-9c78-7cd7d30d4e0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -116,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル\Game\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>ソース ファイル\System\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="common.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>ソース ファイル\System\Font</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

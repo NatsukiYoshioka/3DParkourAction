@@ -51,7 +51,7 @@ public:
 	/// シーンを引数によって変える関数
 	/// </summary>
 	/// <param name="scene">変更するシーン</param>
-	void ChangeScene(SCENE scene);
+	static void ChangeScene(SCENE scene);
 
 	/// <summary>
 	/// 現在のシーンの更新
@@ -67,12 +67,12 @@ public:
 	/// シーンの状態を取得
 	/// </summary>
 	/// <returns>シーンの状態</returns>
-	SCENE GetGameStatus() { return sceneStatus; }
+	static SCENE GetGameStatus() { return sceneStatus; }
 
 private:
 	static GameManager* sceneManager;			//クラスのインスタンス
 	static BaseScene* nowScene;					//現在のシーン
-	SCENE sceneStatus;							//シーンの状態
+	static SCENE sceneStatus;							//シーンの状態
 
 	GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラス
 	PadInput* input;

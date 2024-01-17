@@ -1,11 +1,11 @@
 #pragma once
-#include"GameManager.h"
 #include<string>
 #include<vector>
 
 using namespace std;
 
 class Load;
+class Font;
 class GameObject;
 
 /// <summary>
@@ -49,7 +49,7 @@ public:
 	/// <summary>
 	/// オブジェクト全体の更新
 	/// </summary>
-	void Update(GameManager::SCENE nowScene);
+	void Update();
 
 	/// <summary>
 	/// オブジェクト全体の描画
@@ -59,6 +59,7 @@ public:
 private:
 	static GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラスのインスタンス
 	Load* load;											//ロードクラス
+	Font* font;                                         //フォントクラス
 	static const string dataFilePath;					//データ格納ファイルのパス
 
 	vector<GameObject*> objectInstance;					//オブジェクトのインスタンス

@@ -1,6 +1,7 @@
 #include<vector>
 #include<string>
 #include"Load.h"
+#include"Font.h"
 #include"GameObject.h"
 #include"ObjectTag.h"
 #include"Player.h"
@@ -88,11 +89,11 @@ void GameObjectManager::InitObject()
 }
 
 //オブジェクト全体の更新
-void GameObjectManager::Update(GameManager::SCENE nowScene)
+void GameObjectManager::Update()
 {
 	for (int i = initializeNum; i < objectInstance.size(); i++)
 	{
-		objectInstance.at(i)->Update(nowScene);
+		objectInstance.at(i)->Update();
 		for (int j = initializeNum; j < objectInstance.size(); j++)
 		{
 			//当たり判定更新

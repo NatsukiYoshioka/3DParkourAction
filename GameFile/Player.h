@@ -50,9 +50,14 @@ public:
 	~Player();
 
 	/// <summary>
+	/// オブジェクトの初期化
+	/// </summary>
+	void Initialize();
+
+	/// <summary>
 	/// オブジェクトの更新
 	/// </summary>
-	void Update(GameManager::SCENE nowScene);
+	void Update();
 
 	/// <summary>
 	/// 入力による挙動の更新
@@ -160,6 +165,7 @@ public:
 
 private:
 	bool debug;							//デバッグ中かどうか
+	bool isInit;                        //オブジェクトを初期化したかどうか
 	bool isStart;						//ゲームがスタートしたかどうか
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
@@ -253,5 +259,7 @@ private:
 	static constexpr int slideButtonIndex = 13;		//スライディングボタンの番号
 
 	static constexpr int debugSpeed = 2;			//デバッグ時の移動スピード
+
+	static constexpr float goalX = -100.0f;         //ゴール座標
 };
 

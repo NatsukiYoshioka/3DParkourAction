@@ -1,5 +1,6 @@
 #include"DxLib.h"
 #include"GameObject.h"
+#include"Player.h"
 #include"ObjectTag.h"
 #include"common.h"
 #include "Obstacle.h"
@@ -34,7 +35,7 @@ Obstacle::~Obstacle()
 }
 
 //オブジェクトの更新
-void Obstacle::Update(GameManager::SCENE nowScene)
+void Obstacle::Update()
 {
 	MV1SetPosition(modelHandle, pos);
 }

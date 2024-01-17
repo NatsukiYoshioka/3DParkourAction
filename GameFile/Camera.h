@@ -23,9 +23,14 @@ public:
 	~Camera();
 
 	/// <summary>
+	/// オブジェクトの初期化
+	/// </summary>
+	void Initialize();
+
+	/// <summary>
 	/// オブジェクトの更新
 	/// </summary>
-	void Update(GameManager::SCENE nowScene);
+	void Update();
 
 	/// <summary>
 	/// 入力処理更新
