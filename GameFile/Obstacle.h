@@ -16,8 +16,8 @@ public:
 	/// <param name="modelHandle">モデルハンドル</param>
 	/// <param name="pos">オブジェクトの座標</param>
 	/// <param name="angle">オブジェクトの角度</param>
-	/// <param name="isSlide">くぐれるかどうか</param>
-	Obstacle(int modelHandle, VECTOR pos, float angle, int isSlide);
+	/// <param name="obstacleType">障害物の種類</param>
+	Obstacle(int modelHandle, VECTOR pos, float angle, int obstacleType);
 
 	/// <summary>
 	/// データの解放
@@ -56,8 +56,12 @@ private:
 	VECTOR angle;
 
 	static const VECTOR scale;				//モデルのスケール
+	static const VECTOR otherScale;         //その他オブジェクトのスケール
 
 	static constexpr int frameIndex = -1;		//モデルのフレームの番号
 	static constexpr int collisionDivNum = 2;	//当たり判定分割数
+
+	static constexpr int slideIndex=1;          //くぐれる障害物の番号
+	static constexpr int otherIndex = 2;        //その他障害物の番号
 };
 

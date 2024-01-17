@@ -89,7 +89,6 @@ void Player::Initialize()
 	debug=false;
 	isInit=true;
 	isStart=false;
-	input=nullptr;
 	addMove=initializePos;
 	lightDirection=initializePos;
 	moveDirection=initializePos;

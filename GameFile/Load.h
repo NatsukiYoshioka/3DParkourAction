@@ -103,7 +103,7 @@ public:
 	/// 障害物がくぐれるかどうか取得
 	/// </summary>
 	/// <returns>障害物がくぐれるかどうか</returns>
-	vector<int> GetIsSlide() { return isSlide; }
+	vector<int> GetObstacleType() { return obstacleType; }
 
 	/// <summary>
 	/// スカイドームのモデルハンドル取得
@@ -141,7 +141,7 @@ private:
 	int tempObstacleModelHandle;		//障害物モデル複数追加用仮保存
 	vector<VECTOR> obstaclePos;			//障害物の各座標
 	vector<float> obstacleAngle;		//障害物の角度
-	vector<int> isSlide;				//くぐれる障害物かどうか
+	vector<int> obstacleType;			//障害物の種類
 
 	vector<int> skydomeModelHandle;		//スカイドームのモデルハンドル
 	vector<VECTOR> skydomePos;			//スカイドームのポジション
@@ -156,7 +156,7 @@ private:
 	static constexpr const char* obstacleHeader = "OBSTACLE";
 	static constexpr const char* obstaclePosXHeader = "ObstaclePosX";
 	static constexpr const char* obstacleAngleHeader = "ObstacleAngle";
-	static constexpr const char* obstacleIsSlideHeader = "IsSlide";
+	static constexpr const char* obstacleObstacleTypeHeader = "ObstacleType";
 	static constexpr const char* skydomeHeader = "SKYDOME";
 	static constexpr const char* fontHeader="FONT";
 };

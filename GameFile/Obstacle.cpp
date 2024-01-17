@@ -6,20 +6,23 @@
 #include "Obstacle.h"
 
 const VECTOR Obstacle::scale = VGet(0.04f, 0.04f, 0.04f);
+const VECTOR Obstacle::otherScale = VGet(0.2f, 0.2f, 0.2f);
 
 //ƒ‚ƒfƒ‹‚ÌŽæ“¾‚ÆÀ•W‚Ì‰Šú‰»
-Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int isSlide):
+Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int obstacleType):
 	angle(initializePos)
 {
-	if (isSlide)tag = ObjectTag::SLIDE_OBSTACLE;
-	else tag = ObjectTag::OBSTACLE;
+	if (obstacleType==slideIndex)tag = ObjectTag::SLIDE_OBSTACLE;
+	else if(obstacleType==otherIndex) tag = ObjectTag::OTHER_OBSTACLE;
+	else tag=ObjectTag::OBSTACLE;
 	
 	this->modelHandle = MV1DuplicateModel(modelHandle);
 	this->pos = pos;
 	this->angle.y = angle;
 
 	MV1SetRotationXYZ(this->modelHandle, this->angle);
-	MV1SetScale(this->modelHandle, scale);
+	if (tag != ObjectTag::OTHER_OBSTACLE)MV1SetScale(this->modelHandle, scale);
+	else MV1SetScale(this->modelHandle, otherScale);
 
 	MV1SetPosition(this->modelHandle, this->pos);
 	MV1SetupCollInfo(this->modelHandle, frameIndex, collisionDivNum, collisionDivNum, collisionDivNum);

@@ -18,7 +18,8 @@ GameObjectManager* GameObjectManager::gameObjectManager = nullptr;
 const string GameObjectManager::dataFilePath = "data/file/data.csv";
 
 //データのロード
-GameObjectManager::GameObjectManager()
+GameObjectManager::GameObjectManager():
+	font(nullptr)
 {
 	Load::CreateInstance();
 	load = Load::GetInstance();
@@ -33,6 +34,7 @@ GameObjectManager::~GameObjectManager()
 	{
 		delete(objectInstance.at(i));
 	}
+	if(font)delete(font);
 }
 
 //インスタンスの生成
@@ -78,7 +80,7 @@ void GameObjectManager::InitObject()
 	//障害物オブジェクトの追加
 	for (int i = initializeNum; i < load->GetObstacleModelHandle().size(); i++)
 	{
-		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i), load->GetObstacleAngle().at(i), load->GetIsSlide().at(i)));
+		objectInstance.push_back(new Obstacle(load->GetObstacleModelHandle().at(i), load->GetObstaclePos().at(i), load->GetObstacleAngle().at(i), load->GetObstacleType().at(i)));
 	}
 
 	//スカイドームの追加
@@ -86,6 +88,8 @@ void GameObjectManager::InitObject()
 	{
 		objectInstance.push_back(new Skydome(load->GetSkydomeModelHandle().at(i)));
 	}
+
+	font=new Font(load->GetFontPath());
 }
 
 //オブジェクト全体の更新

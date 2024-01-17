@@ -1,7 +1,7 @@
-,FIELD,FieldPosX,FieldPosY,FieldPosZ,FieldAngle,OBSTACLE,ObstaclePosX,ObstaclePosY,ObstaclePosZ,ObstacleAngle,IsSlide,PLAYER,ANIMATION,SKYDOME,FONT
-1,data/model/buildings/60.mv1,1025,0,-250,0,data/model/obstacles/chipped_road_block.mv1,1500,145,795,90,0,data/model/character/character.mv1,data/model/character/crouched_to_standing.mv1,data/model/skydome/dome.pmx,title.otf
-2,data/model/buildings/04.mv1,960,0,0,0,data/model/obstacles/chipped_road_block_001.mv1,1500,145,820,90,0,,data/model/character/crouching_idle.mv1,,config.ttf
-3,data/model/buildings/06.mv1,1025,0,400,90,data/model/obstacles/chipped_road_block_002.mv1,1500,145,845,90,0,,data/model/character/dead_falling.mv1,,time.ttf
+,FIELD,FieldPosX,FieldPosY,FieldPosZ,FieldAngle,OBSTACLE,ObstaclePosX,ObstaclePosY,ObstaclePosZ,ObstacleAngle,ObstacleType,PLAYER,ANIMATION,SKYDOME,FONT
+1,data/model/buildings/60.mv1,1025,0,-250,0,data/model/obstacles/chipped_road_block.mv1,1500,145,795,90,0,data/model/character/character.mv1,data/model/character/crouched_to_standing.mv1,data/model/skydome/dome.pmx,data/font/title.otf
+2,data/model/buildings/04.mv1,960,0,0,0,data/model/obstacles/chipped_road_block_001.mv1,1500,145,820,90,0,,data/model/character/crouching_idle.mv1,,data/font/config.ttf
+3,data/model/buildings/06.mv1,1025,0,400,90,data/model/obstacles/chipped_road_block_002.mv1,1500,145,845,90,0,,data/model/character/dead_falling.mv1,,data/font/time.ttf
 4,data/model/buildings/21.mv1,700,0,150,0,same,2700,369,770,90,0,,data/model/character/falling_idle.mv1,,
 5,same,1300,0,600,90,same,2700,369,795,90,0,,data/model/character/falling_to_roll.mv1,,
 6,data/model/buildings/52.mv1,1300,0,200,90,same,2700,369,820,90,0,,data/model/character/jump.mv1,,
@@ -25,9 +25,9 @@
 24,data/model/buildings/48.mv1,300,0,100,0,data/model/obstacles/wood_road_block_medium_006.mv1,0,0,0,0,0,,,,
 25,,,,,,data/model/obstacles/wood_road_block_medium_007.mv1,0,0,0,0,0,,,,
 26,,,,,,data/model/obstacles/wood_road_block_medium_008.mv1,0,0,0,0,0,,,,
-27,,,,,,,,,,,,,,,
-28,,,,,,,,,,,,,,,
-29,,,,,,,,,,,,,,,
+27,,,,,,data/model/object/portal.mv1,1025,400,-250,0,2,,,,
+28,,,,,,same,50,915,-250,270,2,,,,
+29,,,,,,same,0,0,0,0,2,,,,
 30,,,,,,,,,,,,,,,
 31,,,,,,,,,,,,,,,
 32,,,,,,,,,,,,,,,
