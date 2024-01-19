@@ -49,6 +49,8 @@ private:
     XINPUT_STATE input;             //コントローラー入力情報
 };
 
+static const int buttonA = 12;
+
 // XInputボタン入力定義
 //#define XINPUT_BUTTON_DPAD_UP		(0)	→ デジタル方向ボタン上
 //#define XINPUT_BUTTON_DPAD_DOWN		(1)	→ デジタル方向ボタン下

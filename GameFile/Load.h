@@ -112,6 +112,30 @@ public:
 	vector<int> GetSkydomeModelHandle() { return skydomeModelHandle; }
 
 	/// <summary>
+	/// スカイドームの座標取得
+	/// </summary>
+	/// <returns>スカイドーム座標のvector配列</returns>
+	vector<VECTOR> GetSkydomePos() { return skydomePos; }
+
+	/// <summary>
+	/// UIテクスチャハンドルの取得
+	/// </summary>
+	/// <returns>UIテクスチャハンドルのvector配列</returns>
+	vector<int> GetUITextureHandle() { return UITextureHandle; }
+
+	/// <summary>
+	/// UIの座標取得
+	/// </summary>
+	/// <returns>UI座標のvector配列</returns>
+	vector<VECTOR> GetUIPos() { return UIPos; }
+
+	/// <summary>
+	/// UIを描画するタイミングを取得
+	/// </summary>
+	/// <returns>UIを描画するタイミングを保存したvector配列</returns>
+	vector<int> GetUIDrawTiming() { return UIDrawTiming; }
+
+	/// <summary>
 	/// フォントパス取得
 	/// </summary>
 	/// <returns>フォントパスのvector配列</returns>
@@ -146,6 +170,11 @@ private:
 	vector<int> skydomeModelHandle;		//スカイドームのモデルハンドル
 	vector<VECTOR> skydomePos;			//スカイドームのポジション
 
+	vector<int> UITextureHandle;		//UI画像ハンドル
+	int tempUITextureHandle;			//UI仮保存用ハンドル
+	vector<VECTOR> UIPos;				//UI座標
+	vector<int> UIDrawTiming;			//UIを描画するタイミング
+
 	vector<string> fontPath;            //フォントパス
 
 	static constexpr const char* playerHeader = "PLAYER";
@@ -158,6 +187,10 @@ private:
 	static constexpr const char* obstacleAngleHeader = "ObstacleAngle";
 	static constexpr const char* obstacleObstacleTypeHeader = "ObstacleType";
 	static constexpr const char* skydomeHeader = "SKYDOME";
+	static constexpr const char* skydomePosXHeader = "SkydomePosX";
+	static constexpr const char* UIHeader = "UI";
+	static constexpr const char* UIPosXHeader = "UIPosX";
+	static constexpr const char* UIDrawTimingHeader = "DrawTiming";
 	static constexpr const char* fontHeader="FONT";
 };
 

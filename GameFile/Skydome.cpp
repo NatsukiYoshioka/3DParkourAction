@@ -8,14 +8,16 @@
 
 const VECTOR Skydome::scale = VGet(5.0f, 5.0f, 5.0f);
 
-Skydome::Skydome(int modelHandle)
+Skydome::Skydome(int modelHandle,VECTOR pos)
 {
     tag = ObjectTag::SKYDOME;
     this->modelHandle = MV1DuplicateModel(modelHandle);
-    pos = initializePos;
-    pos.y = height;
+    this->pos = pos;
+    this->pos.y = height;
 
     MV1SetScale(this->modelHandle, scale);
+
+    MV1SetPosition(this->modelHandle, this->pos);
 }
 
 Skydome::~Skydome()
@@ -28,9 +30,10 @@ Skydome::~Skydome()
 
 void Skydome::Update()
 {
-    pos.x = Player::GetHeadPos().x;
-    pos.z = Player::GetHeadPos().z;
-    MV1SetPosition(modelHandle, pos);
+    if (pos.x == static_cast<float>(initializeNum) && pos.z == static_cast<float>(initializeNum))
+    {
+        MV1SetPosition(modelHandle, VGet(Player::GetHeadPos().x, pos.y, Player::GetHeadPos().z));
+    }
 }
 
 void Skydome::Draw()

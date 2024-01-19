@@ -9,6 +9,7 @@
 #include"Field.h"
 #include"Obstacle.h"
 #include"Skydome.h"
+#include"UI.h"
 #include"ObjectTag.h"
 #include"common.h"
 #include "GameObjectManager.h"
@@ -86,9 +87,16 @@ void GameObjectManager::InitObject()
 	//スカイドームの追加
 	for (int i = initializeNum; i < load->GetSkydomeModelHandle().size(); i++)
 	{
-		objectInstance.push_back(new Skydome(load->GetSkydomeModelHandle().at(i)));
+		objectInstance.push_back(new Skydome(load->GetSkydomeModelHandle().at(i), load->GetSkydomePos().at(i)));
 	}
 
+	//UIの追加
+	for (int i = initializeNum; i < load->GetUITextureHandle().size(); i++)
+	{
+		objectInstance.push_back(new UI(load->GetUITextureHandle().at(i), load->GetUIPos().at(i),load->GetUIDrawTiming().at(i)));
+	}
+
+	//フォントデータの追加
 	font=new Font(load->GetFontPath());
 }
 

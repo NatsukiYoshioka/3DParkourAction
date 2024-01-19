@@ -191,6 +191,31 @@ void Load::LoadData()
 			{
 				skydomeModelHandle.push_back(MV1LoadModel(cell.at(i).at(j).c_str()));
 			}
+			//スカイドームの座標取得
+			if (header.at(j) == skydomePosXHeader && cell.at(i).at(j) != "")
+			{
+				skydomePos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
+			}
+			//UIテクスチャのロード
+			if (header.at(j) == UIHeader && cell.at(i).at(j) == "same")
+			{
+				UITextureHandle.push_back(tempUITextureHandle);
+			}
+			else if (header.at(j) == UIHeader && cell.at(i).at(j) != "")
+			{
+				tempUITextureHandle = LoadGraph(cell.at(i).at(j).c_str());
+				UITextureHandle.push_back(tempUITextureHandle);
+			}
+			//UI座標の取得
+			if (header.at(j) == UIPosXHeader && cell.at(i).at(j) != "")
+			{
+				UIPos.push_back({ stof(cell.at(i).at(j)) ,stof(cell.at(i).at(j + 1)) ,stof(cell.at(i).at(j + 2)) });
+			}
+			//UIを描画するタイミングを取得
+			if (header.at(j) == UIDrawTimingHeader && cell.at(i).at(j) != "")
+			{
+				UIDrawTiming.push_back(stoi(cell.at(i).at(j)));
+			}
 			//フォントパスの取得
 			if (header.at(j) == fontHeader && cell.at(i).at(j) != "")
 			{

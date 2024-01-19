@@ -11,5 +11,6 @@ enum class ObjectTag :unsigned char
     OBSTACLE,       //障害物タグ
     SLIDE_OBSTACLE, //くぐれる障害物タグ
     OTHER_OBSTACLE, //その他オブジェクト
-    SKYDOME         //スカイドームタグ
+    SKYDOME,        //スカイドームタグ
+    UI              //UIタグ
 };

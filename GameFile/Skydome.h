@@ -15,7 +15,7 @@ public:
     /// スカイドームの初期化
     /// </summary>
     /// <param name="modelHandle">モデルハンドル</param>
-    Skydome(int modelHandle);
+    Skydome(int modelHandle,VECTOR pos);
 
     /// <summary>
     /// データの開放
