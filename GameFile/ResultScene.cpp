@@ -24,5 +24,5 @@ void ResultScene::Update()
 
 void ResultScene::Draw()
 {
-	DrawString(stringX, stringY, resultString, sceneStringColor);
+	//DrawString(stringX, stringY, resultString, sceneStringColor);
 }

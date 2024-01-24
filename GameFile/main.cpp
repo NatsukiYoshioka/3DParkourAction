@@ -51,7 +51,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		gameManager->Draw();
 
 		//フレームレート表示
-		fpsControl->Draw();
+		//fpsControl->Draw();
 
 		//フレームレート制御
 		fpsControl->Control();

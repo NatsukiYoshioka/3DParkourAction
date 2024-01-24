@@ -64,6 +64,7 @@ void UI::Draw()
         if (drawTiming == titleIndex && GameManager::GetGameStatus() == GameManager::SCENE::TITLE)
         {
             if (static_cast<int>(pos.z) == cursorIndex)DrawRotaGraph3F(pos.x, pos.y, sizeX / cursorDimSize, sizeY / cursorDimSize, cursorScale, cursorScale, cursorAngle / DX_PI_F * pi1_f, modelHandle, TRUE);
+            else if (static_cast<int>(pos.z) == titleUIIndex)DrawExtendGraphF(pos.x, pos.y, pos.x + sizeX * titleLength, pos.y + sizeY, modelHandle, TRUE);
             else DrawExtendGraphF(pos.x, pos.y, pos.x + sizeX / dimSize, pos.y + sizeY / dimSize, modelHandle, TRUE);
         }
         //ÉQÅ[ÉÄíÜÇ…ï`âÊÇ∑ÇÈUI

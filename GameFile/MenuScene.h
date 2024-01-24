@@ -45,6 +45,11 @@ public:
 	void DrawButtonString();
 
 	/// <summary>
+	/// タイトル描画
+	/// </summary>
+	void DrawTitleString();
+
+	/// <summary>
 	/// 選択状態を取得
 	/// </summary>
 	/// <returns></returns>
@@ -54,20 +59,30 @@ private:
 	SELECT choose;				//選択確定状態
 	bool isChoose;				//選択確定したかどうか
 
+	int cooltime;
+
 	PadInput* input;			//コントローラー入力情報取得用
 
+	static constexpr int titleFontSize = 128;
 	static constexpr int buttonFontSize = 64;						//ボタンの文字サイズ
 
 	static const unsigned int buttonStringColor;					//ボタンの文字カラー
+	static const unsigned int titleStringColor;
+	static const unsigned int titleStringColor2;
+
+	static constexpr const char* titleString = "Cyber Runner";
+	static constexpr int titleStringX = 300;
+	static constexpr int titleStringY = 300;
+	static constexpr int titleStringY2 = 305;
 
 	static constexpr const char* playString = "PLAY";				//"PLAY"文字列
 	static constexpr int playStringX = 445;							//PLAYのX座標
 
 	static constexpr const char* tutorialString = "TUTORIAL";		//"TUTORIAL"文字列
-	static constexpr int tutorialStringX = 840;						//TUTORIALのX座標
+	static constexpr int tutorialStringX = 827;						//TUTORIALのX座標
 
 	static constexpr const char* exitString = "EXIT";				//"EXIT"文字列
-	static constexpr int exitStringX = 1355;						//EXITのX座標
+	static constexpr int exitStringX = 1345;						//EXITのX座標
 
 	static constexpr const char* menuString = "MENU";
 	static constexpr int buttonStringHeight = 717;					//ボタンの文字のY座標

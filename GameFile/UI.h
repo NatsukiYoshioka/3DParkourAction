@@ -58,6 +58,7 @@ private:
     static constexpr int resultIndex = 2;
 
     static constexpr int cursorIndex = 1;
+    static constexpr int titleUIIndex = 2;
 
     static constexpr float playCursorX = 350.0f;
     static constexpr float tutorialCursorX = 800.0f;
@@ -67,6 +68,7 @@ private:
     float sizeY;
 
     float dimSize;
+    float titleLength = 1.75f;
 
     float cursorAngle;
 

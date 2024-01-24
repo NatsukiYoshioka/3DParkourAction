@@ -1,9 +1,9 @@
 ,FIELD,FieldPosX,FieldPosY,FieldPosZ,FieldAngle,OBSTACLE,ObstaclePosX,ObstaclePosY,ObstaclePosZ,ObstacleAngle,ObstacleType,PLAYER,ANIMATION,SKYDOME,SkydomePosX,SkydomePosY,SkydomePosZ,UI,UIPosX,UIPosY,UIPosZ,DrawTiming,FONT
-1,data/model/buildings/60.mv1,1025,0,-250,0,data/model/obstacles/chipped_road_block.mv1,1500,145,795,90,0,data/model/character/character.mv1,data/model/character/crouched_to_standing.mv1,data/model/skydome/dome.pmx,0,0,0,data/UI/button.png,120,350,0,0,data/font/title.otf
+1,data/model/buildings/60.mv1,1025,0,-250,0,data/model/obstacles/chipped_road_block.mv1,1500,145,795,90,0,data/model/character/character.mv1,data/model/character/crouched_to_standing.mv1,data/model/skydome/dome.pmx,0,0,0,data/UI/button.png,120,350,0,0,data/font/title2.ttf
 2,data/model/buildings/04.mv1,960,0,0,0,data/model/obstacles/chipped_road_block_001.mv1,1500,145,820,90,0,,data/model/character/crouching_idle.mv1,data/model/skydome/domebase.x,1025,0,-10000,same,570,350,0,0,data/font/config.ttf
 3,data/model/buildings/06.mv1,1025,0,400,90,data/model/obstacles/chipped_road_block_002.mv1,1500,145,845,90,0,,data/model/character/dead_falling.mv1,,,,,same,1020,350,0,0,data/font/time.ttf
 4,data/model/buildings/21.mv1,700,0,150,0,same,2700,369,770,90,0,,data/model/character/falling_idle.mv1,,,,,data/UI/cursor.png,0,750,1,0,
-5,same,1300,0,600,90,same,2700,369,795,90,0,,data/model/character/falling_to_roll.mv1,,,,,data/UI/description.png,0,0,0,0,
+5,same,1300,0,600,90,same,2700,369,795,90,0,,data/model/character/falling_to_roll.mv1,,,,,data/UI/description.png,25,220,2,0,
 6,data/model/buildings/52.mv1,1300,0,200,90,same,2700,369,820,90,0,,data/model/character/jump.mv1,,,,,data/UI/target.png,0,0,0,0,
 7,data/model/buildings/09.mv1,980,0,700,0,same,2700,369,845,90,0,,data/model/character/jumping_over.mv1,,,,,,,,,,
 8,data/model/buildings/55.mv1,650,0,550,0,same,2700,369,870,90,0,,data/model/character/landing.mv1,,,,,,,,,,
