@@ -1,3 +1,4 @@
+#include"MenuScene.h"
 #include"GameObject.h"
 #include"ObjectTag.h"
 #include"PadInput.h"
@@ -7,6 +8,7 @@
 #include "Player.h"
 
 const VECTOR Player::initPos = VGet(1025.0f, 420.0f, -200.0f);
+const VECTOR Player::tutorialPos = VGet(1025.0f, 0.0f, -11000.0f);
 const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
 const VECTOR Player::downLightDirection = VGet(0.0f, -1.0f, 0.0f);
 const unsigned int Player::debugColor = GetColor(255, 255, 0);
@@ -136,13 +138,20 @@ void Player::Update()
 		//ゲーム開始時の挙動
 		if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && !isStart)
 		{
+			if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL)pos = tutorialPos;
 			isInit=false;
 			if (status != STATUS::CROUCHED_TO_STAND)playAnimTime = static_cast<float>(initializeNum);
 			status = STATUS::CROUCHED_TO_STAND;
 		}
+		//プレイヤーの初期化
 		if (GameManager::GetGameStatus() == GameManager::SCENE::TITLE && !isInit)
 		{
 			Initialize();
+		}
+		//チュートリアル時の処理
+		if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL)
+		{
+			UpdateTutorial();
 		}
 		if (isStart)UpdateInput();
 		if (!isWallRun)
@@ -158,7 +167,7 @@ void Player::Update()
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	UpdateLight();
 	//落ちたらリスポーン
-	if (pos.y <= restartHeight)
+	if (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)
 	{
 		Respone();
 	}
@@ -168,6 +177,23 @@ void Player::Update()
 	}
 }
 
+//チュートリアル処理更新
+void Player::UpdateTutorial()
+{
+	//チュートリアル時の地面判定
+	if (pos.y <= static_cast<float>(initializeNum))
+	{
+		isGround = true;
+		isWallRun = false;
+		isWallJump = false;
+		isJump = false;
+		pos.y = static_cast<float>(initializeNum);
+	}
+
+
+}
+
+//入力処理更新
 void Player::UpdateInput()
 {
 	if (!isSlide && status != STATUS::JUMP_OVER)
@@ -268,6 +294,7 @@ void Player::UpdateInput()
 				}
 
 				jump = jumpPower;
+				pos.y += jump;
 				gravity = static_cast<float>(initializeNum);
 
 				isGround = false;

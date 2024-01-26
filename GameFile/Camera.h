@@ -76,7 +76,7 @@ private:
 	static constexpr float maxDownDirection = 70.0f * DX_PI_F / 180.0f;	//カメラの下方向限度
 
 	static constexpr float cameraNear = 0.5f;			//カメラの手前描画範囲
-	static constexpr float cameraFar = 8000.0f;		//カメラの奥描画距離
+	static constexpr float cameraFar = 10000.0f;		//カメラの奥描画距離
 
 	static constexpr float initializeFov = 90.0f;
 };

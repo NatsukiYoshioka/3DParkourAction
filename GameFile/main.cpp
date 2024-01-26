@@ -1,6 +1,7 @@
 #include"FpsControl.h"
 #include"Load.h"
 #include"GameManager.h"
+#include"MenuScene.h"
 #include"PadInput.h"
 #include"common.h"
 #include"DxLib.h"
@@ -37,7 +38,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//--------------------------------------//
 	//ÉÅÉCÉìÉãÅ[Év
 	//--------------------------------------//
-	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0 && MenuScene::GetChoose() != MenuScene::SELECT::EXIT)
 	{
 		ClearDrawScreen();
 

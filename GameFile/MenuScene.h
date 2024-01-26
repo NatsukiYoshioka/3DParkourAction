@@ -54,12 +54,19 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	static SELECT GetSelect() { return select; }
+
+	/// <summary>
+	/// 選択した状態を取得
+	/// </summary>
+	/// <returns></returns>
+	static SELECT GetChoose() { return choose; }
 private:
 	static SELECT select;				//メニュー画面選択状態
-	SELECT choose;				//選択確定状態
+	static SELECT choose;				//選択確定状態
 	bool isChoose;				//選択確定したかどうか
 
 	int cooltime;
+	static constexpr int maxCoolTime = 15;
 
 	PadInput* input;			//コントローラー入力情報取得用
 

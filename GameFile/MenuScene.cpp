@@ -7,12 +7,12 @@
 #include "MenuScene.h"
 
 MenuScene::SELECT MenuScene::select = SELECT::PLAY;
+MenuScene::SELECT MenuScene::choose = SELECT::PLAY;
 const unsigned int MenuScene::buttonStringColor = GetColor(49, 225, 247);
 const unsigned int MenuScene::titleStringColor = GetColor(147,255, 216);
 const unsigned int MenuScene::titleStringColor2 = GetColor(0, 0, 0);
 
 MenuScene::MenuScene():
-	choose(SELECT::PLAY),
 	isChoose(false),
 	cooltime(initializeNum)
 {
@@ -33,32 +33,33 @@ void MenuScene::Update()
 //入力処理更新
 void MenuScene::UpdateInput()
 {
-	//プレイ選択処理
-	if (!isChoose)
+	if (cooltime < maxCoolTime)
 	{
-		
+		cooltime++;
+	}
+	//プレイ選択処理
+	if (!isChoose && cooltime == maxCoolTime)
+	{
 		if ((select == SELECT::PLAY && (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)) || (select == SELECT::EXIT && (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)))
 		{
 			select = SELECT::TUTORIAL;
+			cooltime = initializeNum;
 		}
 		else if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
 		{
 			select = SELECT::EXIT;
+			cooltime = initializeNum;
 		}
 		else if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
 		{
 			select = SELECT::PLAY;
-		}
-
-		if (input->GetInput().Buttons[buttonA] || CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
-		{
-			isChoose = true;
-			choose = select;
+			cooltime = initializeNum;
 		}
 	}
-	
-	if (CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
+	if (!isChoose && input->GetInput().Buttons[buttonA] || CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
 	{
+		isChoose = true;
+		choose = select;
 		GameManager::ChangeScene(GameManager::SCENE::GAME);
 	}
 }

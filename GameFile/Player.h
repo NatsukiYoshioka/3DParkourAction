@@ -60,6 +60,11 @@ public:
 	void Update();
 
 	/// <summary>
+	/// チュートリアル処理更新
+	/// </summary>
+	void UpdateTutorial();
+
+	/// <summary>
 	/// 入力による挙動の更新
 	/// </summary>
 	void UpdateInput();
@@ -171,6 +176,7 @@ private:
 	STATUS status;						//プレイヤーの状態
 
 	static const VECTOR initPos;		//初期座標
+	static const VECTOR tutorialPos;	//チュートリアルを始める時の座標
 	VECTOR restartPos;					//リスポーンする座標
 	static constexpr float restartHeight = 100.0f;	//リスポーンする高さ
 
