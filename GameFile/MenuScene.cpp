@@ -17,6 +17,8 @@ MenuScene::MenuScene():
 	cooltime(initializeNum)
 {
 	input = PadInput::GetInstance();
+	select = SELECT::PLAY;
+	choose = SELECT::PLAY;
 }
 
 MenuScene::~MenuScene()
@@ -38,21 +40,26 @@ void MenuScene::UpdateInput()
 		cooltime++;
 	}
 	//プレイ選択処理
-	if (!isChoose && cooltime == maxCoolTime)
+	if (cooltime >= maxCoolTime)
 	{
-		if ((select == SELECT::PLAY && (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)) || (select == SELECT::EXIT && (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)))
-		{
-			select = SELECT::TUTORIAL;
-			cooltime = initializeNum;
-		}
-		else if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+		if (select == SELECT::TUTORIAL && (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum))
 		{
 			select = SELECT::EXIT;
 			cooltime = initializeNum;
 		}
-		else if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+		if (select == SELECT::TUTORIAL && (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum))
 		{
 			select = SELECT::PLAY;
+			cooltime = initializeNum;
+		}
+		if (select == SELECT::PLAY && (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum))
+		{
+			select = SELECT::TUTORIAL;
+			cooltime = initializeNum;
+		}
+		if (select == SELECT::EXIT && (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum))
+		{
+			select = SELECT::TUTORIAL;
 			cooltime = initializeNum;
 		}
 	}
@@ -67,7 +74,7 @@ void MenuScene::UpdateInput()
 //メニューシーン描画
 void MenuScene::Draw()
 {
-	//DrawString(stringX, stringY, menuString, sceneStringColor);
+	DrawString(stringX, stringY, menuString, sceneStringColor);
 
 	DrawTitleString();
 	DrawButtonString();

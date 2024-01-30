@@ -83,10 +83,10 @@ private:
 	static constexpr int titleStringY2 = 305;
 
 	static constexpr const char* playString = "PLAY";				//"PLAY"文字列
-	static constexpr int playStringX = 445;							//PLAYのX座標
+	static constexpr int playStringX = 440;							//PLAYのX座標
 
 	static constexpr const char* tutorialString = "TUTORIAL";		//"TUTORIAL"文字列
-	static constexpr int tutorialStringX = 827;						//TUTORIALのX座標
+	static constexpr int tutorialStringX = 820;						//TUTORIALのX座標
 
 	static constexpr const char* exitString = "EXIT";				//"EXIT"文字列
 	static constexpr int exitStringX = 1345;						//EXITのX座標

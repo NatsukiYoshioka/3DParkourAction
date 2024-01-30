@@ -55,7 +55,7 @@ void GameManager::ChangeScene(SCENE scene)
 {
 	if (nowScene != NULL)
 	{
-		delete nowScene;
+		delete(nowScene);
 	}
 
 	sceneStatus = scene;

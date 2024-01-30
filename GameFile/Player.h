@@ -267,5 +267,6 @@ private:
 	static constexpr int debugSpeed = 2;			//デバッグ時の移動スピード
 
 	static constexpr float goalX = 50.0f;         //ゴール座標
+	static constexpr float tutorialGoalz = -9900.0f;	//チュートリアルのゴール座標
 };
 

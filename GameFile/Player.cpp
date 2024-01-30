@@ -1,3 +1,4 @@
+#include"GameManager.h"
 #include"MenuScene.h"
 #include"GameObject.h"
 #include"ObjectTag.h"
@@ -139,14 +140,9 @@ void Player::Update()
 		if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && !isStart)
 		{
 			if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL)pos = tutorialPos;
-			isInit=false;
 			if (status != STATUS::CROUCHED_TO_STAND)playAnimTime = static_cast<float>(initializeNum);
 			status = STATUS::CROUCHED_TO_STAND;
-		}
-		//プレイヤーの初期化
-		if (GameManager::GetGameStatus() == GameManager::SCENE::TITLE && !isInit)
-		{
-			Initialize();
+			isInit = false;
 		}
 		//チュートリアル時の処理
 		if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL)
@@ -171,9 +167,10 @@ void Player::Update()
 	{
 		Respone();
 	}
-	if (pos.x <= goalX)
+	if (pos.x <= goalX || (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalz))
 	{
 		GameManager::ChangeScene(GameManager::SCENE::TITLE);
+		Initialize();
 	}
 }
 
