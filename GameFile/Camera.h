@@ -78,6 +78,7 @@ private:
 	static constexpr float cameraNear = 0.5f;			//ƒJƒƒ‰‚Ìè‘O•`‰æ”ÍˆÍ
 	static constexpr float cameraFar = 10000.0f;		//ƒJƒƒ‰‚Ì‰œ•`‰æ‹——£
 
-	static constexpr float initializeFov = 90.0f;
+	static constexpr float initializeFov = 110.0f;		//‰Šú‹–ìŠp
+	static constexpr float addFov = 20.0f;				//‹–ìŠp‰ÁZ—Ê
 };
 

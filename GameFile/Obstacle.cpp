@@ -6,14 +6,16 @@
 #include "Obstacle.h"
 
 const VECTOR Obstacle::scale = VGet(0.04f, 0.04f, 0.04f);
-const VECTOR Obstacle::otherScale = VGet(0.2f, 0.2f, 0.2f);
+const VECTOR Obstacle::portalScale = VGet(0.2f, 0.2f, 0.2f);
+const VECTOR Obstacle::groundScale = VGet(25.0f, 25.0f, 25.0f);
 
 //ƒ‚ƒfƒ‹‚ÌŽæ“¾‚ÆÀ•W‚Ì‰Šú‰»
 Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int obstacleType):
 	angle(initializePos)
 {
-	if (obstacleType==slideIndex)tag = ObjectTag::SLIDE_OBSTACLE;
-	else if(obstacleType==otherIndex) tag = ObjectTag::OTHER_OBSTACLE;
+	if (obstacleType == slideIndex)tag = ObjectTag::SLIDE_OBSTACLE;
+	else if (obstacleType == portalIndex) tag = ObjectTag::PORTAL;
+	else if (obstacleType == groundIndex)tag = ObjectTag::GROUND;
 	else tag=ObjectTag::OBSTACLE;
 	
 	this->modelHandle = MV1DuplicateModel(modelHandle);
@@ -21,8 +23,10 @@ Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int obstacleType):
 	this->angle.y = angle;
 
 	MV1SetRotationXYZ(this->modelHandle, this->angle);
-	if (tag != ObjectTag::OTHER_OBSTACLE)MV1SetScale(this->modelHandle, scale);
-	else MV1SetScale(this->modelHandle, otherScale);
+	
+	if (tag == ObjectTag::PORTAL)MV1SetScale(this->modelHandle, portalScale);
+	else if(tag==ObjectTag::GROUND)MV1SetScale(this->modelHandle, groundScale);
+	else MV1SetScale(this->modelHandle, scale);
 
 	MV1SetPosition(this->modelHandle, this->pos);
 	MV1SetupCollInfo(this->modelHandle, frameIndex, collisionDivNum, collisionDivNum, collisionDivNum);

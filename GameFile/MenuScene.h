@@ -66,7 +66,7 @@ private:
 	bool isChoose;				//選択確定したかどうか
 
 	int cooltime;
-	static constexpr int maxCoolTime = 15;
+	static constexpr int maxCoolTime = 10;
 
 	PadInput* input;			//コントローラー入力情報取得用
 

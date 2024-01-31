@@ -13,6 +13,7 @@ const VECTOR Player::tutorialPos = VGet(1025.0f, 0.0f, -11000.0f);
 const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
 const VECTOR Player::downLightDirection = VGet(0.0f, -1.0f, 0.0f);
 const unsigned int Player::debugColor = GetColor(255, 255, 0);
+float Player::speedRatio = 1.0f;
 VECTOR Player::headPos = initializePos;
 VECTOR Player::angle = initializePos;
 const VECTOR Player::fixAngle= VGet(0.0f, 180.0f * DX_PI_F / 180.0f, 0.0f);
@@ -186,13 +187,19 @@ void Player::UpdateTutorial()
 		isJump = false;
 		pos.y = static_cast<float>(initializeNum);
 	}
-
-
 }
 
 //“ü—Íˆ—XV
 void Player::UpdateInput()
 {
+	//‰Á‘¬Œã‚ÌŒ¸‘¬ˆ—
+	if (moveSpeed > initializeSpeed)
+	{
+		moveSpeed -= slowdownSpeed;
+		if (moveSpeed <= initializeSpeed)moveSpeed = initializeSpeed;
+		speedRatio = initializeSpeed / moveSpeed;
+	}
+
 	if (!isSlide && status != STATUS::JUMP_OVER)
 	{
 		//Ž‹“_ˆÚ“®“ü—Íˆ—
@@ -567,6 +574,7 @@ void Player::UpdateAnimation()
 			fixJumpOverPos = initializePos;
 			isStandByToJumpOver = false;
 			isGround = false;
+			moveSpeed = maxSpeed;
 			break;
 		default:
 			playAnimTime = static_cast<float>(initializeNum);

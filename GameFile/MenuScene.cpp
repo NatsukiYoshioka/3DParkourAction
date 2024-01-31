@@ -74,7 +74,7 @@ void MenuScene::UpdateInput()
 //メニューシーン描画
 void MenuScene::Draw()
 {
-	DrawString(stringX, stringY, menuString, sceneStringColor);
+	//DrawString(stringX, stringY, menuString, sceneStringColor);
 
 	DrawTitleString();
 	DrawButtonString();

@@ -17,7 +17,7 @@ Camera::Camera():
 	tag = ObjectTag::CAMERA;
 	input = PadInput::GetInstance();
 	SetCameraNearFar(cameraNear, cameraFar);
-	SetupCamera_Perspective(fov);
+	SetupCamera_Perspective(fov * DX_PI_F / pi1_f);
 }
 
 //データ解放
@@ -48,6 +48,10 @@ void Camera::Update()
 	//カメラの向きを更新
 	angle = Player::GetAngle();
 	angle.x += rotateV;
+
+	//視野角の更新
+	fov = initializeFov + (addFov - addFov * Player::GetSpeedRatio());
+	SetupCamera_Perspective(fov * DX_PI_F / pi1_f);
 
 	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME)
 	{

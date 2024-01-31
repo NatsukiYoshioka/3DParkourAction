@@ -168,6 +168,12 @@ public:
 	/// <returns>オブジェクトの座標</returns>
 	VECTOR GetPos() { return pos; }
 
+	/// <summary>
+	/// 速度割合を取得
+	/// </summary>
+	/// <returns>速度割合</returns>
+	static float GetSpeedRatio() { return speedRatio; }
+
 private:
 	bool debug;							//デバッグ中かどうか
 	bool isInit;                        //オブジェクトを初期化したかどうか
@@ -200,6 +206,9 @@ private:
 	bool isLeft;									//左の壁に当たったかどうか
 	float moveSpeed;								//プレイヤーの移動速度移動速度
 	static constexpr float initializeSpeed = 2.0f;	//プレイヤーの初速
+	static constexpr float maxSpeed = 4.0f;			//最大速度
+	static constexpr float slowdownSpeed = 0.025f;	//減速速度
+	static float speedRatio;						//初速度/現在速度
 
 	bool isGround;									//地面に立っているか
 	bool isJump;									//ジャンプしたかどうか

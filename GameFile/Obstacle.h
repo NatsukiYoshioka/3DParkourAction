@@ -56,12 +56,14 @@ private:
 	VECTOR angle;
 
 	static const VECTOR scale;				//モデルのスケール
-	static const VECTOR otherScale;         //その他オブジェクトのスケール
+	static const VECTOR portalScale;        //ポータルのスケール
+	static const VECTOR groundScale;		//地面のスケール
 
 	static constexpr int frameIndex = -1;		//モデルのフレームの番号
 	static constexpr int collisionDivNum = 2;	//当たり判定分割数
 
 	static constexpr int slideIndex=1;          //くぐれる障害物の番号
-	static constexpr int otherIndex = 2;        //その他障害物の番号
+	static constexpr int portalIndex = 2;       //ポータルの番号
+	static constexpr int groundIndex = 3;		//地面の番号
 };
 
