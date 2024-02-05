@@ -163,14 +163,17 @@ void Player::Update()
 	MV1SetPosition(modelHandle, pos);
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	UpdateLight();
-	//落ちたらリスポーン
+	//落ちたらゲームオーバー
 	if (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)
 	{
-		Respone();
+		GameManager::ChangeScene(GameManager::SCENE::RESULT);
 	}
 	if (pos.x <= goalX || (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalz))
 	{
-		GameManager::ChangeScene(GameManager::SCENE::TITLE);
+		GameManager::ChangeScene(GameManager::SCENE::RESULT);
+	}
+	if (GameManager::GetGameStatus() == GameManager::SCENE::RESULT)
+	{
 		Initialize();
 	}
 }
@@ -186,6 +189,15 @@ void Player::UpdateTutorial()
 		isWallJump = false;
 		isJump = false;
 		pos.y = static_cast<float>(initializeNum);
+	}
+	//X座標移動制限
+	if (pos.x >= tutorialMaxX)
+	{
+		pos.x = tutorialMaxX;
+	}
+	if (pos.x <= tutorialMinX)
+	{
+		pos.x = tutorialMinX;
 	}
 }
 

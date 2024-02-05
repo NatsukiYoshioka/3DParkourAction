@@ -277,5 +277,7 @@ private:
 
 	static constexpr float goalX = 50.0f;         //ゴール座標
 	static constexpr float tutorialGoalz = -9900.0f;	//チュートリアルのゴール座標
+	static constexpr float tutorialMaxX = 1050.0f;		//チュートリアル時の横移動制限
+	static constexpr float tutorialMinX = 1000.0f;
 };
 

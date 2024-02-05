@@ -17,6 +17,33 @@ private:
 	static constexpr float countY = 200.0f;						//カウントの文字Y座標
 	static const unsigned int countColor;						//カウントの文字カラー
 	static constexpr float maxCount = 100.0f;					//制限時間
+					
+	static constexpr const char* tutorialCount = "99.9";		//チュートリアル時の制限時間表記
+
+	static constexpr int descriptionSize = 48;					//操作説明文字サイズ
+	static const unsigned int descriptionColor;					//操作説明文字カラー
+	static constexpr const char* jumpString = "JUMP";			//操作説明用文字列
+	static constexpr float jumpStringY = 865.0f;
+
+	static constexpr const char* slideString = "SLIDE";
+	static constexpr float slideStringY = 940.0f;
+
+	static constexpr const char* runString = "RUN";
+	static constexpr float runStringY = 715.0f;
+
+	static constexpr const char* cameraString = "CAMERA";
+	static constexpr float cameraStringY = 790.0f;
+
+	static constexpr float descriptionX = 1350.0f;
+
+	static constexpr float targetStringX = 50.0f;				//目標文字座標
+	static constexpr float targetStringY = 75.0f;
+
+	static constexpr int targetSize = 48;						//目標文字サイズ
+
+	static constexpr const char* targetString = "RUN FROM TIME!!";
+	static constexpr const char* tutorialString = "GO TO THE WARP HOLE";
+
 	int startCount;												//最初のカウント時間
 	float nowCount;												//残り制限時間
 };

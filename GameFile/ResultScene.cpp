@@ -16,9 +16,9 @@ ResultScene::~ResultScene()
 
 void ResultScene::Update()
 {
-	if (CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
+	if (CheckHitKey(KEY_INPUT_W) != initializeNum)
 	{
-		GameManager::ChangeScene(GameManager::SCENE::GAME);
+		GameManager::ChangeScene(GameManager::SCENE::TITLE);
 	}
 }
 
