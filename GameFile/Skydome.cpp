@@ -1,3 +1,4 @@
+#include"GameManager.h"
 #include"GameObject.h"
 #include"ObjectTag.h"
 #include"Player.h"
@@ -30,7 +31,7 @@ Skydome::~Skydome()
 
 void Skydome::Update()
 {
-    if (pos.x == static_cast<float>(initializeNum) && pos.z == static_cast<float>(initializeNum))
+    if (pos.x == static_cast<float>(initializeNum) && pos.z == static_cast<float>(initializeNum) && GameManager::GetGameStatus() != GameManager::SCENE::RESULT)
     {
         MV1SetPosition(modelHandle, VGet(Player::GetHeadPos().x, pos.y, Player::GetHeadPos().z));
     }

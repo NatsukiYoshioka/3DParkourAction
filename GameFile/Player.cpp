@@ -10,6 +10,7 @@
 
 const VECTOR Player::initPos = VGet(1025.0f, 420.0f, -200.0f);
 const VECTOR Player::tutorialPos = VGet(1025.0f, 0.0f, -11000.0f);
+const VECTOR Player::resultPos = VGet(1025.0f, 0.0f, 10000.0f);
 const VECTOR Player::scale = VGet(0.125f, 0.125f, 0.125f);
 const VECTOR Player::downLightDirection = VGet(0.0f, -1.0f, 0.0f);
 const unsigned int Player::debugColor = GetColor(255, 255, 0);
@@ -146,11 +147,11 @@ void Player::Update()
 			isInit = false;
 		}
 		//チュートリアル時の処理
-		if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL)
+		if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL || GameManager::GetGameStatus() == GameManager::SCENE::RESULT)
 		{
 			UpdateTutorial();
 		}
-		if (isStart)UpdateInput();
+		if (isStart && GameManager::GetGameStatus() == GameManager::SCENE::GAME)UpdateInput();
 		if (!isWallRun)
 		{
 			MV1SetRotationXYZ(modelHandle, VGet(angle.x, angle.y + fixAngle.y, angle.z));
@@ -163,16 +164,19 @@ void Player::Update()
 	MV1SetPosition(modelHandle, pos);
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	UpdateLight();
-	//落ちたらゲームオーバー
-	if (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)
+	//チュートリアル完了後はメニュー画面へ
+	if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalz)
+	{
+		GameManager::ChangeScene(GameManager::SCENE::TITLE);
+	}
+	//ゲーム終了後にリザルト画面へ
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && (pos.x <= goalX || (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)))
 	{
 		GameManager::ChangeScene(GameManager::SCENE::RESULT);
+		pos = resultPos;
 	}
-	if (pos.x <= goalX || (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalz))
-	{
-		GameManager::ChangeScene(GameManager::SCENE::RESULT);
-	}
-	if (GameManager::GetGameStatus() == GameManager::SCENE::RESULT)
+	//メニューシーン遷移時プレイヤー初期化
+	if (GameManager::GetGameStatus() == GameManager::SCENE::TITLE)
 	{
 		Initialize();
 	}
@@ -548,6 +552,11 @@ void Player::UpdateGravity()
 //アニメーションの更新
 void Player::UpdateAnimation()
 {
+	//リザルト画面では常に立ち状態
+	if (GameManager::GetGameStatus() == GameManager::SCENE::RESULT)
+	{
+		status = STATUS::STAND;
+	}
 	//アニメーションのアタッチ
 	MV1DetachAnim(modelHandle, animationIndex);
 	animationIndex = MV1AttachAnim(modelHandle, initializeNum, animationHandle.at(static_cast<int>(status)));

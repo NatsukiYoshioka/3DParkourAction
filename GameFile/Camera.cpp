@@ -38,8 +38,9 @@ void Camera::Initialize()
 //カメラの更新
 void Camera::Update()
 {
-	if(GameManager::GetGameStatus() == GameManager::SCENE::RESULT)Initialize();
+	if(GameManager::GetGameStatus() == GameManager::SCENE::TITLE)Initialize();
 	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME)UpdateInput();
+	if (GameManager::GetGameStatus() == GameManager::SCENE::RESULT)rotateV = resultAngle;
 
 	//カメラのY座標を設定
 	pos = Player::GetHeadPos();

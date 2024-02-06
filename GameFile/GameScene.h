@@ -10,6 +10,12 @@ public:
 	
 	void Update();
 	void Draw();
+
+	/// <summary>
+	/// 残り制限時間取得
+	/// </summary>
+	/// <returns>残り制限時間</returns>
+	static float GetScoreCount() { return scoreCount; }
 private:
 	static constexpr const char* inGameString = "INGAME";
 	static constexpr int countSize = 112;						//カウントの文字サイズ
@@ -46,5 +52,6 @@ private:
 
 	int startCount;												//最初のカウント時間
 	float nowCount;												//残り制限時間
+	static float scoreCount;									//スコア用時間
 };
 

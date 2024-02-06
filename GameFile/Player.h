@@ -183,6 +183,7 @@ private:
 
 	static const VECTOR initPos;		//初期座標
 	static const VECTOR tutorialPos;	//チュートリアルを始める時の座標
+	static const VECTOR resultPos;		//リザルト画面の座標
 	VECTOR restartPos;					//リスポーンする座標
 	static constexpr float restartHeight = 100.0f;	//リスポーンする高さ
 

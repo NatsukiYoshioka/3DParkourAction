@@ -21,6 +21,11 @@ UI::UI(int textureHandle, VECTOR pos,int drawTiming):
     GetGraphSizeF(modelHandle, &sizeX, &sizeY);
 
     this->drawTiming = drawTiming;
+
+    if (pos.z != static_cast<float>(initializeNum))
+    {
+        dimSize = pos.z;
+    }
 }
 
 //ƒf[ƒ^‚Ì‰ğ•ú

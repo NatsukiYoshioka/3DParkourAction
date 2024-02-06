@@ -9,6 +9,8 @@
 const unsigned int GameScene::countColor = GetColor(207, 255, 220);
 const unsigned int GameScene::descriptionColor = GetColor(53, 1, 63);
 
+float GameScene::scoreCount = static_cast<float>(initializeNum);
+
 GameScene::GameScene():
 	startCount(initializeNum),
 	nowCount(static_cast<float>(initializeNum))
@@ -25,6 +27,7 @@ void GameScene::Update()
 {
 	//残り制限時間の計算
 	nowCount = maxCount - static_cast<float>((GetNowCount() - startCount) / secondFrame);
+	scoreCount = nowCount;
 	//制限時間が無くなるとリザルト画面に移行
 	if (MenuScene::GetChoose() == MenuScene::SELECT::PLAY && nowCount <= static_cast<float>(initializeNum))
 	{

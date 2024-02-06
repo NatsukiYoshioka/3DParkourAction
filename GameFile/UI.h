@@ -68,7 +68,7 @@ private:
     float sizeY;
 
     float dimSize;
-    float titleLength = 1.75f;
+    static constexpr float titleLength = 1.75f;
 
     float cursorAngle;
 
