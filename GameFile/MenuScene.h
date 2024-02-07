@@ -35,6 +35,11 @@ public:
 	void UpdateInput();
 
 	/// <summary>
+	/// 透過率更新
+	/// </summary>
+	void UpdateTransRate();
+
+	/// <summary>
 	/// メニューシーン描画
 	/// </summary>
 	void Draw();
@@ -61,9 +66,11 @@ public:
 	/// <returns></returns>
 	static SELECT GetChoose() { return choose; }
 private:
+	float transRate;
+
 	static SELECT select;				//メニュー画面選択状態
 	static SELECT choose;				//選択確定状態
-	bool isChoose;				//選択確定したかどうか
+	bool isChoose;						//選択確定したかどうか
 
 	int cooltime;
 	static constexpr int maxCoolTime = 10;

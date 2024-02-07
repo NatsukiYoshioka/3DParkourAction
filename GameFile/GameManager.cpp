@@ -4,6 +4,7 @@
 #include"ResultScene.h"
 #include"GameObjectManager.h"
 #include"PadInput.h"
+#include"Transition.h"
 #include"common.h"
 #include"DxLib.h"
 #include <cstddef>
@@ -23,6 +24,9 @@ GameManager::GameManager() :
 
 	input = PadInput::GetInstance();
 
+	Transition::CreateInstance();
+	transition = Transition::GetInstance();
+
 	nowScene = new MenuScene();
 }
 
@@ -30,6 +34,7 @@ GameManager::GameManager() :
 GameManager::~GameManager()
 {
 	GameObjectManager::DestroyInstance();
+	Transition::DestroyInstance();
 }
 
 //インスタンス生成
@@ -78,8 +83,8 @@ void GameManager::ChangeScene(SCENE scene)
 void GameManager::Update()
 {
 	input->Update();
-	gameObjectManager->Update();
 	nowScene->Update();
+	gameObjectManager->Update();
 }
 
 //現在のシーンの描画
@@ -87,4 +92,5 @@ void GameManager::Draw()
 {
 	gameObjectManager->Draw();
 	nowScene->Draw();
+	transition->Draw();
 }

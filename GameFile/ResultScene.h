@@ -1,6 +1,7 @@
 #pragma once
 
 class BaseScene;
+class PadInput;
 
 class ResultScene:public BaseScene
 {
@@ -9,11 +10,19 @@ public:
 	~ResultScene();
 
 	void Update();
+
+	void UpdateFade();
+
 	void Draw();
 private:
 	static constexpr const char* resultString = "RESULT";
 
+	PadInput* input;
+
+	bool restart;
 	float score;
+
+	float transRate;
 
 	static constexpr const char* scoreString = "SCORE";			//ƒXƒRƒA•¶š‚Ì•`‰æİ’è
 	static constexpr int scoreStringSize = 128;

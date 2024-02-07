@@ -3,6 +3,7 @@
 class BaseScene;
 class GameObjectManager;
 class PadInput;
+class Transition;
 
 /// <summary>
 /// ゲーム全体の管理をするクラス
@@ -76,5 +77,6 @@ private:
 
 	GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラス
 	PadInput* input;
+	Transition* transition;
 };
 

@@ -73,6 +73,9 @@
     <Filter Include="ソース ファイル\Game\GameObject\UI">
       <UniqueIdentifier>{88f5c79a-14aa-4912-911a-2906a1cfdbab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Transition">
+      <UniqueIdentifier>{a4f37edd-f946-49e1-8483-57ecc064534b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>ソース ファイル\Game\GameObject\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Transition.cpp">
+      <Filter>ソース ファイル\System\Transition</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>ソース ファイル\Game\GameObject\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Transition.h">
+      <Filter>ソース ファイル\System\Transition</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

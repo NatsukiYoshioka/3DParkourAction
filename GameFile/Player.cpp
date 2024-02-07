@@ -1,5 +1,6 @@
 #include"GameManager.h"
 #include"MenuScene.h"
+#include"Transition.h"
 #include"GameObject.h"
 #include"ObjectTag.h"
 #include"PadInput.h"
@@ -8,6 +9,7 @@
 #include"DxLib.h"
 #include "Player.h"
 
+bool Player::isClear = false;
 const VECTOR Player::initPos = VGet(1025.0f, 420.0f, -200.0f);
 const VECTOR Player::tutorialPos = VGet(1025.0f, 0.0f, -11000.0f);
 const VECTOR Player::resultPos = VGet(1025.0f, 0.0f, 10000.0f);
@@ -94,6 +96,7 @@ void Player::Initialize()
 	debug=false;
 	isInit=true;
 	isStart=false;
+	isClear = false;
 	addMove=initializePos;
 	lightDirection=initializePos;
 	moveDirection=initializePos;
@@ -162,18 +165,25 @@ void Player::Update()
 		CalcCollisionLine();
 	}
 	MV1SetPosition(modelHandle, pos);
+	UpdateFade();
 	headPos = MV1GetFramePosition(modelHandle, headFrameIndex);
 	UpdateLight();
 	//チュートリアル完了後はメニュー画面へ
-	if (MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalz)
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalZ)
 	{
 		GameManager::ChangeScene(GameManager::SCENE::TITLE);
 	}
 	//ゲーム終了後にリザルト画面へ
 	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && (pos.x <= goalX || (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)))
 	{
+		isClear = true;
 		GameManager::ChangeScene(GameManager::SCENE::RESULT);
 		pos = resultPos;
+	}
+	//ゲームオーバー時リザルト画面へ
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::PLAY && pos.y <= restartHeight)
+	{
+		GameManager::ChangeScene(GameManager::SCENE::RESULT);
 	}
 	//メニューシーン遷移時プレイヤー初期化
 	if (GameManager::GetGameStatus() == GameManager::SCENE::TITLE)
@@ -530,6 +540,36 @@ VECTOR Player::CalcBehindMove(VECTOR vec)
 	moveDirectionZ = vec;
 	vec = VScale(vec, moveSpeed);
 	return vec;
+}
+
+//フェードアウト率更新
+void Player::UpdateFade()
+{
+	//ゴール時フェードアウト
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && pos.x <= goalX + fadeRange)
+	{
+		Transition::UpdateWhiteTransition((fadeRange - (pos.x - goalX)) / fadeRange);
+	}
+	else if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::PLAY && Transition::GetWhiteTransRate() >= static_cast<float>(initializeNum))
+	{
+		Transition::UpdateWhiteTransition(Transition::GetWhiteTransRate() - addRate);
+	}
+	//チュートリアル完了時フェードアウト
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z >= tutorialGoalZ - fadeRange)
+	{
+		Transition::UpdateWhiteTransition((fadeRange + pos.z - tutorialGoalZ) / fadeRange);
+	}
+	//ゲームオーバー時フェードアウト
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::PLAY && pos.y <= restartHeight + fadeRange)
+	{
+		Transition::UpdateBlackTransition((fadeRange - (pos.y - restartHeight)) / fadeRange);
+	}
+	
+	//チュートリアル開始時フェードイン
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::TUTORIAL && pos.z < tutorialGoalZ - fadeRange)
+	{
+		Transition::UpdateWhiteTransition(Transition::GetWhiteTransRate() - addRate);
+	}
 }
 
 //重力処理の更新

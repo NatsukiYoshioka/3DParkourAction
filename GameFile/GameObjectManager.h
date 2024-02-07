@@ -59,7 +59,7 @@ public:
 private:
 	static GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラスのインスタンス
 	Load* load;											//ロードクラス
-	Font* font;                                         //フォントクラス
+	Font* font;											//フォントクラス
 	static const string dataFilePath;					//データ格納ファイルのパス
 
 	vector<GameObject*> objectInstance;					//オブジェクトのインスタンス

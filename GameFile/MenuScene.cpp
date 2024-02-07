@@ -2,6 +2,7 @@
 #include"GameManager.h"
 #include"Font.h"
 #include"PadInput.h"
+#include"Transition.h"
 #include"common.h"
 #include"DxLib.h"
 #include "MenuScene.h"
@@ -14,11 +15,17 @@ const unsigned int MenuScene::titleStringColor2 = GetColor(0, 0, 0);
 
 MenuScene::MenuScene():
 	isChoose(false),
-	cooltime(initializeNum)
+	cooltime(initializeNum),
+	transRate(static_cast<float>(initializeNum))
 {
 	input = PadInput::GetInstance();
 	select = SELECT::PLAY;
 	choose = SELECT::PLAY;
+
+	if (Transition::GetWhiteTransRate() > static_cast<float>(initializeNum))
+	{
+		transRate = maxTransRate;
+	}
 }
 
 MenuScene::~MenuScene()
@@ -30,6 +37,7 @@ MenuScene::~MenuScene()
 void MenuScene::Update()
 {
 	UpdateInput();
+	UpdateTransRate();
 }
 
 //入力処理更新
@@ -40,7 +48,7 @@ void MenuScene::UpdateInput()
 		cooltime++;
 	}
 	//プレイ選択処理
-	if (cooltime >= maxCoolTime)
+	if (!isChoose && cooltime >= maxCoolTime)
 	{
 		if (select == SELECT::TUTORIAL && (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum))
 		{
@@ -67,7 +75,37 @@ void MenuScene::UpdateInput()
 	{
 		isChoose = true;
 		choose = select;
-		GameManager::ChangeScene(GameManager::SCENE::GAME);
+		if (choose == SELECT::PLAY)
+		{
+			GameManager::ChangeScene(GameManager::SCENE::GAME);
+		}
+	}
+}
+
+//透過率更新
+void MenuScene::UpdateTransRate()
+{
+	if (!isChoose && transRate > static_cast<float>(initializeNum))
+	{
+		transRate -= addRate;
+		if (transRate <= static_cast<float>(initializeNum))
+		{
+			transRate = static_cast<float>(initializeNum);
+		}
+		Transition::UpdateWhiteTransition(transRate);
+	}
+	if (isChoose && choose == SELECT::TUTORIAL)
+	{
+		transRate += addRate;
+		if (transRate >= maxTransRate)
+		{
+			transRate = maxTransRate;
+		}
+		Transition::UpdateWhiteTransition(transRate);
+		if (transRate >= maxTransRate)
+		{
+			GameManager::ChangeScene(GameManager::SCENE::GAME);
+		}
 	}
 }
 

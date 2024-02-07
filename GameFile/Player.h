@@ -1,4 +1,5 @@
 #pragma once
+#include"GameObject.h"
 #include"ObjectTag.h"
 #include"common.h"
 #include<vector>
@@ -103,6 +104,11 @@ public:
 	VECTOR CalcBehindMove(VECTOR vec);
 
 	/// <summary>
+	/// フェードアウト率更新
+	/// </summary>
+	void UpdateFade();
+
+	/// <summary>
 	/// 重力処理の更新
 	/// </summary>
 	void UpdateGravity();
@@ -174,10 +180,17 @@ public:
 	/// <returns>速度割合</returns>
 	static float GetSpeedRatio() { return speedRatio; }
 
+	/// <summary>
+	/// クリアしたかどうか取得
+	/// </summary>
+	/// <returns>クリアしたかどうか</returns>
+	static bool GetIsClear() { return isClear; }
+
 private:
 	bool debug;							//デバッグ中かどうか
 	bool isInit;                        //オブジェクトを初期化したかどうか
 	bool isStart;						//ゲームがスタートしたかどうか
+	static bool isClear;				//ゲームをクリアしたかどうか
 	vector<int> animationHandle;		//アニメーションの配列
 	STATUS status;						//プレイヤーの状態
 
@@ -185,7 +198,7 @@ private:
 	static const VECTOR tutorialPos;	//チュートリアルを始める時の座標
 	static const VECTOR resultPos;		//リザルト画面の座標
 	VECTOR restartPos;					//リスポーンする座標
-	static constexpr float restartHeight = 100.0f;	//リスポーンする高さ
+	static constexpr float restartHeight = 80.0f;	//リスポーンする高さ
 
 	PadInput* input;					//コントローラー入力管理クラスのアドレス
 
@@ -277,8 +290,10 @@ private:
 	static constexpr int debugSpeed = 2;			//デバッグ時の移動スピード
 
 	static constexpr float goalX = 50.0f;         //ゴール座標
-	static constexpr float tutorialGoalz = -9900.0f;	//チュートリアルのゴール座標
+	static constexpr float tutorialGoalZ = -9900.0f;	//チュートリアルのゴール座標
 	static constexpr float tutorialMaxX = 1050.0f;		//チュートリアル時の横移動制限
 	static constexpr float tutorialMinX = 1000.0f;
+
+	static constexpr float fadeRange = 50.0f;
 };
 
