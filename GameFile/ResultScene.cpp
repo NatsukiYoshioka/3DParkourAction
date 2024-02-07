@@ -11,6 +11,7 @@
 
 const unsigned int ResultScene::scoreStringColor = GetColor(233, 0, 100);
 const unsigned int ResultScene::scoreColor = GetColor(147, 255, 216);
+const unsigned int ResultScene::gameoverStringColor = GetColor(233, 0, 100);
 
 ResultScene::ResultScene():
 	restart(false),
@@ -18,28 +19,41 @@ ResultScene::ResultScene():
 {
 	score = GameScene::GetScoreCount();
 	input = PadInput::GetInstance();
+
+	noiseMovieHandle = LoadGraph(noiseMoviePath);
 }
 
 ResultScene::~ResultScene()
 {
-
+	if (noiseMovieHandle != noHandle)DeleteGraph(noiseMovieHandle);
 }
 
 void ResultScene::Update()
 {
+	if (!Player::GetIsClear() && !restart)
+	{
+		PlayMovieToGraph(noiseMovieHandle);
+		if (TellMovieToGraph(noiseMovieHandle) >= movieLength)
+		{
+			SeekMovieToGraph(noiseMovieHandle, initializeNum);
+		}
+	}
 	if (!restart && input->GetInput().Buttons[buttonA] || CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
 	{
 		restart = true;
+		PauseMovieToGraph(noiseMovieHandle);
 	}
 	UpdateFade();
 }
 
 void ResultScene::UpdateFade()
 {
+	//”’‰æ‘œ“§‰ß—¦‚ð‰º‚°‚éˆ—
 	if (Transition::GetWhiteTransRate() > static_cast<float>(initializeNum))
 	{
 		Transition::UpdateWhiteTransition(Transition::GetWhiteTransRate() - addRate);
 	}
+	//•‰æ‘œ“§‰ß—¦‚ð‰º‚°‚éˆ—
 	if (Transition::GetBlackTransRate() > static_cast<float>(initializeNum))
 	{
 		Transition::UpdateBlackTransition(Transition::GetBlackTransRate() - addRate);
@@ -73,6 +87,9 @@ void ResultScene::Draw()
 
 	if (!Player::GetIsClear())
 	{
-
+		DrawExtendGraph(moviePosX1, moviePosY1, moviePosX2, moviePosY2, noiseMovieHandle, FALSE);
+		ChangeFont(titleFontName);
+		SetFontSize(gameoverStringSize);
+		DrawStringF(gameoverStringX, gameoverStringY, gameoverString, gameoverStringColor);
 	}
 }

@@ -176,7 +176,10 @@ void Player::Update()
 	//ゲーム終了後にリザルト画面へ
 	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && (pos.x <= goalX || (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)))
 	{
-		isClear = true;
+		if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::PLAY && pos.x <= goalX)
+		{
+			isClear = true;
+		}
 		GameManager::ChangeScene(GameManager::SCENE::RESULT);
 		pos = resultPos;
 	}

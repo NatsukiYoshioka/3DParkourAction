@@ -19,6 +19,21 @@ private:
 
 	PadInput* input;
 
+	int noiseMovieHandle;
+	static constexpr int movieLength = 3800;
+	static constexpr const char* noiseMoviePath = "data/UI/noise.mp4";
+
+	static constexpr int moviePosX1 = 0;
+	static constexpr int moviePosY1 = 0;
+	static constexpr int moviePosX2 = 1920;
+	static constexpr int moviePosY2 = 1080;
+
+	static constexpr const char* gameoverString = "GAME OVER";
+	static constexpr int gameoverStringSize = 128;
+	static constexpr float gameoverStringX = 750.0f;
+	static constexpr float gameoverStringY = 300.0f;
+	static const unsigned int gameoverStringColor;
+
 	bool restart;
 	float score;
 
