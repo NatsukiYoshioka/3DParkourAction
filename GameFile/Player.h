@@ -220,7 +220,7 @@ private:
 	bool isLeft;									//左の壁に当たったかどうか
 	float moveSpeed;								//プレイヤーの移動速度移動速度
 	static constexpr float initializeSpeed = 2.0f;	//プレイヤーの初速
-	static constexpr float maxSpeed = 4.0f;			//最大速度
+	static constexpr float maxSpeed = 4.5f;			//最大速度
 	static constexpr float slowdownSpeed = 0.025f;	//減速速度
 	static float speedRatio;						//初速度/現在速度
 

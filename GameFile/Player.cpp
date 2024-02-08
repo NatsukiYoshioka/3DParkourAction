@@ -174,9 +174,9 @@ void Player::Update()
 		GameManager::ChangeScene(GameManager::SCENE::TITLE);
 	}
 	//ゲーム終了後にリザルト画面へ
-	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && (pos.x <= goalX || (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)))
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && ((pos.x <= goalX && pos.z <= static_cast<float>(initializeNum)) || (pos.y <= restartHeight && MenuScene::GetChoose() == MenuScene::SELECT::PLAY)))
 	{
-		if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::PLAY && pos.x <= goalX)
+		if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && MenuScene::GetChoose() == MenuScene::SELECT::PLAY && pos.x <= goalX && pos.z <= static_cast<float>(initializeNum))
 		{
 			isClear = true;
 		}
@@ -549,7 +549,7 @@ VECTOR Player::CalcBehindMove(VECTOR vec)
 void Player::UpdateFade()
 {
 	//ゴール時フェードアウト
-	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && pos.x <= goalX + fadeRange)
+	if (GameManager::GetGameStatus() == GameManager::SCENE::GAME && pos.x <= goalX + fadeRange && pos.z <= static_cast<float>(initializeNum))
 	{
 		Transition::UpdateWhiteTransition((fadeRange - (pos.x - goalX)) / fadeRange);
 	}

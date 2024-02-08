@@ -1,6 +1,7 @@
 #include"GameManager.h"
 #include"BaseScene.h"
 #include"MenuScene.h"
+#include"Transition.h"
 #include"Font.h"
 #include"common.h"
 #include"DxLib.h"
@@ -26,12 +27,20 @@ GameScene::~GameScene()
 void GameScene::Update()
 {
 	//残り制限時間の計算
-	nowCount = maxCount - static_cast<float>((GetNowCount() - startCount) / secondFrame);
+	if (nowCount >= static_cast<float>(initializeNum))
+	{
+		nowCount = maxCount - static_cast<float>((GetNowCount() - startCount) / secondFrame);
+	}
+	if (nowCount <= static_cast<float>(initializeNum)) nowCount = static_cast<float>(initializeNum);
 	scoreCount = nowCount;
 	//制限時間が無くなるとリザルト画面に移行
 	if (MenuScene::GetChoose() == MenuScene::SELECT::PLAY && nowCount <= static_cast<float>(initializeNum))
 	{
-		GameManager::ChangeScene(GameManager::SCENE::RESULT);
+		Transition::UpdateBlackTransition(Transition::GetBlackTransRate() + addRate);
+		if (Transition::GetBlackTransRate() >= maxTransRate)
+		{
+			GameManager::ChangeScene(GameManager::SCENE::RESULT);
+		}
 	}
 }
 
