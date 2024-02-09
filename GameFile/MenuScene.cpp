@@ -136,5 +136,7 @@ void MenuScene::DrawButtonString()
 	DrawString(tutorialStringX, buttonStringHeight, tutorialString, buttonStringColor);
 	DrawString(exitStringX, buttonStringHeight, exitString, buttonStringColor);
 	ChangeFont(timeFontName, DX_CHARSET_DEFAULT);
+
+	DrawString(OKStringX, OKStringY, OKString, titleStringColor);
 	SetFontSize(16);
 }

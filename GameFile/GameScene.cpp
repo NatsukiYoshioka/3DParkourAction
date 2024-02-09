@@ -71,8 +71,10 @@ void GameScene::Draw()
 	//ëÄçÏê‡ñæï`âÊ
 	ChangeFont(configFontName, DX_CHARSET_DEFAULT);
 	SetFontSize(descriptionSize);
-	DrawStringF(descriptionX, runStringY, runString, descriptionColor);
-	DrawStringF(descriptionX, cameraStringY, cameraString, descriptionColor);
-	DrawStringF(descriptionX, jumpStringY, jumpString, descriptionColor);
-	DrawStringF(descriptionX, slideStringY, slideString, descriptionColor);
+	DrawStringF(descriptionX, runStringY, runString, countColor);
+	DrawStringF(descriptionX, cameraStringY, cameraString, countColor);
+	DrawStringF(descriptionX, jumpStringY, jumpString, countColor);
+	DrawStringF(keepStringX, keepStringY, keepString, countColor);
+	DrawStringF(highJumpStringX, keepStringY, highJumpString, countColor);
+	DrawStringF(descriptionX, slideStringY, slideString, countColor);
 }

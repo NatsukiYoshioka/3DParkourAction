@@ -202,6 +202,8 @@ private:
 
 	PadInput* input;					//コントローラー入力管理クラスのアドレス
 
+	static constexpr int padXDeadzone = 10922;	//コントローラーの左右デッドゾーン
+
 	static const VECTOR scale;			//モデルのスケール
 
 	static const unsigned int debugColor;			//当たり判定カプセルのカラー

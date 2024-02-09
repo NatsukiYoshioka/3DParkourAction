@@ -257,7 +257,7 @@ void Player::UpdateInput()
 		if (status != STATUS::CROUCH)status = STATUS::STAND;
 		
 		//左スティック左倒し
-		if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+		if (input->GetInput().ThumbLX < -padXDeadzone || CheckHitKey(KEY_INPUT_A) != initializeNum)
 		{
 			pos = VAdd(pos, CalcLeftMove(addMove));
 
@@ -265,7 +265,7 @@ void Player::UpdateInput()
 			status = STATUS::RUN_LEFT;
 		}
 		//左スティック右倒し
-		if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+		if (input->GetInput().ThumbLX > padXDeadzone || CheckHitKey(KEY_INPUT_D) != initializeNum)
 		{
 			pos = VAdd(pos, CalcRightMove(addMove));
 
@@ -300,14 +300,14 @@ void Player::UpdateInput()
 				moveDirectionZ = initializePos;
 				jumpAngle = angle;
 				//左スティック左倒し
-				if (input->GetInput().ThumbLX < initializeNum || CheckHitKey(KEY_INPUT_A) != initializeNum)
+				if (input->GetInput().ThumbLX < -padXDeadzone || CheckHitKey(KEY_INPUT_A) != initializeNum)
 				{
 					moveDirectionX = VTransform(transformVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 					moveDirectionX = VCross(moveDirectionX, crossVector);
 					moveDirectionX = VNorm(moveDirectionX);
 				}
 				//左スティック右倒し
-				if (input->GetInput().ThumbLX > initializeNum || CheckHitKey(KEY_INPUT_D) != initializeNum)
+				if (input->GetInput().ThumbLX > padXDeadzone || CheckHitKey(KEY_INPUT_D) != initializeNum)
 				{
 					moveDirectionX = VTransform(transformReverseVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
 					moveDirectionX = VCross(moveDirectionX, crossVector);
@@ -702,7 +702,7 @@ void Player::CalcCollisionLine()
 				addMove = VCross(addMove, crossCollisionLine);
 				addMove = VNorm(addMove);
 				addMove = VScale(addMove, wallCollisionLineWidth);
-				if (status != STATUS::SLIDE && !isWallRun)wallCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
+				if (status != STATUS::SLIDE)wallCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
 				else
 				{
 					wallCollisionLinePos[l][i][j] = VAdd(VGet(spinePos.x, spinePos.y, spinePos.z), addMove);
@@ -727,7 +727,7 @@ void Player::CalcCollisionLine()
 				addMove = VCross(addMove, crossCollisionLine);
 				addMove = VNorm(addMove);
 				addMove = VScale(addMove, wallCollisionLineWidth);
-				if (status != STATUS::SLIDE && !isWallRun)sideCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
+				if (status != STATUS::SLIDE)sideCollisionLinePos[l][i][j] = VAdd(VGet(pos.x, pos.y + fixWallCollisionLinePosY, pos.z), addMove);
 				else
 				{
 					sideCollisionLinePos[l][i][j] = VAdd(VGet(spinePos.x, spinePos.y, spinePos.z), addMove);

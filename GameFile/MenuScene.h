@@ -98,6 +98,10 @@ private:
 	static constexpr const char* exitString = "EXIT";				//"EXIT"文字列
 	static constexpr int exitStringX = 1345;						//EXITのX座標
 
+	static constexpr const char* OKString = "OK";
+	static constexpr int OKStringX = 1600;
+	static constexpr int OKStringY = 900;
+
 	static constexpr const char* menuString = "MENU";
 	static constexpr int buttonStringHeight = 717;					//ボタンの文字のY座標
 };

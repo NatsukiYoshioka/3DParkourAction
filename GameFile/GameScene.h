@@ -31,6 +31,12 @@ private:
 	static constexpr const char* jumpString = "JUMP";			//‘€ìà–¾—p•¶š—ñ
 	static constexpr float jumpStringY = 865.0f;
 
+	static constexpr const char* keepString = "KEEP";
+	static constexpr const char* highJumpString = "HIGH JUMP";
+	static constexpr float keepStringX = 1250.0f;
+	static constexpr float keepStringY = 902.5f;
+	static constexpr float highJumpStringX = 1450.0f;
+
 	static constexpr const char* slideString = "SLIDE";
 	static constexpr float slideStringY = 940.0f;
 
