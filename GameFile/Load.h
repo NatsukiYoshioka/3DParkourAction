@@ -177,6 +177,7 @@ private:
 
 	vector<string> fontPath;            //フォントパス
 
+	//外部ファイル内のヘッダー名
 	static constexpr const char* playerHeader = "PLAYER";
 	static constexpr const char* animationHeader = "ANIMATION";
 	static constexpr const char* fieldHeader = "FIELD";

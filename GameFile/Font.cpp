@@ -2,6 +2,7 @@
 #include"common.h"
 #include "Font.h"
 
+//フォントの追加
 Font::Font(vector<string> fontPath)
 {
     this->fontPath = fontPath;
@@ -11,6 +12,7 @@ Font::Font(vector<string> fontPath)
     }
 }
 
+//追加したフォントの破棄
 Font::~Font()
 {
     for (int i = initializeNum; i < fontPath.size(); i++)

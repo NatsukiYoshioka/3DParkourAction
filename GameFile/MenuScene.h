@@ -21,7 +21,11 @@ public:
 		EXIT
 	};
 
+	/// <summary>
+	/// メニューシーン初期化
+	/// </summary>
 	MenuScene();
+
 	~MenuScene();
 
 	/// <summary>
@@ -84,7 +88,7 @@ private:
 	static const unsigned int titleStringColor;
 	static const unsigned int titleStringColor2;
 
-	static constexpr const char* titleString = "Cyber Runner";
+	static constexpr const char* titleString = "Cyber Runner";		//タイトル表示定数
 	static constexpr int titleStringX = 300;
 	static constexpr int titleStringY = 300;
 	static constexpr int titleStringY2 = 305;

@@ -26,9 +26,11 @@ private:
 					
 	static constexpr const char* tutorialCount = "99.9";		//チュートリアル時の制限時間表記
 
-	static constexpr int descriptionSize = 48;					//操作説明文字サイズ
-	static const unsigned int descriptionColor;					//操作説明文字カラー
-	static constexpr const char* jumpString = "JUMP";			//操作説明用文字列
+
+	//操作説明用定数
+	static constexpr int descriptionSize = 48;					//文字サイズ
+	static const unsigned int descriptionColor;					//文字カラー
+	static constexpr const char* jumpString = "JUMP";			//文字列
 	static constexpr float jumpStringY = 865.0f;
 
 	static constexpr const char* keepString = "KEEP";
@@ -48,6 +50,7 @@ private:
 
 	static constexpr float descriptionX = 1350.0f;
 
+	
 	static constexpr float targetStringX = 50.0f;				//目標文字座標
 	static constexpr float targetStringY = 75.0f;
 

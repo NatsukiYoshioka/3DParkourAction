@@ -24,6 +24,7 @@ private:
     vector<string> fontPath;
 };
 
+//フォントの名前
 static constexpr const char* titleFontName = "DemoSDCyberGlitch";
 static constexpr const char* configFontName = "Pulse Rifle Condensed Italic";
 static constexpr const char* timeFontName = "Ensign Flandry";

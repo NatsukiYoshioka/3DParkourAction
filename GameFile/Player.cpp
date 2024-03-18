@@ -499,7 +499,7 @@ void Player::DebugInput()
 	}
 }
 
-//左移動処理
+//左移動計算処理
 VECTOR Player::CalcLeftMove(VECTOR vec)
 {
 	if(!isWallRun)vec = VTransform(transformVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -511,7 +511,7 @@ VECTOR Player::CalcLeftMove(VECTOR vec)
 	return vec;
 }
 
-//右移動処理
+//右移動計算処理
 VECTOR Player::CalcRightMove(VECTOR vec)
 {
 	if (!isWallRun)vec = VTransform(transformReverseVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -523,7 +523,7 @@ VECTOR Player::CalcRightMove(VECTOR vec)
 	return vec;
 }
 
-//前移動処理
+//前移動計算処理
 VECTOR Player::CalcFrontMove(VECTOR vec)
 {
 	if (!isWallRun)vec = VTransform(transformVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));
@@ -534,7 +534,7 @@ VECTOR Player::CalcFrontMove(VECTOR vec)
 	return vec;
 }
 
-//後方移動処理
+//後方移動計算処理
 VECTOR Player::CalcBehindMove(VECTOR vec)
 {
 	if (!isWallRun)vec = VTransform(transformReverseVector, MMult(MMult(MGetRotZ(angle.z), MGetRotX(angle.x)), MGetRotY(angle.y)));

@@ -12,9 +12,10 @@ Load* Load::load = nullptr;
 Load::Load():
 	isHeader(false),
 	isIndex(false),
-	playerModelHandle(-1),
-	tempFieldModelHandle(-1),
-	tempObstacleModelHandle(-1)
+	playerModelHandle(noHandle),
+	tempFieldModelHandle(noHandle),
+	tempObstacleModelHandle(noHandle),
+	tempUITextureHandle(noHandle)
 {
 
 }

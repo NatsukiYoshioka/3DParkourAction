@@ -13,24 +13,28 @@ const unsigned int ResultScene::scoreStringColor = GetColor(233, 0, 100);
 const unsigned int ResultScene::scoreColor = GetColor(147, 255, 216);
 const unsigned int ResultScene::gameoverStringColor = GetColor(233, 0, 100);
 
+//リザルトシーン初期化
 ResultScene::ResultScene():
-	restart(false),
+	isRestart(false),
 	transRate(static_cast<float>(initializeNum))
 {
 	score = GameScene::GetScoreCount();
 	input = PadInput::GetInstance();
 
+	//動画のロード
 	noiseMovieHandle = LoadGraph(noiseMoviePath);
 }
 
+//データの解放
 ResultScene::~ResultScene()
 {
 	if (noiseMovieHandle != noHandle)DeleteGraph(noiseMovieHandle);
 }
 
+//リザルトシーン更新
 void ResultScene::Update()
 {
-	if (!Player::GetIsClear() && !restart)
+	if (!Player::GetIsClear() && !isRestart)
 	{
 		PlayMovieToGraph(noiseMovieHandle);
 		if (TellMovieToGraph(noiseMovieHandle) >= movieLength)
@@ -38,14 +42,15 @@ void ResultScene::Update()
 			SeekMovieToGraph(noiseMovieHandle, initializeNum);
 		}
 	}
-	if (!restart && input->GetInput().Buttons[buttonA] || CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
+	if (!isRestart && input->GetInput().Buttons[buttonA] || CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
 	{
-		restart = true;
+		isRestart = true;
 		PauseMovieToGraph(noiseMovieHandle);
 	}
 	UpdateFade();
 }
 
+//フェードイン、アウト更新
 void ResultScene::UpdateFade()
 {
 	//白画像透過率を下げる処理
@@ -59,7 +64,8 @@ void ResultScene::UpdateFade()
 		Transition::UpdateBlackTransition(Transition::GetBlackTransRate() - addRate);
 	}
 
-	if (restart)
+	//リスタート時のフェードアウト
+	if (isRestart)
 	{
 		transRate += addRate;
 		if (transRate >= maxTransRate)
@@ -74,6 +80,7 @@ void ResultScene::UpdateFade()
 	}
 }
 
+//リザルトシーン描画
 void ResultScene::Draw()
 {
 	//DrawString(stringX, stringY, resultString, sceneStringColor);
@@ -85,6 +92,7 @@ void ResultScene::Draw()
 	SetFontSize(scoreSize);
 	DrawFormatStringF(scoreX, scoreY, scoreColor, "%.1f", score);
 
+	//ゲームオーバー時の描画
 	if (!Player::GetIsClear())
 	{
 		DrawExtendGraph(moviePosX1, moviePosY1, moviePosX2, moviePosY2, noiseMovieHandle, FALSE);

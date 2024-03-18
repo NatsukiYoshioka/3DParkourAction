@@ -13,6 +13,7 @@ const unsigned int MenuScene::buttonStringColor = GetColor(49, 225, 247);
 const unsigned int MenuScene::titleStringColor = GetColor(147,255, 216);
 const unsigned int MenuScene::titleStringColor2 = GetColor(0, 0, 0);
 
+//メニューシーン初期化
 MenuScene::MenuScene():
 	isChoose(false),
 	cooltime(initializeNum),
@@ -71,6 +72,7 @@ void MenuScene::UpdateInput()
 			cooltime = initializeNum;
 		}
 	}
+	//決定処理
 	if (!isChoose && input->GetInput().Buttons[buttonA] || CheckHitKey(KEY_INPUT_RETURN) != initializeNum)
 	{
 		isChoose = true;
@@ -82,7 +84,7 @@ void MenuScene::UpdateInput()
 	}
 }
 
-//透過率更新
+//トランジション透過率更新
 void MenuScene::UpdateTransRate()
 {
 	if (!isChoose && transRate > static_cast<float>(initializeNum))

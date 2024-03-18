@@ -24,11 +24,13 @@ Obstacle::Obstacle(int modelHandle, VECTOR pos, float angle, int obstacleType):
 
 	MV1SetRotationXYZ(this->modelHandle, this->angle);
 	
+	//タグの設定
 	if (tag == ObjectTag::PORTAL)MV1SetScale(this->modelHandle, portalScale);
 	else if(tag==ObjectTag::GROUND)MV1SetScale(this->modelHandle, groundScale);
 	else MV1SetScale(this->modelHandle, scale);
 
 	MV1SetPosition(this->modelHandle, this->pos);
+	//コリジョン情報の構築
 	MV1SetupCollInfo(this->modelHandle, frameIndex, collisionDivNum, collisionDivNum, collisionDivNum);
 }
 

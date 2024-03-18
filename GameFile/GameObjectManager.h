@@ -63,7 +63,7 @@ private:
 	static const string dataFilePath;					//データ格納ファイルのパス
 
 	vector<GameObject*> objectInstance;					//オブジェクトのインスタンス
-	static constexpr int playerIndex = 1;
+	static constexpr int playerIndex = 1;				//プレイヤーインスタンスが格納されている場所
 
 	static constexpr float maxObjectDistance = 1000.0f;	//当たり判定を行う距離
 	static constexpr float maxObstacleDistance = 100.0f;//当たり判定を行う障害物との距離

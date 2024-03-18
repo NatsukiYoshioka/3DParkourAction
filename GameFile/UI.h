@@ -53,30 +53,32 @@ public:
 private:
     int drawTiming;
 
-    static constexpr int titleIndex = 0;
-    static constexpr int inGameIndex = 1;
-    static constexpr int resultIndex = 2;
+    static constexpr int titleIndex = 0;            //タイトルに描画するUIの番号
+    static constexpr int inGameIndex = 1;           //ゲーム中に描画するUIの番号
+    static constexpr int resultIndex = 2;           //リザルトに描画するUIの番号
 
-    static constexpr int cursorIndex = 1;
-    static constexpr int titleUIIndex = 2;
+    static constexpr int cursorIndex = 1;           //カーソルのUI番号
+    static constexpr int titleUIIndex = 2;          //タイトル用UI番号
 
+    //モード選択時のカーソルのX座標
     static constexpr float playCursorX = 350.0f;
     static constexpr float tutorialCursorX = 800.0f;
     static constexpr float exitCursorX = 1250.0f;
 
+    //UIのサイズ
     float sizeX;
     float sizeY;
 
-    float dimSize;
-    static constexpr float titleLength = 1.75f;
+    float dimSize;                                     //UIの縮小サイズ
+    static constexpr float titleLength = 1.75f;        //タイトルUIの幅
 
-    float cursorAngle;
+    float cursorAngle;                                 //カーソルの回転角度
 
-    static constexpr float rotationSpeed = 0.001f;
-    static const float maxAngle;
+    static constexpr float rotationSpeed = 0.001f;     //カーソルの回転速度
+    static const float maxAngle;                       //カーソルの最大角度
 
-    static constexpr float defaultDimSize = 2.5f;
-    static constexpr float cursorDimSize = 2.0f;
-    static constexpr float cursorScale = 0.1f;
+    static constexpr float defaultDimSize = 2.5f;      //通常のUI縮小量
+    static constexpr float cursorDimSize = 2.0f;       //カーソルのUI縮小量
+    static constexpr float cursorScale = 0.1f;         //カーソルのスケール
 };
 

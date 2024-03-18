@@ -108,7 +108,7 @@ void GameObjectManager::Update()
 		objectInstance.at(i)->Update();
 		for (int j = initializeNum; j < objectInstance.size(); j++)
 		{
-			//当たり判定更新
+			//当たり判定更新(距離が遠い場合は処理しない)
 			if (i != j)
 			{
 				if ((objectInstance.at(j)->GetObjectTag() == ObjectTag::FIELD && maxObjectDistance * maxObjectDistance >= (objectInstance.at(i)->GetPos().x - objectInstance.at(j)->GetPos().x) * (objectInstance.at(i)->GetPos().x - objectInstance.at(j)->GetPos().x) + (objectInstance.at(i)->GetPos().y - objectInstance.at(j)->GetPos().y) * (objectInstance.at(i)->GetPos().y - objectInstance.at(j)->GetPos().y) + (objectInstance.at(i)->GetPos().z - objectInstance.at(j)->GetPos().z) * (objectInstance.at(i)->GetPos().z - objectInstance.at(j)->GetPos().z)) || ((objectInstance.at(j)->GetObjectTag() == ObjectTag::OBSTACLE || objectInstance.at(j)->GetObjectTag() == ObjectTag::SLIDE_OBSTACLE) && maxObstacleDistance * maxObstacleDistance >= (objectInstance.at(i)->GetPos().x - objectInstance.at(j)->GetPos().x) * (objectInstance.at(i)->GetPos().x - objectInstance.at(j)->GetPos().x) + (objectInstance.at(i)->GetPos().y - objectInstance.at(j)->GetPos().y) * (objectInstance.at(i)->GetPos().y - objectInstance.at(j)->GetPos().y) + (objectInstance.at(i)->GetPos().z - objectInstance.at(j)->GetPos().z) * (objectInstance.at(i)->GetPos().z - objectInstance.at(j)->GetPos().z)))objectInstance.at(i)->OnCollisionEnter(objectInstance.at(j), objectInstance.at(j)->GetObjectTag());

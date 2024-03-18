@@ -9,6 +9,7 @@
 
 const VECTOR Skydome::scale = VGet(5.0f, 5.0f, 5.0f);
 
+//スカイドームの初期化
 Skydome::Skydome(int modelHandle,VECTOR pos)
 {
     tag = ObjectTag::SKYDOME;
@@ -21,6 +22,7 @@ Skydome::Skydome(int modelHandle,VECTOR pos)
     MV1SetPosition(this->modelHandle, this->pos);
 }
 
+//データ解放
 Skydome::~Skydome()
 {
     if (modelHandle != noHandle)
@@ -29,6 +31,7 @@ Skydome::~Skydome()
     }
 }
 
+//スカイドームの更新
 void Skydome::Update()
 {
     if (pos.x == static_cast<float>(initializeNum) && pos.z == static_cast<float>(initializeNum) && GameManager::GetGameStatus() != GameManager::SCENE::RESULT)
@@ -37,6 +40,7 @@ void Skydome::Update()
     }
 }
 
+//スカイドーム描画
 void Skydome::Draw()
 {
     MV1DrawModel(modelHandle);

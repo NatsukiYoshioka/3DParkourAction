@@ -73,7 +73,7 @@ public:
 private:
 	static GameManager* sceneManager;			//クラスのインスタンス
 	static BaseScene* nowScene;					//現在のシーン
-	static SCENE sceneStatus;							//シーンの状態
+	static SCENE sceneStatus;					//シーンの状態
 
 	GameObjectManager* gameObjectManager;		//ゲームオブジェクト管理クラス
 	PadInput* input;
