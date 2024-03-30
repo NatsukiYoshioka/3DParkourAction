@@ -12,6 +12,7 @@ const unsigned int GameScene::descriptionColor = GetColor(53, 1, 63);
 
 float GameScene::scoreCount = static_cast<float>(initializeNum);
 
+//ゲームシーン初期化
 GameScene::GameScene():
 	startCount(initializeNum),
 	nowCount(static_cast<float>(initializeNum))
@@ -19,11 +20,13 @@ GameScene::GameScene():
 	startCount = GetNowCount();
 }
 
+//ゲームシーン後処理
 GameScene::~GameScene()
 {
 	
 }
 
+//ゲームシーン更新
 void GameScene::Update()
 {
 	//残り制限時間の計算
@@ -44,6 +47,7 @@ void GameScene::Update()
 	}
 }
 
+//ゲームシーン描画
 void GameScene::Draw()
 {
 	//DrawString(stringX, stringY, inGameString, sceneStringColor);

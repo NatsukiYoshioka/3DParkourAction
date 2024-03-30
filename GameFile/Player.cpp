@@ -755,7 +755,7 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 			if (tag == ObjectTag::FIELD)
 			{
 				//’n–Ê‚Æ‚Ì“–‚½‚è”»’è
-				if (HitGroundJudge(pos, other->GetModelHandle(), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y + groundLineWidth, groundLinePos[i][j].z), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y - groundLineWidth, groundLinePos[i][j].z)))
+				if (JudgeHitGround(pos, other->GetModelHandle(), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y + groundLineWidth, groundLinePos[i][j].z), VGet(groundLinePos[i][j].x, groundLinePos[i][j].y - groundLineWidth, groundLinePos[i][j].z)))
 				{
 					CalcCollisionLine();
 					isGround = true;
@@ -768,7 +768,7 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 				//’n–Ê‚É‚¢‚é‚Æ‚«‚Ì•Ç‚Æ‚Ì“–‚½‚è”»’è
 				if (isGround)
 				{
-					if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+					if (JudgeHitWall(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
 					{
 						CalcCollisionLine();
 					}
@@ -793,7 +793,7 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 						isWallRun = true;
 						CalcCollisionLine();
 					}
-					else if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+					else if (JudgeHitWall(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
 					{
 						CalcCollisionLine();
 					}
@@ -809,7 +809,7 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 			//áŠQ•¨‚Æ‚Ì“–‚½‚è”»’è
 			if (tag == ObjectTag::SLIDE_OBSTACLE)
 			{
-				if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+				if (JudgeHitWall(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
 				{
 					if (status != STATUS::SLIDE)
 					{
@@ -817,7 +817,7 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 						isStandByToJumpOver = false;
 					}
 				}
-				if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+				if (JudgeHitWall(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
 				{
 					if (status != STATUS::SLIDE)
 					{
@@ -828,11 +828,11 @@ void Player::OnCollisionEnter(GameObject* other,const ObjectTag tag)
 			}
 			if (tag == ObjectTag::OBSTACLE)
 			{
-				if (HitWallJudge(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
+				if (JudgeHitWall(pos, other->GetModelHandle(), wallCollisionLinePos[initializeNum][i][j], wallCollisionLinePos[1][i][j]))
 				{
 					CalcCollisionLine();
 				}
-				if (HitWallJudge(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
+				if (JudgeHitWall(pos, other->GetModelHandle(), sideCollisionLinePos[initializeNum][i][j], sideCollisionLinePos[1][i][j]))
 				{
 					CalcCollisionLine();
 				}

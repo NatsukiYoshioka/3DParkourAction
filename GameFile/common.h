@@ -21,5 +21,5 @@ static const VECTOR crossVector = VGet(0.0f, 1.0f, 0.0f);		//外積計算用ベクトル
 
 static constexpr float sceneTransitionTime = 45.0f;			//シーン遷移時間
 
-static constexpr float addRate = 0.01f;
-static constexpr float maxTransRate = 1.0f;
+static constexpr float addRate = 0.01f;						//フェードイン、アウト速度
+static constexpr float maxTransRate = 1.0f;					//最大透過率

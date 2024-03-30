@@ -13,7 +13,7 @@ static constexpr int hitRight = 2;			//右の壁に当たった時の戻り値
 ///  <param name="linePos1">当たり判定用線分の1点目の座標</param>
 ///  <param name="linePos2">当たり判定用線分の2点目の座標</param>
 ///  <returns>当たったかどうか</returns>
-bool HitGroundJudge(VECTOR &pos,int modelHandle,VECTOR linePos1,VECTOR linePos2);
+bool JudgeHitGround(VECTOR &pos,int modelHandle,VECTOR linePos1,VECTOR linePos2);
 
 /// <summary>
 /// 壁との当たり判定
@@ -23,7 +23,7 @@ bool HitGroundJudge(VECTOR &pos,int modelHandle,VECTOR linePos1,VECTOR linePos2)
 ///  <param name="linePos1">当たり判定用線分の1点目の座標</param>
 ///  <param name="linePos2">当たり判定用線分の2点目の座標</param>
 ///  <returns>当たったかどうか</returns>
-bool HitWallJudge(VECTOR& pos, int modelHandle, VECTOR linePos1, VECTOR linePos2);
+bool JudgeHitWall(VECTOR& pos, int modelHandle, VECTOR linePos1, VECTOR linePos2);
 
 /// <summary>
 /// ウォールラン当たり判定処理

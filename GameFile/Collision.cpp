@@ -3,7 +3,7 @@
 #include"Collision.h"
 
 //’n–Ê‚Æ‚Ì“–‚½‚è”»’è
-bool HitGroundJudge(VECTOR &pos, int modelHandle, VECTOR linePos1, VECTOR linePos2)
+bool JudgeHitGround(VECTOR &pos, int modelHandle, VECTOR linePos1, VECTOR linePos2)
 {
     MV1_COLL_RESULT_POLY hitPoly = MV1CollCheck_Line(modelHandle, frameIndex, linePos1, linePos2);
     if (hitPoly.HitFlag)
@@ -15,7 +15,7 @@ bool HitGroundJudge(VECTOR &pos, int modelHandle, VECTOR linePos1, VECTOR linePo
 }
 
 //•Ç‚Æ‚Ì“–‚½‚è”»’è
-bool HitWallJudge(VECTOR& pos, int modelHandle, VECTOR linePos1, VECTOR linePos2)
+bool JudgeHitWall(VECTOR& pos, int modelHandle, VECTOR linePos1, VECTOR linePos2)
 {
     MV1_COLL_RESULT_POLY hitPoly = MV1CollCheck_Line(modelHandle, frameIndex, linePos1, linePos2);
     if (hitPoly.HitFlag)

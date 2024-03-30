@@ -5,10 +5,24 @@ class BaseScene;
 class GameScene:public BaseScene
 {
 public:
+	/// <summary>
+	/// ゲームシーン初期化
+	/// </summary>
 	GameScene();
+
+	/// <summary>
+	/// ゲームシーン後処理
+	/// </summary>
 	~GameScene();
 	
+	/// <summary>
+	/// ゲームシーンの更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// ゲームシーン描画
+	/// </summary>
 	void Draw();
 
 	/// <summary>

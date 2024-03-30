@@ -10,6 +10,7 @@ GameObject::GameObject():
 	pos = initializePos;
 }
 
+//ゲームオブジェクト後処理
 GameObject::~GameObject()
 {
 

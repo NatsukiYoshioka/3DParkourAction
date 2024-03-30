@@ -29,6 +29,7 @@ MenuScene::MenuScene():
 	}
 }
 
+//メニューシーン後処理
 MenuScene::~MenuScene()
 {
 

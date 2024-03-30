@@ -26,6 +26,9 @@ public:
 	/// </summary>
 	MenuScene();
 
+	/// <summary>
+	/// メニューシーン後処理
+	/// </summary>
 	~MenuScene();
 
 	/// <summary>
